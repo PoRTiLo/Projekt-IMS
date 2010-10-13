@@ -1,0 +1,18 @@
+Rozbor témat IMS-10/11
+
+Obecné pokyny pro zpracování projektů:
+
+snažte se modely navrhovat realisticky – parametry a konstrukci modelů zdůvodněte (evidentně nevalidní modely budou méně hodnoceny) 
+ukažte abstraktní model (AM) a simulační model (SM) – popište návrh abstraktního modelu a zdůvodněte prvky, které jste do AM zahrnuli a které ne. Projekty bez analýzy situace a návrhu AM budou méně hodnoceny. Verifikujte korespondenci AM a SM. 
+AM spojitého modelu ukažte formou diferenciálních rovnic (případně schématu s integrátory) 
+AM diskrétního modelu ukažte formou Petriho sítě (P/T, barvené) 
+schémata, Petriho sítě a podobně lze napsat čitelně rukou na papír a vložit jako naskenované obrázky (nemá smysl se vyčerpávat editací schémat na počítači, čas věnujte hlavně experimentům) 
+v dokumentaci musí být jasný postup zpracování problematiky 
+za extrémně důležité se považuje experimentovat s modelem, kdy experinty získáte nové znalosti o modelovaném systému. Pokud nevíte, co byste chtěli experimenty zjistit o modelovaném systému, pak jste asi napotřebovali model toho systému. 
+kromě výjimky projektu "Simulační jazyky" jsou povoleny pouze programovací jazyky C/C++, Java, Python (v centrálním zadání projektu je zmínka o nezbytném makefile). Standardním prostředkem je SIMLIB. 
+nechat schválit neznamená pouhou ohlašovací povinnost. Opravující si vyhrazuje právo nápad zamítnout bez udání důvodu.
+
+
+
+17. Simulátor černobílých stochastických Petriho sítí
+Vytvořte knihovnu, která umožní simulovat modely zapsané ve formě černobílých stochastických Petriho sítí (tzn. v základu P/T Petriho sítě s rozšířením o priroty přechodů, pravděpodobnosti přechodů a časování přechodů – tzn. jak jsou používány v IMS). Knihovnu testujte na několika příkladech demonstrujících důležité konstrukce (priotity, pravděpodobnosti, časování). Zadávání modelů není nutno řešit specializovaným jazykem, ale například vytvářením nějakých struktur v programu.
