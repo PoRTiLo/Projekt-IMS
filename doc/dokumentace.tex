@@ -1,0 +1,94 @@
+\documentclass[a4paper, 11pt]{article}[15.3.2010]									% valikost stranky, styl a pismo
+
+%% packages
+\usepackage[left=2cm, text={17cm, 24cm}, top=3cm]{geometry}		% rozmery stranky
+\usepackage{times}
+\usepackage[czech]{babel}
+\usepackage[latin2]{inputenc}
+%\usepackage[IL2]{fontenc}													% kodovani fontu
+
+
+
+\usepackage{amsmath}
+ %  \usepackage{amsfonts}   % if you want the fonts
+   \usepackage{amssymb}    % if you want extra symbols
+%\usepackage{latexsym}
+
+\usepackage{amsthm}
+\hyphenation{Podob-ne}
+\pagestyle{plain}
+
+\begin{document}
+
+\section{Úvod}
+Úvod musí vysvìtlit, proè se celá práce dìlá a proè má u¾ivatel výsledkù vá¹ dokument èíst (prosím, projekt sice dìláte pro získání zápoètu v IMS, ale mohou existovat i jiné dùvody). Pøípadnì, co se pøi ètení dozví. Napøíklad:
+\begin{itemize}
+  \item v této práci je øe¹ena implementace ..., která bude pou¾ita pro sestavení modelu ...
+  \item na základì modelu a simulaèních experimentù bude ukázáno chování systému ... v podmínkách ...
+  \item smyslem experimentù je demonstrovat, ¾e pokud by ..., pak by ...
+  \item Poznámka: u vy¾ádaných zpráv se mù¾e uvést, ¾e zpráva vznikla na základì po¾adavku ... (u ¹kolní práce takto zdùvod'novat projekt ov¹em nelze, ¾e). Je velmi praktické zdùvodnit, v èem je práce nároèná a proto pøínos autora nepopiratelný (napø. pro zpracování modelu bylo nutno nastudovat ..., zpracovat, ... model je ve svém oboru zajímavý/ojedinìlý v ...).
+\end{itemize}
+
+\subsection{kapitola}
+Kdo se na práci podílel jako autor, odborný konzultant, dodavatel odborných faktù, význaèné zdroje literatury/fakt, ...
+\begin{itemize}
+  \item je ideální, pokud jste va¹i koncepci konzultovali s nìjakou autoritou v oboru (v IMS projektu to je hodnoceno, ov¹em není vy¾adováno)
+  \item pokud nebudete mít odborného konzultanta, nevadí. Nelze ov¹em tvrdit, ¾e jste celé dílo vymysleli s nulovou interakcí s okolím a literaturou.
+\end{itemize}
+
+\subsection{kapitola}
+V jakém prostøedí a za jakých podmínek probíhalo experimentální ovìøování validity modelu ? pokud ètenáø/zadavatel va¹í zprávy neuvìøí ve validitu va¹eho modelu, obvykle va¹i práci odmítne u¾ v tomto okam¾iku.
+
+
+\section{Rozbor tématu a pou¾itých metod/technologií}
+Shrnutí v¹ech podstatných faktù, které se týkají zkoumaného systému (co mo¾ná nejvìcnìj¹ím a technickým (ideálnì formálnì matematickým) pøístupem, ¾ádné literární pøíbìhy). Podstatná fakta o systému musí být zdùvodnìna a podepøena dùvìryhodným zdrojem (vìdecký èlánek, kniha, osobní mìøení a zji¹»ování). Pokud budete tvrdit, ¾e ovce na pastvì se¾ere dvì kila trávy za den, musí existovat jiný (dùvìryhodný) zdroj, který to potvrdí. Toto shrnutí urèuje míru dùvìryhodnosti va¹eho modelu (nikdo nechce výsledky z nedùvìryhodného modelu). Pokud nebudou uvedeny zdroje faktù o va¹em systému, hrozí ztráta bodù.
+
+\subsection{kapitola}
+Popis pou¾itých postupù pro vytvoøení modelu a zdùvodnìní, proè jsou pro zadaný problém vhodné. Zdùvodnìní mù¾e být podpoøeno ukázáním alternativního pøístupu a srovnáním s tím va¹ím. Ètenáø musí mít jistotu, ¾e zvolené nástroje/postupy/technologie jsou ideální pro øe¹ení zadaného problému (ov¹em, "dìlám to v Javì, proto¾e momentálnì Java frèí..." nemusí zadavatele studie uspokojit).
+
+\subsection{kapitola}
+ Popis pùvodu pou¾itých metod/technologií (odkud byly získány (odkazy), zda-li jsou vytvoøeny autorem) - pøevzaté èásti dokumentovat (specificky, pokud k nim pøíslu¹í nìjaké autorské oprávnìní/licence). Zdùvodnit potøebu vytvoøení vlastních metod/nástrojù/algoritmù. Ve vìt¹inì pøípadù budete pøebírat ji¾ navr¾ené metody/algoritmy/definice/nástroje a je to pro ¹kolní projekt typické. Stejnì tak je typické, ¾e studenti chybnì vymý¹lí ji¾ hotové vìci a dojdou k naprostému nesmyslu - je tøeba toto nebezpeèí eleminovat v tomto zdùvodnìní.
+
+
+Velmi dùle¾ité, a¾ fanaticky povinné, kontrolované a hodnocené: na ka¾dém místì v textu, kde se poprvé objeví pojem z pøedmìtu IMS bude v závorce uveden odkaz na pøedmìt a èíslo slajdu, na kterém je pojem definován. Pokud bude významný pojem z pøedmìtu IMS takto nedokumentován v textu a zjevnì bude pou¾íván nevhodným nebo nepøesným zpùsobem, bude tento fakt hodnocen bodovou ztrátou. Tento po¾adavek je mínìn s naprostou vá¾ností. Cílem je vyhnout se studentské tvùrèí èinnosti ve vysvìtlování známých pojmù, co¾ mnohdy vede k naprostým bludùm, ztrátì bodù a zápoètù. Pokud student pojem cituje korektnì a pøesto nekorektnì pou¾ívá, bude to hodnoceno dvojnásobnou bodovou ztrátou.
+
+\section{Koncepce modelu}
+
+Konceptuální model je abstrakce reality a redukce reality na soubor relevantních faktù pro sestavení simulaèního modelu. Pøedpokládáme, ¾e model bude obsahovat fakta z "Rozboru tématu". Pokud jsou nìkterá vyøazena nebo modifikována, je nuto to zde zdùvodnit (napøíklad: zkoumaný subjekt vykazuje v jednom procentu pøípadù toto chování, ov¹em pro potøeby modelu je to naprosto marginální a smíme to zanedbat, nebo» ...). Pokud nìkteré partie reality zanedbáváte nebo zjednodu¹ujete, musí to být zdùvodnìno a v ideálním pøípadì musí být prokázáno, ¾e to neovlivní validitu modelu. Cílem konceptuálního (abstraktního) modelu je formalizovat relevantní fakta o modelovaném systému a jejich vazby. Podle koncept. modelu by mìl být ka¾dý schopen sestavit simulaèní model.
+
+\subsection{kapitola}
+pùsob vyjádøení konceptuálního modelu musí být zdùvodnìn (na obrázku xxx je uvedeno schéma systému, v rovnicích xx-yy jsou popsány vazby mezi ..., zpùsob synchronizace procesù je na obrázku xxx s Petriho sítí).
+\subsection{kapitola}
+Formy konceptuálního modelu (dùraz je kladen na srozumitelnost sdìlení). Podle potøeby uveïte konkrétní relevantní:
+
+\begin{itemize}
+  \item obrázek/náèrt/schéma/mapa (mo¾no èitelnì rukou)
+  \item matematické rovnice - u nìkterých témat (napø. se spojitými prvky, optimalizace, ...) naprosto nezbytné. Dobré je chápat, ¾e velièiny (fyzikální, technické, ekonomické) mají jednotky, bez kterých údaj nedává smysl.
+  \item tavový diagram (koneèný automat) nebo Petriho sí» - spí¹e na abstraktní úrovni. Petriho sí» nemá zobrazovat výpoèty a pøíli¹né detaily. Pokud se pohodlnì nevejde na obrazovku, je nepou¾itelná. Mo¾no rozdìlit na bloky se zajímavými detaily a prezentovat oddìlenì abstraktní celek a podrobnì specifikované bloky (hierarchický pøístup).
+\end{itemize}
+
+\section{Architektura simulaèního modelu/simulátoru}
+Tato kapitola má rùznou dùle¾itost pro rùzné typy zadání. U implementaèních témat lze tady oèekávat jádro dokumentace. Zde mù¾ete vyu¾ít zajímavého prvku ve va¹em simulaèním modelu a tady ho "prodat".
+\subsection{kapitola}
+Minimálnì je nutno ukázat mapování abstraktního (koncept.) modelu do simulaèního (resp. simulátoru). Napø. které tøídy odpovídají kterým procesùm/velièinám a podobnì.
+
+
+\section{Podstata simulaèních experimentù a jejich prùbìh}
+Nezamìòujte pojmy testování a experimentování (dùvod pro bodovou ztrátu)!!!
+Zopakovat/shrnout co pøesnì chcete zjistit experimentováním a proè k tomu potøebujete model. Pokud experimentování nemá cíl, je celý projekt ¹patnì. Je celkem pøípustné u experimentu odhalit chybu v modelu, kterou na základì experimentu opravíte. Pokud se v nìkterém experimentu nechová model podle oèekávání, je nutné tento experiment dùkladnì provìøit a chování modelu zdùvodnit (je to souèást simulaènické profese). Pokud model pro nìkteré vstupy nemá dùvìryhodné výsledky, je nutné to zdokumentovat. Pochopitelnì model musí mít dùvìryhodné výsledky pro vìt¹inu myslitelných vstupù.
+\subsection{kapitola}
+Naznaèit postup experimentování ? jakým zpùsobem hodláte prostøednictvím experimentù dojít ke svému cíli (v nìkterých situacích je pøípustné "to zkou¹et tak dlouho a¾ to vyjde", ale i ty musí mít nìjaký organizovaný postup).
+\subsection{kapitola}
+Dokumentace jednotlivých experimentù - souhrn vstupních podmínek a podmínek bìhu simulace, komentovaný výpis výsledkù, závìr experimentu a plán pro dal¹í experiment (napø. v experimentu 341. jsem nastavil vstup x na hodnotu X, která je typická pro ... a vstup y na Y, proto¾e chci zjistit chování systému v prostøedi ... Po skonèení bìhu simulace byly získány tyto výsledky ..., kde je nejzajímavìj¹í hodnota sledovaných velièin a,b,c které se chovaly podle pøedpokladu a velièin d,e,f které ne. Lze z toho usoudit, ¾e v modelu není správnì implementováno chování v podmínkách ... a proto v následujících experimentech budu vycházet z modifikovaného modelu verze ... Nebo výsledky ukazují, ¾e systém v tìchto podmínkách vykazuje znaènou citlivost na parametr x ... a proto bude dobré v dal¹ích experimentech pøesnì provìøit chování systému na parametr x v intervalu hodnot ... a¾ ...)
+\subsection{kapitola}
+Závìry experimentù ? bylo provedeno N experimentù v tìchto situacích ... V prùbìhu experimentování byla odstranìna ... chyba v modelu. Z experimentù lze odvodit chování systémù s dostateènou vìrohodností a experimentální provìøování tìchto ... situací ji¾ napøinese dal¹í výsledky, nebo» ...
+
+\section{Shrnutí simulaèních experimentù a závìr}
+Nezamìòujte pojmy testování a experimentování (dùvod pro bodovou ztrátu)!!!
+Zopakovat/shrnout co pøesnì chcete zjistit experimentováním a proè k tomu potøebujete model. Pokud experimentování nemá cíl, je celý projekt ¹patnì. Je celkem pøípustné u experimentu odhalit chybu v modelu, kterou na základì experimentu opravíte. Pokud se v nìkterém experimentu nechová model podle oèekávání, je nutné tento experiment dùkladnì provìøit a chování modelu zdùvodnit (je to souèást simulaènické profese). Pokud model pro nìkteré vstupy nemá dùvìryhodné výsledky, je nutné to zdokumentovat. Pochopitelnì model musí mít dùvìryhodné výsledky pro vìt¹inu myslitelných vstupù.
+\begin{itemize}
+  \item do závìru se nehodí psát poznámky osobního charakteru (napø. práce na projektu mì bavila/nebavila, ...). Technická zpráva není osobní pøíbìh autora.
+  \item absolutnì nikoho nezajímá, kolik úsilí jste projektu vìnovali, dùle¾itá je pouze kvalita zpracování simulátoru/modelu a obsa¾nost simulaèní studie (rozhodnì ne napø.: projekt jsem dìlal ... hodin, co¾ je víc ne¾ zadání pøedpokládalo. Program má ... øádkù kódu). Pokud zdùrazòujete, ¾e jste práci dìlali významnì déle ne¾ se èekalo, pak tím pouze demonstrujete vlastní neschopnost (to platí zejména v profesním ¾ivotì).
+  \item o závìru se velmi nehodí psát "auto-zhodnocení" kvality práce, to je výhradnì na recenzentovi/hodnotiteli (napø. v projektu jsem zcela splnil zadání a domnívám se, ¾e mùj model je bezchybný a výsledky takté¾). Statisticky èastý je pravý opak autorova auto-zhodnocení. Pokud pøesto chcete vyzdvihnout kvalitu svého díla (co¾ je dobøe), tak va¹e výroky musí být naprosto nepopiratelnì zdùvodnìny a prokázány (napø. pomocí jiného referenèního pøístupu, matematického dùkazu, analýzy, ...).
+\end{itemize}
+\end{document}
