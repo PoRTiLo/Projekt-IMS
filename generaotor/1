@@ -1,0 +1,9 @@
+set title "H data by 'smooth frequency'"
+set terminal postscript
+set style data histogram
+set output "random1.ps"
+set ylabel 'counts per bin'
+set xlabel 'bins'
+plot '2' 2:(1) smooth frequency with histeps
+unset xlabel
+unset ylabel
