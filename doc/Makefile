@@ -13,6 +13,7 @@ $(FILE): $(FILE).tex
 	latex $(FILE).tex
 	pdflatex $(FILE).tex
 	pdflatex $(FILE).tex
+	cp $(FILE).pdf ../
 
 clean:
 	rm -f *.dvi *.ps *.aux *.log 
