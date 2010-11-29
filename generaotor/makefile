@@ -10,7 +10,7 @@ PROGRAM=gen
 
 OBJ=gen.o
 SRC=gen.cc
-HEAD=
+HEAD=gen.h
 
 CCM=g++
 CCMFLAGS=-std=c++98 -Wall -pedantic 

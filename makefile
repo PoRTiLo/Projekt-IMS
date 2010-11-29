@@ -1,6 +1,6 @@
 #makefile
   # IMS- Implementace diskr. simulatoru zalozeneho na rizeni UDALOSTMI(opak procesne orientovaneho pristupu)
-  # 12.12.2009
+  # 29.11.2010
   # Autor: Jaroslav Sendler, FIT, xsendl00(at)stud.fit.vutbr.cz
   #        Dusan Kovacic, FIT, xkovac21(at)stud.fit.vutbr.cz
   # Prelozeno gcc ...
@@ -17,7 +17,6 @@ PROJECT=xkovac21_xsendl00
 
 # seznam souboru
 OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o
-
 OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
@@ -25,7 +24,6 @@ SDIRECTEDARC=directedArc.cpp directedArc.h
 SPLACE=place.cpp place.h
 STRANSITION=transition.cpp transition.h
 SGEN=gen.cc gen.h
-
 SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o
 SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc
 HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h
@@ -38,11 +36,14 @@ CCMFLAGS=-std=c++98 -Wall -pedantic -Wextra
 COBJ=-std=c++98 -Wall -pedantic -Wextra -c
 
 # cilum all, run, sim, clean, delete neodpovida primo zadny soubor
+.PHONY: build
+.PHONY: dynamic
 .PHONY: all
 .PHONY: run
-.PHONY: sim
 .PHONY: clean
 .PHONY: delete
+.PHONY: run-dynamic
+.PHONY: help
 
 #--------------------------------------------------------------------#
 
@@ -129,7 +130,7 @@ gen.o: ${SGEN}
 
 # odstrani zkompilovane soubory
 clean: 
-	rm -f *.o ${PROGRAM}
+	rm -f *.o ${PROGRAM} ${PROGRAM}-dynamic
 
 # smaze vsenchno krome zdrojovych souboru a makefile
 delete: 
@@ -141,8 +142,8 @@ tar:
 	tar -c ${SRC} ${HEAD} makefile dokumentace.pdf > ${PROJECT}.tar; \
 	gzip ${PROJECT}.tar
 
-#zip:
-#	gzip -c ${SRC} ${HEAD} makefile README > ${PROJECT};
+zip:
+	zip ${PROJECT}  ${SRC} ${HEAD} makefile dokumentace.pdf
 
 #------------------ NAPOVEDA ----------------------------------------#
 help:
