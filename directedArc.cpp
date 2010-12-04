@@ -18,6 +18,10 @@ int SCDirectedArc::SetArgWeight(unsigned int weight)
 }
 int SCDirectedArc::SetArgInhib()
 {
+	if(m_weight != 1)
+	{
+		return RUNTIME_DIRECTEDARC_INHIB_COL;
+	}
 	this->m_inhib = DIRECTEDARC_INHIB;
 	return this->m_status;
 }

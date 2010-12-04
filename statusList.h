@@ -5,6 +5,8 @@
 #define TRANSITION_BAD_ARGS -1
 #define TRANSITION_UNCLEAR_PATH -2
 #define TRANSITION_SIM_END 1
+#define TRANSITION_BAD_DATA -3
+#define TRANSITION_ACTION_FAIL -4
 //place defines
 #define PLACE_OK 0
 #define PLACE_BAD_ARGS -1
@@ -28,8 +30,10 @@
 #define PLACE_CAP 4
 //model error defines
 #define RUNTIME_TRANSITION_CRASH -1
+#define RUNTIME_PLACE_CRASH_PROBAB -5
 #define RUNTIME_PLACE_CRASH -2
 #define RUNTIME_PLACE_CRASH_WAIT - 3
+#define RUNTIME_DIRECTEDARC_INHIB_COL -6
 #define PLACE_UNKNOWN_ERR -4
 //action codes
 #define ACTION_TAKE	0
@@ -41,3 +45,10 @@
 #define PLACE_RETURNED 3
 #define PLACE_SUCC 4
 #define PLACE_FAIL 5
+//time types
+#define TIME_ABS -1
+#define TIME_EXP 0
+#define TIME_ROV 1
+#define TIME_NORM 2
+//
+
