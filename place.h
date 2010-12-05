@@ -6,6 +6,9 @@
 #include "base.h"
 #include "transPrioData.h"
 
+#include <climits>
+#include <cstring>
+
 class SCPlace : public SCBase
 {
 protected:

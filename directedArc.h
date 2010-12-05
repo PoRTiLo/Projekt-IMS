@@ -1,6 +1,8 @@
 #pragma once
 #include "statusList.h"
 
+#include <cstdlib>
+
 class SCBase;
 //todo dorobit inhibicnu hranu
 class SCDirectedArc

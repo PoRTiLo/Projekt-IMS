@@ -4,6 +4,8 @@
 #include "statusList.h"
 #include "base.h"
 
+#include <cstring>
+
 class SCTransition : public SCBase
 {
 	//members

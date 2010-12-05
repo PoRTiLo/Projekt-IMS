@@ -1,11 +1,10 @@
 #include "PetriSim.h"
-
 int main(int argc,const char* argv[])
 {
+
 	SCPlace p[5];
 	SCDirectedArc a[8];
 	SCTransition t[3];
-
 	p[0].SetArgStartVal(1);
 	p[1].SetArgStartVal(1);
 
@@ -18,6 +17,6 @@ int main(int argc,const char* argv[])
 	TrToPl(&t[2],&p[1],&a[6]);
 	TrToPl(&t[2],&p[4],&a[7]);
 
-	Run();
+	Run();*/
 	return 0;
 }
