@@ -16,17 +16,19 @@ LIB=ptnet
 PROJECT=xkovac21_xsendl00
 
 # seznam souboru
-OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o
-OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o
+OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calElement.o
+OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calElement.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
 SDIRECTEDARC=directedArc.cpp directedArc.h
 SPLACE=place.cpp place.h
 STRANSITION=transition.cpp transition.h
 SGEN=gen.cc gen.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o
-SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc
-HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h
+SCALENDAR=calendar.cc calendar.h
+SCALELEMENT=calElement.cc calElement.h
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalElement.o
+SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc calendar.cc calElement.cc
+HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calElement.h
 
 # kompilator
 CCM=g++
@@ -102,6 +104,13 @@ soTransition.o: ${STRANSITION}
 soGen.o: ${SGEN}
 	${CCM} ${COBJ} -fPIC $< -o $@
 
+soCalendar.o: ${SCALENDAR}
+	${CCM} ${COBJ} -fPIC $< -o $@
+
+soCalElement.o: ${SCALELEMENT}
+	${CCM} ${COBJ} -fPIC $< -o $@
+
+
 #----------------- STATICKE ----------------------------------------#
 ${LIB}.a: ${OBJ}
 	ar crs $@ $^
@@ -123,6 +132,12 @@ transition.o: ${STRANSITION}
 	${CCM} ${COBJ} $< -o $@
 
 gen.o: ${SGEN}
+	${CCM} ${COBJ} $< -o $@
+
+calendar.o: ${SCALENDAR}
+	${CCM} ${COBJ} $< -o $@
+
+calElement.o: ${SCALELEMENT}
 	${CCM} ${COBJ} $< -o $@
 
 
