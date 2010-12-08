@@ -7,6 +7,7 @@ SCPlace::SCPlace()
 	this->m_value = 0;
 	this->m_status = PLACE_OK;
 }
+
 SCPlace::~SCPlace()
 {
 	if(this->m_data != NULL)

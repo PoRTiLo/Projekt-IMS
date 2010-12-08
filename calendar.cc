@@ -11,38 +11,38 @@ void SCCalendar::init() {
 
 	this->count = 0;											// pocet prvku = 0, hlavicka se do toho nepocita
 	this->head = new SCCalendarUnit;						// tvorba hlavicky, prvni prvek, ukazuje sam na sebe
-	this->head->cont = head;
-	this->head->pre = head;
+	this->head->cont = this->head;
+	this->head->pre = this->head;
 }
 
 // Destruktor.
 SCCalendar::~SCCalendar() {
 
 	SCCalendar::remove();
-	delete head;												// odstraneni hlavicky
+	delete this->head;												// odstraneni hlavicky
 }
 
 // Odstrani pozadovany prvek z kalendare.
 void SCCalendar::remove( SCCalendarUnit* calUnit ) {
-
-	SCCalendarUnit* pom = head->cont;
-	while( pom != head )
+	SCCalendarUnit* pom = this->head->cont;
+	while( pom != this->head )
 	{
-		if( calUnit == pom && pom->cont != head )
+		if( calUnit == pom && pom->cont != this->head )
 		{
-			cout<<"v delete v IFUU "<< pom->time<<endl;
 			pom->pre->cont = pom->cont;
 			pom->cont->pre = pom->pre;
 			this->count--;
-			delete pom->place;
+			//if( pom->place != NULL )
+			//	delete pom->place;
 			delete pom;
 			break;
 		}
 		else if( calUnit == pom )	// mazani posledniho prvku kalendare
 		{
-			head->cont = head;
-			head->pre = head;
+			head->cont = this->head;
+			head->pre = this->head;
 			this->count = 0;
+			delete pom;
 			break;
 		}
 		else
@@ -53,12 +53,10 @@ void SCCalendar::remove( SCCalendarUnit* calUnit ) {
 // vyprazdni kalendar
 void SCCalendar::remove() {
 	
-	while( head->cont != head )
+	while( this->head->cont != this->head )
 	{
-		remove( head->cont );
-	cout<<"v celem delete"<<endl;
+		remove( this->head->cont );
 	}
-	cout<<"po celem delete"<<endl;
 }
 
 // vrati pocet elementu v kalendari
@@ -95,8 +93,8 @@ void SCCalendar::insertData( SCCalendarUnit* newEl, SCCalendarUnit* pom ) {
 	{
 		this->head->cont = newEl;
 		this->head->pre = newEl;
-		newEl->cont = head;
-		newEl->pre = head;
+		newEl->cont = this->head;
+		newEl->pre = this->head;
 	}
 	else	//kalendar neni prazdny
 	{
@@ -132,9 +130,9 @@ SCCalendarUnit* SCCalendar::search( const double timeIn ) {
 		return this->head;
 
 	SCCalendarUnit* pom;
-	pom = head->cont;
+	pom = this->head->cont;
 	bool found = false;
-	while( pom != head && !found )
+	while( pom != this->head && !found )
 	{
 		if( pom->time > timeIn )		// udalost s vetsim casem
 		{
@@ -146,7 +144,7 @@ SCCalendarUnit* SCCalendar::search( const double timeIn ) {
 	}
 
 	if( !found )
-		pom = head;
+		pom = this->head;
 
 	return pom;
 }
@@ -157,11 +155,10 @@ void SCCalendar::show() {
 	SCCalendarUnit* pom;
 	pom = this->head->cont;
 
-//	SSBaseData* data = new SSBaseData;
 	int i = 1;
 	while( pom != this->head )
 	{
-		cout << i++ << ".prvek-time: " << pom->time << endl;  
+		cout << i++ << ".prvek-time: " << pom->time  << "-place-mode:" << pom->place->GetData()->mode << "-place-data:" << pom->place->GetData()->data << endl;  
 		pom = pom->cont;
 	}
 }

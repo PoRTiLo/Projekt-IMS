@@ -1,44 +1,22 @@
 #include "PetriSim.h"
 
-#include "calendar.h"
 int main(int argc,const char* argv[])
 {
 
 	SCCalendar* cal = new SCCalendar();
-	SCPlace p;
-//	CalElement el = new CalElement(p, 2.0);
-	cal->insert(p, 2.0);
-		cout << "cal->head->cont->time"<<cal->getFirst()->cont->time << endl;
-		cout << "cal->head->pre->time"<<cal->getFirst()->pre->time << endl;
-		cout << "cal_fisrt->->time"<<cal->getFirst()->time << endl;
-		cout << "pocet"<<cal->getCount()<<endl;
-	cal->insert(p, 3.0);
-		cout << "cal->head->cont->time"<<cal->getFirst()->cont->time << endl;
-		cout << "cal->head->pre->time"<<cal->getFirst()->pre->time << endl;
-		cout << "cal_fisrt->->time"<<cal->getFirst()->time << endl;
-		cout << "pocet"<<cal->getCount()<<endl;
-	cal->insert(p, 1.0);
-		cout << "cal->head->cont->time"<<cal->getFirst()->cont->time << endl;
-		cout << "cal->head->pre->time"<<cal->getFirst()->pre->time << endl;
-		cout << "cal_fisrt->->time"<<cal->getFirst()->time << endl;
-		cout << "pocet"<<cal->getCount()<<endl;
-cout<<"vlozena trojka melo by byt 2, 3";	cal->show();
-SCPlace* place;
-SCCalendarUnit unit(place,5.0);
-cal->insert(unit);
-		cout << "cal->head->cont->time"<<cal->getFirst()->cont->time << endl;
-		cout << "cal->head->pre->time"<<cal->getFirst()->pre->time << endl;
-		cout << "cal_fisrt->->time"<<cal->getFirst()->time << endl;
-		cout << "pocet"<<cal->getCount()<<endl;
-		cout << "end" << cal->getLast()->time <<endl;
-		cal->show();
-		cout<<"....p...."<<cal->getNextUnit().time<<endl;
-		cal->remove();
-		cout<<"show po delete"<<endl;
-		cal->show();
+	SCPlace p3, p1, p2;
+	cal->insert(p3, 2.0);
+	cal->insert(p1, 3.0);
+	cal->insert(p2, 1.0);
+	SCPlace place;// = new SCPlace();
+	SCCalendarUnit unit(&place,5.0);
+	cal->insert(unit);
+	cal->show();
+	cout<<"....p...."<<cal->getNextUnit().time<<endl;
+	cal->remove();
+	cal->show();
 
-//	cal->insert(p[2], 3.4);
-/*	SCPlace p[5];
+	SCPlace p[5];
 	SCDirectedArc a[8];
 	SCTransition t[3];
 	p[0].SetArgStartVal(1);
@@ -52,8 +30,10 @@ cal->insert(unit);
 	PlToTr(&p[3],&t[2],&a[5]);
 	TrToPl(&t[2],&p[1],&a[6]);
 	TrToPl(&t[2],&p[4],&a[7]);
-
 	Run();
-	*/
+
+	delete cal;
+	cout << "/////////////////////////////////////////////////////////////"<<endl;
+	
 	return 0;
 }
