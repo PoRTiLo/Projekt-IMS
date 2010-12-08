@@ -3,59 +3,67 @@
 #ifndef CALENDAR_H__
 #define CALENDAR_H__
 
-#include "calElement.h"
+#include <iostream>
+#include "calendarUnit.h"
 
-class Calendar
+
+/**
+ * Kalendar.
+ * Implementovan jako obousmerny seznam s hlavickou.
+ */
+class SCCalendar
 {
 
 	private:
-		int count;						// pocet prvku v kalendari
-		CalElement* head;				// hlavicka kalendare
+		int count;								// pocet prvku v kalendari
+		SCCalendarUnit* head;				// hlavicka kalendare
 
 		/**
-		 * Iniializace kalendare.
+		 * Iniializace kalendare. Vytvoreni hlavicky seznamu. Pocet prvku nastaven na nulu.
 		 */
 		void init();
 
 		/**
 		 * Vyhleda pozadovanou pozici MISTA v kalendari.
 		 * @param[in] <SCPlace*> place
-		 * @retunr <CalElement> vraci ukazatel n apozici v kalendari, jez obsahuje place
+		 * @retunr <SCCalendarUnit> vraci ukazatel n apozici v kalendari, jez obsahuje place
 		 */
-		CalElement* search( SCPlace* place );
+//		SCCalendarUnit* search( SCPlace* place );
 
 		/**
 		 *
 		 *
 		 */
-		CalElement* search( CalElement* elementIn );
+//		SCCalendarUnit* search( SCCalendarUnit* elementIn );
+
+		/**
+		 *
+		 *
+		 *
+		 */
+		SCCalendarUnit* search( const double time );
 
 		/**
 		 * Smazani urciteho mista v kalendari.
-		 * @param[in] <SCPlace*> misto v kalendari
+		 * @param[in] <SCCalndarUnit*> misto v kalendari
 		 */
-		void remove( SCPlace* place );
-
-		/**
-		 * Smazani celeho kalendare.
-		 */
-		void remove();
+		void remove( SCCalendarUnit* calUnit );
 
 		/**
 		 *
 		 */
-		void insertData( CalElement* element );
+		void insertData( SCCalendarUnit* element, SCCalendarUnit* pom );
 		
 	public:
 		/**
 		 * Konstruktor.
 		 */
-		Calendar();
+		SCCalendar();
 
 		/**
 		 * Destruktor.
 		 */
-		~Calendar();
+		~SCCalendar();
 
 		/**
 		 * Vrati pocet prvku v kalendari.
@@ -70,16 +78,27 @@ class Calendar
 		bool isEmpty();
 
 		/**
-		 * Vrati prvni prvek v kalendari. Smaze jej z kalendare. 					POTREBA HO PAK UVOLNIT
-		 * @return<CalElement> prvni prvek v kalendari
+		 * Vrati prvni prvek v kalendari. NEsmaze ho z kalendare.
+		 * @return<SCCalendarUnit> prvni prvek v kalendari
 		 */
-		CalElement* getFirst();
+		SCCalendarUnit* getFirst();
+
+		/**
+		 * Smazani celeho kalendare.
+		 */
+		void remove();
+
+		/**
+		 * Vrati posledni prvek kalendare. NEsmaze ho z kalendare.
+		 * @return <SCCalendarUnit> posledni prvek kalendare.
+		 */
+		SCCalendarUnit* getLast();
 
 		/**
 		 *
 		 *
 		 */
-		void insert( CalElement elementIn );
+		void insert( SCCalendarUnit elementIn );
 
 		/**
 		 *
@@ -87,7 +106,18 @@ class Calendar
 		 *
 		 *
 		 */
-		void insert( SCPlace* place, double time );
+		void insert( SCPlace place, double time );
+
+		/**
+		 * Zobrazi obsah kalendare. Vypise casy vsech prvku.
+		 */
+		void show();
+
+		/**
+		 * Vrati prvnio prvek kalendare a smaze jej z nej.
+		 * @return <SCCalendarUnit> Vrati dalsi prvek kalendare.
+		 */
+		SCCalendarUnit getNextUnit();
 
 };
 

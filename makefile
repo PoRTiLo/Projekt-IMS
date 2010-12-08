@@ -16,8 +16,8 @@ LIB=ptnet
 PROJECT=xkovac21_xsendl00
 
 # seznam souboru
-OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calElement.o
-OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calElement.o
+OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o
+OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
 SDIRECTEDARC=directedArc.cpp directedArc.h
@@ -25,10 +25,10 @@ SPLACE=place.cpp place.h
 STRANSITION=transition.cpp transition.h
 SGEN=gen.cc gen.h
 SCALENDAR=calendar.cc calendar.h
-SCALELEMENT=calElement.cc calElement.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalElement.o
-SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc calendar.cc calElement.cc
-HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calElement.h
+SCALENDARUNIT=calendarUnit.cc calendarUnit.h
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o
+SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc calendar.cc calendarUnit.cc
+HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h
 
 # kompilator
 CCM=g++
@@ -107,7 +107,7 @@ soGen.o: ${SGEN}
 soCalendar.o: ${SCALENDAR}
 	${CCM} ${COBJ} -fPIC $< -o $@
 
-soCalElement.o: ${SCALELEMENT}
+soCalendarUnit.o: ${SCALENDARUNIT}
 	${CCM} ${COBJ} -fPIC $< -o $@
 
 
@@ -137,7 +137,7 @@ gen.o: ${SGEN}
 calendar.o: ${SCALENDAR}
 	${CCM} ${COBJ} $< -o $@
 
-calElement.o: ${SCALELEMENT}
+calendarUnit.o: ${SCALENDARUNIT}
 	${CCM} ${COBJ} $< -o $@
 
 
