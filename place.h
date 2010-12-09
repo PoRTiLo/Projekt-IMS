@@ -6,7 +6,6 @@
 #include "base.h"
 #include "transPrioData.h"
 
-#include <climits>
 #include <cstring>
 
 class SCPlace : public SCBase
@@ -17,11 +16,14 @@ protected:
 	unsigned int m_value;
 public:
 	//methods
+	int Compare(SCPlace *place);
 	virtual int Run();
 	virtual SSBaseData* GetData();
 	virtual int Action(int code, int param = 1);
 	int SetArgCapacity(unsigned int capacity);
 	int SetArgStartVal(unsigned int startVal);
+	unsigned int GetArgCapacity();
+	unsigned int GetArgCurrentVal();
 	SCPlace();
 	virtual ~SCPlace();
 };

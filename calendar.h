@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "calendarUnit.h"
+#include "statusList.h"
 
 
 /**
@@ -21,7 +22,7 @@ class SCCalendar
 		/**
 		 * Iniializace kalendare. Vytvoreni hlavicky seznamu. Pocet prvku nastaven na nulu.
 		 */
-		void init();
+		void Init();
 
 		/**
 		 * Vyhleda pozadovanou pozici MISTA v kalendari.
@@ -41,18 +42,18 @@ class SCCalendar
 		 *
 		 *
 		 */
-		SCCalendarUnit* search( const double time );
+		SCCalendarUnit* Search( const double time );
 
 		/**
 		 * Smazani urciteho mista v kalendari.
 		 * @param[in] <SCCalndarUnit*> misto v kalendari
 		 */
-		void remove( SCCalendarUnit* calUnit );
+		void Remove( SCCalendarUnit* calUnit );
 
 		/**
 		 *
 		 */
-		void insertData( SCCalendarUnit* element, SCCalendarUnit* pom );
+		void InsertData( SCCalendarUnit* element, SCCalendarUnit* pom );
 		
 	public:
 		/**
@@ -69,36 +70,36 @@ class SCCalendar
 		 * Vrati pocet prvku v kalendari.
 		 * @return <int> pocet prvku v kalendari
 		 */
-		int getCount();
+		int GetCount();
 
 		/**
 		 * Zjisti zda je kalendar prazdny.
 		 * @return <bool> treu je prazdny, false neni prazdny
 		 */
-		bool isEmpty();
+		bool IsEmpty();
 
 		/**
 		 * Vrati prvni prvek v kalendari. NEsmaze ho z kalendare.
 		 * @return<SCCalendarUnit> prvni prvek v kalendari
 		 */
-		SCCalendarUnit* getFirst();
+		SCCalendarUnit* GetFirst();
 
 		/**
 		 * Smazani celeho kalendare.
 		 */
-		void remove();
+		void Remove();
 
 		/**
 		 * Vrati posledni prvek kalendare. NEsmaze ho z kalendare.
 		 * @return <SCCalendarUnit> posledni prvek kalendare.
 		 */
-		SCCalendarUnit* getLast();
+		SCCalendarUnit* GetLast();
 
 		/**
 		 *
 		 *
 		 */
-		void insert( SCCalendarUnit elementIn );
+		void Insert( SCCalendarUnit elementIn );
 
 		/**
 		 *
@@ -106,18 +107,18 @@ class SCCalendar
 		 *
 		 *
 		 */
-		void insert( SCPlace place, double time );
+		void Insert( SCPlace place, double time );
 
 		/**
 		 * Zobrazi obsah kalendare. Vypise casy vsech prvku.
 		 */
-		void show();
+		void Show();
 
 		/**
 		 * Vrati prvnio prvek kalendare a smaze jej z nej.
 		 * @return <SCCalendarUnit> Vrati dalsi prvek kalendare.
 		 */
-		SCCalendarUnit getNextUnit();
+		SCCalendarUnit GetNextUnit();
 
 };
 

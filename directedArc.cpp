@@ -1,4 +1,5 @@
 #include "directedArc.h"
+
 SCDirectedArc::SCDirectedArc()
 {
 	this->m_weight = 1;

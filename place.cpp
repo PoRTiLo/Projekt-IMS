@@ -1,4 +1,5 @@
 #include "place.h"
+
 SCPlace::SCPlace()
 {
 	g_allPlaces.push_back(this);
@@ -6,7 +7,6 @@ SCPlace::SCPlace()
 	this->m_value = 0;
 	this->m_status = PLACE_OK;
 }
-
 SCPlace::~SCPlace()
 {
 	if(this->m_data != NULL)
@@ -62,7 +62,7 @@ int SCPlace::Run()
 			{
 			case TRANSITION_WAIT:
 				{
-					int genNonDetNum = 0; /*TODO: vygeneruj cislo od 0-1 a prirad*/
+					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
 					vector<SCDirectedArc*>::iterator it;
 					bool done = false;
 					vector<SCBase*> nullTimeVec;
@@ -93,7 +93,7 @@ int SCPlace::Run()
 					//nulovy cas non determin
 					for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
 					{
-						if(val > genNonDetNum)
+						if(val > SCGenNonDetNum)
 						{
 							if((*itN)->Run() == TRANSITION_OK)
 							{
@@ -122,7 +122,7 @@ int SCPlace::Run()
 					{
 						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 						{
-							if(val > genNonDetNum)
+							if(val > SCGenNonDetNum)
 							{
 								if((*it)->GetTarget()->Run() == TRANSITION_OK)
 								{
@@ -149,7 +149,7 @@ int SCPlace::Run()
 			case TRANSITION_PROBAB:
 				{
 					vector<SCDirectedArc*>::iterator it;
-					int genNonDetNum = 0; /*TODO: vygeneruj cislo od 0-1 a prirad*/
+					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
 					double probability = 0;
 					bool ok = true;
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
@@ -176,7 +176,7 @@ int SCPlace::Run()
 							SSBaseData *data = (*it)->GetTarget()->GetData();
 							memcpy(&currentProb,&data->data,sizeof(double));
 							probability += currentProb;
-							if(genNonDetNum < probability/100)
+							if(SCGenNonDetNum < probability/100)
 							{
 								if((*it)->GetTarget()->Run() == TRANSITION_OK)
 								{
@@ -241,14 +241,14 @@ int SCPlace::Run()
 				break;
 			case TRANSITION_NOPARAM:
 				{	
-					int genNonDetNum = 0; /*TODO: vygeneruj cislo od 0-1 a prirad*/
+					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
 					int arraySize = this->m_directedArcsTo.size();
 					int val = 1/arraySize;
 					vector<SCDirectedArc*>::iterator it;
 					bool done = false;
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 					{
-						if(val > genNonDetNum)
+						if(val > SCGenNonDetNum)
 						{
 							if((*it)->GetTarget()->Run() == TRANSITION_OK)
 							{
@@ -305,4 +305,22 @@ int SCPlace::Action(int code, int param)
 		ret = PLACE_RETURNED;
 	}
 	return ret;
+}
+unsigned int SCPlace::GetArgCapacity()
+{
+	return this->m_capacity;
+}
+unsigned int SCPlace::GetArgCurrentVal()
+{
+	return this->m_value;
+}
+int SCPlace::Compare(SCPlace *place)
+{
+	if(this->m_capacity != place->GetArgCapacity())
+		return COMPARE_CAP;
+
+	if(this->m_value != place->GetArgCurrentVal())
+		return COMPARE_VALUE;
+
+	return COMPARE_EQUAL;
 }

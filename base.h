@@ -4,6 +4,7 @@
 #include "directedArc.h"
 #include "statusList.h"
 #include "baseData.h"
+#include "gen.h"
 
 using namespace std;
 

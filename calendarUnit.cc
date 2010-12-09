@@ -18,3 +18,26 @@ SCCalendarUnit::SCCalendarUnit( const SCCalendarUnit& element )
 	this->time = element.time;
 	this->place = element.place;
 }
+
+// Nastaveni casu.
+void SCCalendarUnit::SetTime( const double time ) {
+
+	this->time = time;
+}
+
+// Nastaveni mista.
+void SCCalendarUnit::SetPlace( SCPlace* place ) {
+
+	this->place = place;
+}
+// Vraci promennou cas.
+double SCCalendarUnit::GetTime() {
+
+	return this->time;
+}
+
+// Vrati misto.
+SCPlace* SCCalendarUnit::GetPlace() {
+
+	return this->place;
+}

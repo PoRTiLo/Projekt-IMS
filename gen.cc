@@ -1,7 +1,7 @@
 /*IMS-----------------
  *
  * Project:  Simulator cernobilych stochastickych Petriho siti
- * File:     gen.cc
+ * File:     SCGen.cc
  * Author:   Jaroslav Sendler, xsendl00, xsendl00@stud.fit.vutr.cz
  *           Dusan Kovacic, xkovac21, xkovac21@stud.fit.vutbr.cz
  *
@@ -13,46 +13,46 @@
 
 #include "gen.h"
 
-double Gen::genNom() {
+double SCGen::GenNom() {
 	ix = ix *69069+1;
 	return ix/((double)ULONG_MAX+1);
 }
 
 
-double Gen::genNomInterval(int a, int b) {
+double SCGen::GenNomInterval(int a, int b) {
 
 	return a + b*(rand()/(RAND_MAX+1.0));
 }
 
-double Gen::genNomInterval() {
+double SCGen::GenNomInterval() {
 
 	return 1*(rand()/(RAND_MAX+1.0));
 }
 
-double Gen::genExp(int exp) {
-	double x = genNomInterval();
+double SCGen::GenExp(int exp) {
+	double x = GenNomInterval();
 	return -exp * log(x);
 }
 
-double Gen::genExp(int exp, int x0) {
-	double x = genNomInterval();
+double SCGen::GenExp(int exp, int x0) {
+	double x = GenNomInterval();
 	return x0 - exp * log(x);
 }
 
-double Gen::genGaus(double ex, double stx) {
-	double x = genNomInterval();
-	double y = genNomInterval();
+double SCGen::GenGaus(double ex, double stx) {
+	double x = GenNomInterval();
+	double y = GenNomInterval();
 	return stx * sqrt(-2 * (log(x))) * cos(2*PI*y) + ex;
 }
 
-double Gen::genPoisson(int poiss, int countMin) {
+double SCGen::GenPoisson(int poiss, int countMin) {
 
-	return genExp(countMin/poiss);
+	return GenExp(countMin/poiss);
 }
 
-double Gen::genPoisson(int poiss) {
+double SCGen::GenPoisson(int poiss) {
 
-	return genExp(60/poiss);
+	return GenExp(60/poiss);
 }
 
 
@@ -69,11 +69,11 @@ double Gen::genPoisson(int poiss) {
 //	{
 //		std::cout << 1.0*(rand()/(RAND_MAX+1.0))<<std::endl;;
 
-//		std::cout << genNomInterval()<<std::endl;;
+//		std::cout << GenNomInterval()<<std::endl;;
 	//	std::cout <<" " <<  1.0*(rand()/(RAND_MAX+1.0)) << std::endl;
-//		std::cout << 1.0 * (genNom()*(RAND_MAX+1.0)) << std::endl;
-//		std::cout << genExp(5)<<std::endl;;
-//		std::cout << Gen::genGaus(5,1) << std::endl;
+//		std::cout << 1.0 * (GenNom()*(RAND_MAX+1.0)) << std::endl;
+//		std::cout << GenExp(5)<<std::endl;;
+//		std::cout << SCGen::GenGaus(5,1) << std::endl;
 //	}
 
 //	return 0;

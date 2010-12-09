@@ -1,5 +1,4 @@
 #include "base.h"
-
 SSBaseData* SCBase::GetData()
 {
 	return this->m_data;

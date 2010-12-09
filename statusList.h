@@ -50,5 +50,8 @@
 #define TIME_EXP 0
 #define TIME_ROV 1
 #define TIME_NORM 2
-//
+//compare results
+#define COMPARE_EQUAL 0								//scplaces are equal
+#define COMPARE_VALUE 1								//value not same
+#define COMPARE_CAP 2								//capacity not same
 

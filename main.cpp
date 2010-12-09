@@ -5,16 +5,16 @@ int main(int argc,const char* argv[])
 
 	SCCalendar* cal = new SCCalendar();
 	SCPlace p3, p1, p2;
-	cal->insert(p3, 2.0);
-	cal->insert(p1, 3.0);
-	cal->insert(p2, 1.0);
+	cal->Insert(p3, 2.0);
+	cal->Insert(p1, 3.0);
+	cal->Insert(p2, 1.0);
 	SCPlace place;// = new SCPlace();
 	SCCalendarUnit unit(&place,5.0);
-	cal->insert(unit);
-	cal->show();
-	cout<<"....p...."<<cal->getNextUnit().time<<endl;
-	cal->remove();
-	cal->show();
+	cal->Insert(unit);
+	cal->Show();
+	cout<<"....p...."<<cal->GetNextUnit().GetTime()<<endl;
+	cal->Remove();
+	cal->Show();
 
 	SCPlace p[5];
 	SCDirectedArc a[8];

@@ -1,7 +1,7 @@
 /*IMS-----------------
  *
  * Project:  Simulator cernobilych stochastickych Petriho siti
- * File:     gen.h
+ * File:     SCGen.h
  * Author:   Jaroslav Sendler, xsendl00, xsendl00@stud.fit.vutr.cz
  *           Dusan Kovacic, xkovac21, xkovac21@stud.fit.vutbr.cz
  *
@@ -12,8 +12,8 @@
 
 #pragma once
 
-#ifndef GEN_H__
-#define GEN_H__
+#ifndef SCGen_H__
+#define SCGen_H__
 
 
 
@@ -26,7 +26,7 @@
 #define PI 3.1415926535897932384626433832795
 unsigned static ix = 1537;
 
-class Gen
+class SCGen
 {
 
 	public:
@@ -34,32 +34,32 @@ class Gen
 		/**
 		 * Konstruktor
 		 */
-		Gen(){}
+		SCGen(){}
 
 		/**
 		 * Destruktor
 		 */
-		~Gen(){}
+		~SCGen(){}
 
 		/**
-	 	* Generator .... rozlozeni
+	 	* SCGenerator .... rozlozeni
 	 	* @return <double> pseudonahodne cislo
 	 	*/
-		static double genNom();
+		static double GenNom();
 
 		/**
-		 * Generator pseudonahodnych cisel v urcitem rozsahu
+		 * SCGenerator pseudonahodnych cisel v urcitem rozsahu
 		 * @param[in] <int> a dolni hranice
 		 * @param[in] <int> b horni hranice
 		 * @return <double> nahodne cislo v intervalu (a,b)
 		 */
-		static double genNomInterval( int a, int b ); 
+		static double GenNomInterval( int a, int b );
 
 		/**
-		 * Generator pseudonahodnych cisel v intervalu (0,1)
+		 * SCGenerator pseudonahodnych cisel v intervalu (0,1)
 		 * @return <double> nahodne cislo v intervalu (0,1)
 		 */
-		static double genNomInterval(); 
+		static double GenNomInterval();
 
 		/**
 		 * Exponencialni rozlozeni - pro nahodna cisla v R(0,1)
@@ -67,7 +67,7 @@ class Gen
 		 * @param[in] <int> exp stredni hodnota
 		 * @return <double>
 		 */
-		static double genExp( int exp ); 
+		static double GenExp( int exp );
 
 		/**
 		 * Exponencialni rozlozeni - pro nahodna cisla v R(0,1)
@@ -75,7 +75,7 @@ class Gen
 		 * @param[in] <int> x0 pocatecni hodnota-posunuti
 		 * return <double>
 		 */
-		static double genExp( int exp, int x0 );
+		static double GenExp( int exp, int x0 );
 
 		/**
 		 * Normalni rozlozeni-Gaussovo rozlozeni - nahodna cisla v R(0,1)
@@ -83,7 +83,7 @@ class Gen
 		 * @param[in] <double> stx sigma ( pro 3stx ..99% obsahu)
 		 * @return <double>
 		 */
-		static double genGaus( double ex, double stx ); 
+		static double GenGaus( double ex, double stx );
 
 		/**
 		 * Poissonovo rozlozeni
@@ -91,7 +91,7 @@ class Gen
 		 * @param[in] <int> poiss
 		 * @return <double>
 		 */
-		static double genPoisson( int poiss, int countMin );
+		static double GenPoisson( int poiss, int countMin );
 
 		/**
 		 * Poissonovo rozlozeni
@@ -99,9 +99,9 @@ class Gen
 		 * @param[in] <int> poiss
 		 * @return <double>
 		 */
-		static double genPoisson( int poiss );
+		static double GenPoisson( int poiss );
 
 };
 
 
-#endif //GEN_H__
+#endif //SCGen_H__

@@ -3,11 +3,11 @@
 // Konstruktor.
 SCCalendar::SCCalendar()
 {
-	SCCalendar::init();
+	SCCalendar::Init();
 }
 
 // Inizializace kalendare.
-void SCCalendar::init() {
+void SCCalendar::Init() {
 
 	this->count = 0;											// pocet prvku = 0, hlavicka se do toho nepocita
 	this->head = new SCCalendarUnit;						// tvorba hlavicky, prvni prvek, ukazuje sam na sebe
@@ -18,12 +18,12 @@ void SCCalendar::init() {
 // Destruktor.
 SCCalendar::~SCCalendar()
 {
-	SCCalendar::remove();
+	SCCalendar::Remove();
 	delete this->head;												// odstraneni hlavicky
 }
 
 // Odstrani pozadovany prvek z kalendare.
-void SCCalendar::remove( SCCalendarUnit* calUnit ) {
+void SCCalendar::Remove( SCCalendarUnit* calUnit ) {
 	SCCalendarUnit* pom = this->head->cont;
 	while( pom != this->head )
 	{
@@ -51,22 +51,22 @@ void SCCalendar::remove( SCCalendarUnit* calUnit ) {
 }
 
 // vyprazdni kalendar
-void SCCalendar::remove() {
+void SCCalendar::Remove() {
 	
 	while( this->head->cont != this->head )
 	{
-		remove( this->head->cont );
+		Remove( this->head->cont );
 	}
 }
 
 // vrati pocet elementu v kalendari
-int SCCalendar::getCount() {
+int SCCalendar::GetCount() {
 
 	return this->count;
 }
 
 // zjisti zda je kalendar prazdny
-bool SCCalendar::isEmpty() {
+bool SCCalendar::IsEmpty() {
 	
 	if( this->count == 0 )
 		return true;
@@ -75,21 +75,27 @@ bool SCCalendar::isEmpty() {
 }
 
 // Vrati prvni prvek, ael ponecha ho v kalendari
-SCCalendarUnit* SCCalendar::getFirst() {
+SCCalendarUnit* SCCalendar::GetFirst() {
+
+	if( this->head->cont == head )
+		return NULL;
 
 	return this->head->cont;
 }
 
 // Vrati posledni prvek kalendare
-SCCalendarUnit* SCCalendar::getLast() {
+SCCalendarUnit* SCCalendar::GetLast() {
 	
+	if( this->head->pre == head )
+		return NULL;
+
 	return this->head->pre;
 }
 
 // vlozi data do kalendare
-void SCCalendar::insertData( SCCalendarUnit* newEl, SCCalendarUnit* pom ) {
+void SCCalendar::InsertData( SCCalendarUnit* newEl, SCCalendarUnit* pom ) {
 
-	if( SCCalendar::isEmpty() )	//kalendara je prazdny
+	if( SCCalendar::IsEmpty() )	//kalendara je prazdny
 	{
 		this->head->cont = newEl;
 		this->head->pre = newEl;
@@ -107,26 +113,26 @@ void SCCalendar::insertData( SCCalendarUnit* newEl, SCCalendarUnit* pom ) {
 }
 
 // vlozi element do kalendare
-void SCCalendar::insert( SCCalendarUnit elementIn ) {
+void SCCalendar::Insert( SCCalendarUnit elementIn ) {
 
 	SCCalendarUnit* newEl = new SCCalendarUnit( elementIn );
-	SCCalendarUnit* pom = SCCalendar::search( newEl->time );
-	SCCalendar::insertData(newEl, pom);
+	SCCalendarUnit* pom = SCCalendar::Search( newEl->GetTime() );
+	SCCalendar::InsertData(newEl, pom);
 }
 
 // vlozeni dat do kalnedare
-void SCCalendar::insert( SCPlace placeIn, double time ) {
+void SCCalendar::Insert( SCPlace placeIn, double time ) {
 
 	SCPlace* place = new SCPlace(placeIn);
-	SCCalendarUnit* pom = SCCalendar::search( time );
+	SCCalendarUnit* pom = SCCalendar::Search( time );
 	SCCalendarUnit* newEl = new SCCalendarUnit(place, time);
-	SCCalendar::insertData(newEl, pom);
+	SCCalendar::InsertData(newEl, pom);
 }
 
 // hleda podle casu elementu
-SCCalendarUnit* SCCalendar::search( const double timeIn ) {
+SCCalendarUnit* SCCalendar::Search( const double timeIn ) {
 
-	if( SCCalendar::isEmpty() )
+	if( SCCalendar::IsEmpty() )
 		return this->head;
 
 	SCCalendarUnit* pom;
@@ -134,7 +140,7 @@ SCCalendarUnit* SCCalendar::search( const double timeIn ) {
 	bool found = false;
 	while( pom != this->head && !found )
 	{
-		if( pom->time > timeIn )		// udalost s vetsim casem
+		if( pom->GetTime() > timeIn )		// udalost s vetsim casem
 		{
 			found = true;
 			break;
@@ -150,7 +156,7 @@ SCCalendarUnit* SCCalendar::search( const double timeIn ) {
 }
 
 // zobrazi obsah kalendare
-void SCCalendar::show() {
+void SCCalendar::Show() {
 
 	SCCalendarUnit* pom;
 	pom = this->head->cont;
@@ -158,19 +164,22 @@ void SCCalendar::show() {
 	int i = 1;
 	while( pom != this->head )
 	{
-		cout << i++ << ".prvek-time: " << pom->time  << "-place-mode:" << pom->place->GetData()->mode << "-place-data:" << pom->place->GetData()->data << endl;  
+		cout << i++ << ".prvek-time: " << pom->GetTime()  << "-place-mode:" << pom->GetPlace()->GetData()->mode << "-place-data:" << pom->GetPlace()->GetData()->data << endl;  
 		pom = pom->cont;
 	}
 }
 
 // vrati prvni prvek v kalendari a odstrani jej
-SCCalendarUnit SCCalendar::getNextUnit() {
+SCCalendarUnit SCCalendar::GetNextUnit() {
+
+	if( this->head->cont == head )
+		return NULL;
 
 	SCCalendarUnit calUnit;
 //	calUnit = SCCalendar::getFirst();
-	calUnit.place = this->head->cont->place;
-	calUnit.time = this->head->cont->time;
-	SCCalendar::remove(this->head->cont);
+	calUnit.SetPlace( this->head->cont->GetPlace() );
+	calUnit.SetTime( this->head->cont->GetTime() );
+	SCCalendar::Remove(this->head->cont);
 
 	return calUnit;
 }
