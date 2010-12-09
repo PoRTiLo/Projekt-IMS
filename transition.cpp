@@ -1,5 +1,4 @@
 #include "transition.h"
-
 SCTransition::SCTransition()
 {
 	this->m_timeType = TIME_ABS;

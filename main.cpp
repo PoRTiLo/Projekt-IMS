@@ -33,7 +33,15 @@ int main(int argc,const char* argv[])
 	Run();
 
 	delete cal;
-	cout << "/////////////////////////////////////////////////////////////"<<endl;
 	
+	char* data1[8];
+	memset(data1,0,8);
+	int i =3;
+	int m = 1000;
+	memcpy(&data1,&i,sizeof(int));
+	memcpy(&data1 + sizeof(int),&m,sizeof(int));
+	cout <<data1 << endl;
+
+	printStat();
 	return 0;
 }

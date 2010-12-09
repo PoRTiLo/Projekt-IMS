@@ -1,4 +1,5 @@
 #include "base.h"
+
 SSBaseData* SCBase::GetData()
 {
 	return this->m_data;
@@ -56,6 +57,7 @@ SCBase::SCBase()
 }
 SCBase::~SCBase()
 {
-	if(m_data != NULL)
-		delete this->m_data;
+	if(this->m_data != NULL)
+		//delete this->m_data;
+		;
 }

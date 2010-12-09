@@ -16,8 +16,8 @@ void SCCalendar::init() {
 }
 
 // Destruktor.
-SCCalendar::~SCCalendar() {
-
+SCCalendar::~SCCalendar()
+{
 	SCCalendar::remove();
 	delete this->head;												// odstraneni hlavicky
 }

@@ -1,5 +1,4 @@
 #include "place.h"
-
 SCPlace::SCPlace()
 {
 	g_allPlaces.push_back(this);

@@ -1,5 +1,5 @@
 #pragma once
-//#define NULL 0
+#define NULL 0
 //transition defines
 #define TRANSITION_OK 0
 #define TRANSITION_BAD_ARGS -1
