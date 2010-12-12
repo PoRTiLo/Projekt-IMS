@@ -48,7 +48,7 @@
 //time types
 #define TIME_ABS -1
 #define TIME_EXP 0
-#define TIME_ROV 1
+#define TIME_POIS 1
 #define TIME_NORM 2
 //compare results
 #define COMPARE_EQUAL 0								//scplaces are equal

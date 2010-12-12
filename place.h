@@ -14,8 +14,12 @@ protected:
 	//members
 	unsigned int m_capacity;
 	unsigned int m_value;
+	unsigned int m_startVal;
+	SCDirectedArc *m_lastCommited;
 public:
 	//methods
+	SCDirectedArc* GetLastCommitedArc();
+	void SetLastCommitedArc(SCDirectedArc *directedArc);
 	int Compare(SCPlace *place);
 	virtual int Run();
 	virtual SSBaseData* GetData();
@@ -24,6 +28,7 @@ public:
 	int SetArgStartVal(unsigned int startVal);
 	unsigned int GetArgCapacity();
 	unsigned int GetArgCurrentVal();
+	unsigned int GetArgStartVal();
 	SCPlace();
 	virtual ~SCPlace();
 };

@@ -4,12 +4,12 @@ int main(int argc,const char* argv[])
 {
 
 	SCCalendar* cal = new SCCalendar();
-	SCPlace p3, p1, p2;
-	cal->Insert(p3, 2.0);
-	cal->Insert(p1, 3.0);
-	cal->Insert(p2, 1.0);
-	SCPlace place;// = new SCPlace();
-	SCCalendarUnit unit(&place,5.0);
+	SCBase base3, base1, base2;
+	cal->Insert(&base3, 2.0);
+	cal->Insert(&base1, 3.0);
+	cal->Insert(&base2, 1.0);
+	SCBase base;// = new SCPlace();
+	SCCalendarUnit unit(&base,5.0);
 	cal->Insert(unit);
 	cal->Show();
 	cout<<"....p...."<<cal->GetNextUnit().GetTime()<<endl;
@@ -34,14 +34,6 @@ int main(int argc,const char* argv[])
 
 	delete cal;
 	
-	char* data1[8];
-	memset(data1,0,8);
-	int i =3;
-	int m = 1000;
-	memcpy(&data1,&i,sizeof(int));
-	memcpy(&data1 + sizeof(int),&m,sizeof(int));
-	cout <<data1 << endl;
-
-	printStat();
+	PrintStat();
 	return 0;
 }

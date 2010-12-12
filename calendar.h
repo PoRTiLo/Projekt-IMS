@@ -3,7 +3,6 @@
 #ifndef CALENDAR_H__
 #define CALENDAR_H__
 
-#include <iostream>
 #include "calendarUnit.h"
 #include "statusList.h"
 
@@ -26,10 +25,10 @@ class SCCalendar
 
 		/**
 		 * Vyhleda pozadovanou pozici MISTA v kalendari.
-		 * @param[in] <SCPlace*> place
-		 * @retunr <SCCalendarUnit> vraci ukazatel n apozici v kalendari, jez obsahuje place
+		 * @param[in] <SCBase*> base
+		 * @retunr <SCCalendarUnit> vraci ukazatel n apozici v kalendari, jez obsahuje base
 		 */
-//		SCCalendarUnit* search( SCPlace* place );
+//		SCCalendarUnit* search( SCBase* base );
 
 		/**
 		 *
@@ -107,7 +106,7 @@ class SCCalendar
 		 *
 		 *
 		 */
-		void Insert( SCPlace place, double time );
+		void Insert( SCBase *base, double time );
 
 		/**
 		 * Zobrazi obsah kalendare. Vypise casy vsech prvku.

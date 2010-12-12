@@ -7,9 +7,25 @@ SCDirectedArc::SCDirectedArc()
 	this->m_target = NULL;
 	this->m_start = NULL;
 	this->m_inhib = DIRECTEDARC_DEFAULT;
+	this->m_id = g_arcIndex++;
+	char buff[32];
+	sprintf(buff,"Directed arc %d",this->m_id);
+	this->m_name = buff;
 }
 SCDirectedArc::~SCDirectedArc()
 {
+}
+void SCDirectedArc::SetName(string name)
+{
+	this->m_name = name;
+}
+string SCDirectedArc::GetName()
+{
+	return this->m_name;
+}
+unsigned int SCDirectedArc::GetId()
+{
+	return this->m_id;
 }
 int SCDirectedArc::SetArgWeight(unsigned int weight)
 {

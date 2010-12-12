@@ -49,33 +49,33 @@ class SCGen
 
 		/**
 		 * SCGenerator pseudonahodnych cisel v urcitem rozsahu
-		 * @param[in] <int> a dolni hranice
-		 * @param[in] <int> b horni hranice
-		 * @return <double> nahodne cislo v intervalu (a,b)
+		 * @param[in] <double> a dolni hranice
+		 * @param[in] <double> b horni hranice
+		 * @return <double> nahodne cislo v doubleervalu (a,b)
 		 */
-		static double GenNomInterval( int a, int b );
+		static double GenNomInterval( double a, double b );
 
 		/**
-		 * SCGenerator pseudonahodnych cisel v intervalu (0,1)
-		 * @return <double> nahodne cislo v intervalu (0,1)
+		 * SCGenerator pseudonahodnych cisel v doubleervalu (0,1)
+		 * @return <double> nahodne cislo v doubleervalu (0,1)
 		 */
 		static double GenNomInterval();
 
 		/**
 		 * Exponencialni rozlozeni - pro nahodna cisla v R(0,1)
-		 * rozlozeni dob obsluhy, casove intervaly mezi poruchami a prichody do front
-		 * @param[in] <int> exp stredni hodnota
+		 * rozlozeni dob obsluhy, casove doubleervaly mezi poruchami a prichody do front
+		 * @param[in] <double> exp stredni hodnota
 		 * @return <double>
 		 */
-		static double GenExp( int exp );
+		static double GenExp( double exp );
 
 		/**
 		 * Exponencialni rozlozeni - pro nahodna cisla v R(0,1)
-		 * @param[in] <int> exp stredni hodnota
-		 * @param[in] <int> x0 pocatecni hodnota-posunuti
+		 * @param[in] <double> exp stredni hodnota
+		 * @param[in] <double> x0 pocatecni hodnota-posunuti
 		 * return <double>
 		 */
-		static double GenExp( int exp, int x0 );
+		static double GenExp( double exp, double x0 );
 
 		/**
 		 * Normalni rozlozeni-Gaussovo rozlozeni - nahodna cisla v R(0,1)
@@ -87,19 +87,19 @@ class SCGen
 
 		/**
 		 * Poissonovo rozlozeni
-		 * @param[in] <int> countMin
-		 * @param[in] <int> poiss
+		 * @param[in] <double> countMin
+		 * @param[in] <double> poiss
 		 * @return <double>
 		 */
-		static double GenPoisson( int poiss, int countMin );
+		static double GenPoisson( double poiss, double countMin );
 
 		/**
 		 * Poissonovo rozlozeni
 		 * Transformace na exponencialni rozlozeni, podelenim casove jednotky - pocet prichodu za hodinu
-		 * @param[in] <int> poiss
+		 * @param[in] <double> poiss
 		 * @return <double>
 		 */
-		static double GenPoisson( int poiss );
+		static double GenPoisson( double poiss );
 
 };
 

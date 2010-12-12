@@ -7,11 +7,20 @@ SCTransition::SCTransition()
 	this->m_probability = 0;
 	this->m_time = 0;
 	this->m_status = TRANSITION_OK;
+	this->m_id  = g_transIndex++;
+	this->m_timeEnd = 0;
+	char buff[30];
+	sprintf(buff,"Transition %d",this->m_id);
+	this->m_name = buff;
 }
 SCTransition::~SCTransition()
 {
 	if(this->m_data != NULL)
 		delete this->m_data;
+}
+unsigned int SCTransition::GetTotalPassed()
+{
+	return 0; //TODO: not implemented yet
 }
 int SCTransition::SetArgPrio(unsigned int prio)
 {
@@ -43,8 +52,24 @@ int SCTransition::SetArgTime(double time, unsigned short type)
 {
 	if(this->m_priority == 0 && this->m_probability == 0)
 	{
-		this->m_timeType = TIME_ABS;
+		this->m_timeType = type;
 		this->m_time = time;
+		this->m_timeEnd = time;
+		this->m_status = TRANSITION_OK;
+	}
+	else
+	{
+		this->m_status = TRANSITION_BAD_ARGS;
+	}
+	return this->m_status;
+}
+int SCTransition::SetArgTime(double from,double to,unsigned short type)
+{
+	if(this->m_priority == 0 && this->m_probability == 0)
+	{
+		this->m_timeType = type;
+		this->m_time = from;
+		this->m_timeEnd = to;
 		this->m_status = TRANSITION_OK;
 	}
 	else
@@ -101,6 +126,30 @@ bool SCTransition::IsReadyToRun()
 		}
 	}
 	return status;
+}
+double SCTransition::GetExactTime()
+{
+	double time = 0;
+	if(this->m_time == 0)
+	{
+		return 0;
+	}
+	switch(this->m_timeType)
+	{
+	case TIME_ABS:
+		time = g_time + this->m_time;
+		break;
+	case TIME_EXP:
+		time = g_time + SCGen::GenExp(this->m_time);
+		break;
+	case TIME_POIS:
+		time = g_time + SCGen::GenPoisson(this->m_time);
+		break;
+	case TIME_NORM:
+		time = g_time + SCGen::GenGaus(this->m_time,this->m_timeEnd);
+		break;
+	}
+	return time;
 }
 int SCTransition::Run()
 {

@@ -16,19 +16,20 @@ LIB=ptnet
 PROJECT=xkovac21_xsendl00
 
 # seznam souboru
-OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o
-OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o
+OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o
+OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
 SDIRECTEDARC=directedArc.cpp directedArc.h
 SPLACE=place.cpp place.h
 STRANSITION=transition.cpp transition.h
-SGEN=gen.cc gen.h
-SCALENDAR=calendar.cc calendar.h
-SCALENDARUNIT=calendarUnit.cc calendarUnit.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o
-SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cc calendar.cc calendarUnit.cc
-HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h
+SGEN=gen.cpp gen.h
+SCALENDAR=calendar.cpp calendar.h
+SCALENDARUNIT=calendarUnit.cpp calendarUnit.h
+SPETRISIM=PetriSim.h
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim
+SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cpp calendar.cpp calendarUnit.cpp
+HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h PetriSim.h
 
 # kompilator
 CCM=g++
@@ -109,6 +110,8 @@ soCalendar.o: ${SCALENDAR}
 
 soCalendarUnit.o: ${SCALENDARUNIT}
 	${CCM} ${COBJ} -fPIC $< -o $@
+soPetriSim.o: ${SPETRISIM}
+	${CCM} ${COBJ} -fpic $< -o $@
 
 
 #----------------- STATICKE ----------------------------------------#
@@ -138,6 +141,9 @@ calendar.o: ${SCALENDAR}
 	${CCM} ${COBJ} $< -o $@
 
 calendarUnit.o: ${SCALENDARUNIT}
+	${CCM} ${COBJ} $< -o $@
+
+petriSim.o: ${SPETRISIM}
 	${CCM} ${COBJ} $< -o $@
 
 

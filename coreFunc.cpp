@@ -1,16 +1,20 @@
+#include <iostream>
+#include <iomanip>
 #include "coreFunc.h"
 #include "place.h"
 #include "transition.h"
 #include "directedArc.h"
 #include "calendar.h"
 
-#include <iostream>
-#include <iomanip>
+
 #include <stdio.h>
 std::vector<SCPlace*> g_allPlaces;
 SCCalendar g_eventCal;
 double g_time = 0;
 double g_simLength = 0;
+unsigned int g_transIndex = 0;
+unsigned int g_placeIndex = 0;
+unsigned int g_arcIndex = 0;
 
 int Run()
 {
@@ -50,7 +54,7 @@ int Run()
 			break;
 		}
 		g_time = unit->GetTime();
-		unit->GetPlace()->Run();
+		unit->GetBase()->Run();
 		delete unit;
 	}
 	return 0;
@@ -72,123 +76,235 @@ int TrToPl(SCTransition *start,SCPlace *end,SCDirectedArc *arc)
 	return 0;
 }
 
-void printStat() {
+void PrintStat() {
 
-	
-		for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
-		{
-			//g_allPlaces[i]->;
-		}
-	/* STATSISTIKY CELKEM
-			- pocet mist
-			- pocet prehodu
-			- pocet hran
-			- doba trvani simulatoru
-		MISTO -statsistika kazdeho mista
-			- kapacita
-			- pocatecni stav
-			- koncovy stav
-			- celkovy pocet kulicek na tomto miste
-		PREHOD - statistika kazdeho prechodu
-			- priorita
-			- casovani
-			- inhibicni hrana
-			- pravdepodobnost
-			- pocet preslych kulicek
-		HRANA - statistika kazde hrany
-			- kapacita
-	*/
+	PrintMain();
+	PrintPlace();
+	PrintTransition();
+	PrintDirected();
+}
 
-	int sizePlace = getSizeInt(g_allPlaces.size()) + 3;
+void PrintMain() {
+
 	cout << "******************************** STATISTIKY *****************************" << endl;
-	cout << "*	C" <<endl;
-	cout << "*	E        Pocet mist     : " << g_allPlaces.size() << endl;
-	cout << "*	L        Pocet prechodu : " << endl;
-	cout << "*	K        Pocet hran     : " << endl;
-	cout << "*	E" <<endl;
-	cout << "*	M" <<endl;
+	cout << "*       C" <<endl;
+	cout << "*       E        Pocet mist     : " << g_allPlaces.size() << endl;
+	cout << "*       L        Pocet prechodu : " << endl;
+	cout << "*       K        Pocet hran     : " << endl;
+	cout << "*       E" <<endl;
+	cout << "*       M        Doba trvani simulace : " <<endl;
 	cout << "*" <<endl;
-	cout << "* ---------------------------------- mista -------------------------------" << endl;
+}
+
+void PrintPlace() {
+
+	int sizePlace = GetSizeInt(g_allPlaces.size()) + 3;
+
+	unsigned int sizeCap = GetSizeInt( MaxPlaceCapacity() );
+	unsigned int sizeVal = GetSizeInt( MaxPlaceStartValue() );
+	unsigned int sizeName =  MaxPlaceName();
+	unsigned int sizeEnd = GetSizeInt(1);
+	unsigned int sizeCount = GetSizeInt(1);
+	char capacity[15] = "kapacita";
+	if( sizeCap < strlen(capacity) )
+		sizeCap = strlen(capacity);
+	char value[30] = "konecny stav kulicek";
+	if( sizeVal < strlen(value) )
+		sizeVal = strlen(value); 
+	char name[30] = "jmeno";
+	if( sizeName < strlen(name) )
+		sizeName = strlen(name); 
+	char end[30] = "pocatecni stav";
+	if( sizeEnd < strlen(end) )
+		sizeEnd = strlen(end); 
+	char count[30] = "celkem kulicek";
+	if( sizeCount < strlen(count) )
+		sizeCount = strlen(count); 
+	unsigned int size = sizeCap + sizeVal + sizeName + sizeEnd + sizeCount + 7 + 11 + 6;
+	unsigned int sizeHalf = size/2;
+
+	cout << "* " << setfill('-') << setw(sizeHalf) << "" << " mista " << setw(sizeHalf) << "" << endl;
 	cout << "*" << endl;
-	cout << "*   "<< setfill(' ')<<setw(sizePlace)<<"."<<" | jmeno |"<<setw(12)<<"kapacita"<<" | pocatecni stav | koncovy stav | celkem kulicek"<< endl;
-	cout << "* "<<setw(sizePlace)<<" "<<"..................................................................." <<endl;
-	char p[7] = "MISTA ";
-	int k = 0;
-	int cap = 2;//
-	string space = "       ";// 7
+	cout << "*        " << setfill(' ') << setw(sizePlace) << "." << " | " 
+						<< setw(sizeName) << name << " | " 
+	               << setw(sizeCap) << capacity << " | " 
+						<< setw(sizeVal) << value << " | " 
+						<< setw(sizeEnd) << end << " | "
+						<< setw(sizeCount) << count << endl;
+	cout << "*       " << setw(sizePlace) << " " << setfill('.') << setw(size-sizePlace) << "." << endl;
+
+	char p[10] = "MISTA ";
+	unsigned int k = 0;
 
 	for(unsigned int i = 1; i != g_allPlaces.size(); i++ )
 	{
-		cout << "*  "<< p[k]<<setfill(' ')<<setw(sizePlace)<<i<< " |       |"<<setw(12)<<cap<<" |                |              |               "<< endl;
+		cout << "*       "<< p[k] << setfill(' ') << setw(sizePlace) << i << " | " 
+		                     << setw(sizeName) << g_allPlaces[i]->GetName() << " | "
+									<< setw(sizeCap) << g_allPlaces[i]->GetArgCapacity() << " | "
+									<< setw(sizeVal) << g_allPlaces[i]->GetArgCurrentVal() <<" | " 
+									<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() << " | " 
+									<< setw(sizeCount) << " " << endl;
 		if( k < 5 )
 			k++;
 		else if( i > 8 )
-		{
 			k = 5;
-			if( i > 98 )
-				space = "      ";//6
+	}
+
+	if( strlen(p) > g_allPlaces.size() )
+	{
+		for(;k<strlen(p)-1;k++)
+		{
+			cout << "*       "<< p[k] << endl;
 		}
-		cap = cap *2;
-	//	i/10;
+	}
+
+	cout << "*" <<endl;
+}
+
+void PrintTransition() {
+
+	unsigned int sizePri = GetSizeInt(1);
+	unsigned int sizeTime = GetSizeInt(1);
+	unsigned int sizeInh = GetSizeInt(1);
+	unsigned int sizePro = GetSizeInt(1);
+	unsigned int sizeCount = GetSizeInt(1);
+	unsigned int sizeName =  MaxPlaceName();
+	char priority[15] = "priorita";
+	if( sizePri < strlen(priority) )
+		sizePri = strlen(priority);
+	char time[30] = "cas zpozdeni";
+	if( sizeTime < strlen(time) )
+		sizeTime = strlen(time); 
+	char inhi[30] = "inhibicni prechod";
+	if( sizeInh < strlen(inhi) )
+		sizeInh = strlen(inhi); 
+	char probability[30] = "pravdepodobnost";
+	if( sizePro < strlen(probability) )
+		sizePro = strlen(probability); 
+	char count[10] = "pocet";
+	if( sizeCount < strlen(count) )
+		sizeCount = strlen(count);
+	char name[30] = "jmeno";
+	if( sizeName < strlen(name) )
+		sizeName = strlen(name);
+
+	int sizeT = sizeName + sizePri + sizeTime + sizeInh + sizePro + sizeCount + 6 + 11 + 6;
+	cout << "* " << setfill('-') << setw((sizeT-2)/2) << "" << " prechody " << setw((sizeT-1)/2) << "" << endl;
+	int size= sizeCount;
+	cout << "*" << endl;
+	cout << "*        " << setfill(' ') << setw(size) << "." << " | " 
+						<< setw(sizeName) << name << " | " 
+	               << setw(sizePri) << priority << " | " 
+						<< setw(sizeTime) << time << " | " 
+						<< setw(sizeInh) << inhi << " | "
+						<< setw(sizePro) << probability << " | "
+						<< setw(sizeCount) << count << endl;
+	cout << "*       " << setw(size) << " " << setfill('.') << setw(sizeT-2) << "." << endl;
+	char p1[13] = "PRECHOD  ";
+	unsigned int k = 0;
+	for(unsigned int i = 1; i != g_allPlaces.size(); i++ )
+	{
+		cout << "*       "<< p1[k] << setfill(' ') << setw(size) << "." << " | " 
+								<< setw(sizeName) << name << " | " 
+	               		<< setw(sizePri) << priority << " | " 
+								<< setw(sizeTime) << time << " | " 
+								<< setw(sizeInh) << inhi << " | "
+								<< setw(sizePro) << probability << " | "
+								<< setw(sizeCount) << count << endl;
+		if( k < 6 )
+			k++;
+		else if( i > 7 )
+			k = 7;
 
 	}
+	if( strlen(p1) > g_allPlaces.size() )
+	{
+		for(;k<strlen(p1)-1;k++)
+		{
+			cout << "*       "<< p1[k] << endl;
+		}
+	}
 	cout << "*" <<endl;
-	cout << "* ---------------- prechod ----------------" << endl;
-	cout << "*" << endl;
-	cout << "*	P" << endl;
-	cout << "*	R" << endl;
-	cout << "*	E" << endl;
-	cout << "*	C" << endl;
-	cout << "*	H" << endl;
-	cout << "*	O" << endl;
-	cout << "*	D" << endl;
-	cout << "*" <<endl;
-	cout << "* ----------------- hrana -----------------" << endl;
-	cout << "*" << endl;
-	cout << "*	H" << endl;
-	cout << "*	R" << endl;
-	cout << "*	A" << endl;
-	cout << "*	N" << endl;
-	cout << "*	A" << endl;
-	cout << "*" <<endl;
-	cout << "*******************************************" << endl;
-
-
 }
-int getSizeInt( int i ) {
+
+void PrintDirected() {
+
+	unsigned int sizeWeight = GetSizeInt(1);
+	unsigned int sizeName = MaxPlaceName();
+	int sizeCount = (GetSizeInt(g_allPlaces.size()) + 3);///TODO-pocet prechodu
+	char weight[15] = "vaha";
+	if( sizeWeight < strlen(weight) )
+		sizeWeight = strlen(weight);
+	char name[30] = "jmeno";
+	if( sizeName < strlen(name) )
+		sizeName = strlen(name);
+	int sizeD = sizeName + sizeWeight + 6 + 11 + 6;
+	cout << "* " << setfill('-') << setw((sizeD-2)/2) << "" << " hrany " << setw((sizeD-1)/2) << "" << endl;
+	cout << "*" << endl;
+	cout << "*        " << setfill(' ') << setw(sizeCount) << "." << " | " 
+						<< setw(sizeName) << name << " | " 
+	               << setw(sizeWeight) << weight << endl; 
+	cout << "*       "<<setw(sizeCount) <<"" << setfill('.') << setw(sizeD - sizeCount-10) << "." << endl;
+	char p[13] = "HRANA  ";
+	unsigned int k = 0;
+
+	for(unsigned int i = 1; i != g_allPlaces.size(); i++ )
+	{
+		cout << "*       "<< p[k] << setfill(' ') << setw(sizeCount) << "." << " | " 
+								<< setw(sizeName) << name << " | " 
+	               		<< setw(sizeWeight) << weight << endl;
+		if( k < 4 )
+			k++;
+		else if( i > 5 )
+			k = 5;
+
+	}
+	if( strlen(p) > g_allPlaces.size() )
+	{
+		for( ; k<strlen(p)-1; k++)
+		{
+			cout << "*       "<< p[k] << endl;
+		}
+	}
+	cout << "*" <<endl;
+}
+
+unsigned int GetSizeInt( unsigned int i ) {
 
 	char num[30];
-	sprintf(num, "%i", i);
-	for(int k = 0; k < 30; k++ )
-	{
-		if( num[k] == '\0' )
-			return k;
-	}
+	sprintf(num, "%u", i);
+	return strlen(num);
 }
 
-int maxPlaceCap() {
-
-/*	int size = g_allPlaces[0].GetData();
-	for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
+int MaxPlaceCapacity() {
+	unsigned int size = g_allPlaces[1]->GetArgCapacity();
+	for( unsigned int i = 2; i < g_allPlaces.size(); i++ )
 	{
-		if( size < g_allPlaces[i].GetData())
-			size = g_allPlaces[i].GetData();
+		if( size <= g_allPlaces[i]->GetArgCapacity() )
+			size = g_allPlaces[i]->GetArgCapacity();
 	}
 	return size;
-	*/
-	return 1;
 }
 
-int maxPlaceStartValue() {
-/*
-	int size = g_allPlaces[0].GetData();
-	for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
+int MaxPlaceStartValue() {
+
+	unsigned int size = g_allPlaces[1]->GetArgCurrentVal();
+	for( unsigned int i = 2; i < g_allPlaces.size(); i++ )
 	{
-		if( size < g_allPlaces[i].GetData())
-			size = g_allPlaces[i].GetData();
+		if( size < g_allPlaces[i]->GetArgCurrentVal() )
+			size = g_allPlaces[i]->GetArgCurrentVal();
 	}
 	return size;
-	*/
-	return 1;
+}
+
+int MaxPlaceName() {
+
+	unsigned int size = g_allPlaces[1]->GetName().size();
+	for( unsigned int i = 2; i < g_allPlaces.size(); i++ )
+	{
+		if( size < g_allPlaces[i]->GetName().size() )
+			size = g_allPlaces[i]->GetName().size();
+	}
+	return size;
 }
 

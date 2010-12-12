@@ -3,7 +3,7 @@
 #ifndef CALELEMENT_H__
 #define CALELEMENT_H__
 
-#include "place.h"
+#include "base.h"
 
 
 /**
@@ -12,7 +12,7 @@
 class SCCalendarUnit {
 
 	protected:
-		SCPlace* place;										// misto
+		SCBase* base;										// misto
 		double time;											// cas
 
 	public:
@@ -21,10 +21,10 @@ class SCCalendarUnit {
 
 		/**
 		 * Konstruktor.
-		 * @param[in] <SCPlace*> place misto
+		 * @param[in] <SCBase*> base misto
 		 * @param[in] <doouble> time cas
 		 */
-		SCCalendarUnit( SCPlace* place = 0, double time = 0.0 );
+		SCCalendarUnit( SCBase* base = 0, double time = 0.0 );
 
 		/**
 		 * Kopirovaci konstruktor.
@@ -45,9 +45,9 @@ class SCCalendarUnit {
 
 		/**
 		 * Nastaveni mista.
-		 * @param[in] <SCPlace>
+		 * @param[in] <SCBase>
 		 */
-		void SetPlace( SCPlace* place );
+		void SetBase( SCBase* base );
 
 		/**
 		 * Vraci cas.
@@ -57,9 +57,9 @@ class SCCalendarUnit {
 
 		/**
 		 * Vrati misto.
-		 * @return <SCPlace*> misto
+		 * @return <SCBase*> misto
 		 */
-		SCPlace* GetPlace();
+		SCBase* GetBase();
 
 };
 

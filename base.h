@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "coreFunc.h"
 #include "directedArc.h"
 #include "statusList.h"
 #include "baseData.h"
@@ -12,12 +13,18 @@ class SCBase
 {
 protected:
 	//members
+	string m_name;
+	unsigned int m_id;
 	int m_status;
 	vector<SCDirectedArc*> m_directedArcsFrom;
 	vector<SCDirectedArc*> m_directedArcsTo;
 	SSBaseData *m_data;
 public:
 	//methods
+	string GetName();
+	void SetName(string name);
+	unsigned int GetId();
+	virtual double GetExactTime();
 	virtual int Run();
 	virtual bool IsReadyToRun();
 	virtual SSBaseData* GetData();

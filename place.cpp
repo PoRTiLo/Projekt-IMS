@@ -1,11 +1,18 @@
 #include "place.h"
+#include "calendar.h"
 
 SCPlace::SCPlace()
 {
 	g_allPlaces.push_back(this);
+	this->m_startVal = 0;
 	this->m_capacity = UINT_MAX;
 	this->m_value = 0;
 	this->m_status = PLACE_OK;
+	this->m_lastCommited = NULL;
+	this->m_id = g_placeIndex++;
+	char buff[25];
+	sprintf(buff,"Place %d",this->m_id);
+	this->m_name = buff;
 }
 SCPlace::~SCPlace()
 {
@@ -17,8 +24,13 @@ int SCPlace::SetArgCapacity(unsigned int capacity)
 	this->m_capacity = capacity;
 	return this->m_status;
 }
+unsigned int SCPlace::GetArgStartVal()
+{
+	return this->m_startVal;
+}
 int SCPlace::SetArgStartVal(unsigned int startValue)
 {
+	this->m_startVal = startValue;
 	this->m_value = startValue;
 	return this->m_status;
 }
@@ -124,8 +136,9 @@ int SCPlace::Run()
 						{
 							if(val > SCGenNonDetNum)
 							{
-								if((*it)->GetTarget()->Run() == TRANSITION_OK)
+								if((*it)->GetTarget()->IsReadyToRun())
 								{
+									g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
 									done = true;
 									break;
 								}
@@ -138,8 +151,10 @@ int SCPlace::Run()
 					{
 						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 						{
-							if((*it)->GetTarget()->Run() == TRANSITION_OK)
+							if((*it)->GetTarget()->IsReadyToRun())
 							{
+								g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
+								done = true;
 								break;
 							}
 						}
@@ -149,7 +164,7 @@ int SCPlace::Run()
 			case TRANSITION_PROBAB:
 				{
 					vector<SCDirectedArc*>::iterator it;
-					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
+					int SCGenNonDetNum = 0; /*TODO: vygeneruj cislo od 0-1 a prirad*/
 					double probability = 0;
 					bool ok = true;
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
@@ -323,4 +338,12 @@ int SCPlace::Compare(SCPlace *place)
 		return COMPARE_VALUE;
 
 	return COMPARE_EQUAL;
+}
+SCDirectedArc* SCPlace::GetLastCommitedArc()
+{
+	return this->m_lastCommited;
+}
+void SCPlace::SetLastCommitedArc(SCDirectedArc* directedArc)
+{
+	this->m_lastCommited = directedArc;
 }

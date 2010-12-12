@@ -1,5 +1,9 @@
 #pragma once
 #include "statusList.h"
+#include "coreFunc.h"
+#include <iostream>
+#include <stdio.h>
+using namespace std;
 
 class SCBase;
 //todo dorobit inhibicnu hranu
@@ -11,7 +15,12 @@ private:
 	int m_status;
 	int m_inhib;
 	unsigned int m_weight;
+	unsigned int m_id;
+	string m_name;
 public:
+	string GetName();
+	void SetName(string name);
+	unsigned int GetId();
 	int SetTarget(SCBase *target);
 	int SetStart(SCBase *start);
 	int SetArgWeight(unsigned int weight);
