@@ -2,6 +2,7 @@
 
 SCDirectedArc::SCDirectedArc()
 {
+	g_allDirected.push_back(this);
 	this->m_weight = 1;
 	this->m_status = DIRECTEDARC_OK;
 	this->m_target = NULL;

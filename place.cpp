@@ -262,6 +262,7 @@ int SCPlace::Run()
 }
 void SCPlace::CommitTransNoParam()
 {
+
 	double arraySize = this->m_directedArcsTo.size();
 	double val = 1/arraySize;
 	set<SCBase*> failedRun;
@@ -269,23 +270,23 @@ void SCPlace::CommitTransNoParam()
 	{
 		bool done = false;
 		double genNonDetNum = SCGen::GenNomInterval();
-					vector<SCDirectedArc*>::iterator it;
-					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-					{
+		vector<SCDirectedArc*>::iterator it;
+		for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+		{
 			if(val > genNonDetNum)
-						{
-							if((*it)->GetTarget()->Run() == TRANSITION_OK)
-							{
-								done = true;
-								break;
-							}
+			{
+				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				{
+					done = true;
+					break;
+				}
 				else
 				{
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
-						}
 					}
+				}
 			}
 			val += 1/(double)this->m_directedArcsTo.size();
 		}
@@ -293,29 +294,29 @@ void SCPlace::CommitTransNoParam()
 		{
 			break;
 		}
-					if(!done)
-					{
-						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-						{
-							if((*it)->GetTarget()->Run() == TRANSITION_OK)
-							{
-								break;
-							}
+		if(!done)
+		{
+			for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+			{
+				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				{
+					break;
+				}
 				else
 				{
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
-						}
 					}
 				}
+			}
 		}
 		if(failedRun.size() == this->m_directedArcsTo.size())
 		{
-				break;
-			}
+			break;
 		}
 	}
+}
 SSBaseData* SCPlace::GetData()
 {
 	this->m_data.mode = PLACE_CAP;
@@ -328,6 +329,8 @@ int SCPlace::Action(int code, int param)
 	int ret = ACTION_DEFAULT;
 	if(code == ACTION_TAKE)
 	{
+		if( g_print == true )
+			cout << "<- Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
 		if(m_value - param >= 0)
 		{
 			this->m_value -= param;
@@ -340,9 +343,13 @@ int SCPlace::Action(int code, int param)
 	}
 	else if(code == ACTION_RETURN)
 	{
+		if( g_print == true )
+			cout << "-> Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
 		this->m_value += param;
 		ret = PLACE_RETURNED;
 	}
+	if( g_print == true )
+		cout << " zmenilo svou kapacitu na: '"<<m_value << "'";
 	return ret;
 }
 unsigned int SCPlace::GetArgCapacity()
@@ -378,3 +385,5 @@ void SCPlace::SetLastCommitedArc(SCDirectedArc* directedArc)
 {
 	this->m_lastCommited = directedArc;
 }
+
+

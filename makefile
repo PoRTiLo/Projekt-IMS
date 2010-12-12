@@ -16,8 +16,8 @@ LIB=ptnet
 PROJECT=xkovac21_xsendl00
 
 # seznam souboru
-OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o
-OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o
+OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o
+OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
 SDIRECTEDARC=directedArc.cpp directedArc.h
@@ -27,9 +27,10 @@ SGEN=gen.cpp gen.h
 SCALENDAR=calendar.cpp calendar.h
 SCALENDARUNIT=calendarUnit.cpp calendarUnit.h
 SPETRISIM=PetriSim.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim
-SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cpp calendar.cpp calendarUnit.cpp
-HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h PetriSim.h
+SSTATS=stats.cpp stats.h
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim soStats.o
+SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cpp calendar.cpp calendarUnit.cpp stats.cpp
+HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h PetriSim.h stats.h
 
 # kompilator
 CCM=g++
@@ -62,6 +63,18 @@ all:  ${PROGRAM} ${PROGRAM}-dynamic
 # spusti priklad
 run:
 	./${PROGRAM}
+
+# spusti priklad bez vypisu
+run-nostat:
+	./${PROGRAM} -nostat
+
+# statistika jednotlivych kroku
+run-stat:
+	./${PROGRAM} -stat
+
+# konecna souhrna statistika
+run-allstat:
+	./${PROGRAM} -allstat
 
 # spusteni s dynamickou knihovnou
 run-dynamic:
@@ -110,9 +123,12 @@ soCalendar.o: ${SCALENDAR}
 
 soCalendarUnit.o: ${SCALENDARUNIT}
 	${CCM} ${COBJ} -fPIC $< -o $@
+
 soPetriSim.o: ${SPETRISIM}
 	${CCM} ${COBJ} -fpic $< -o $@
 
+soStats.o: ${SSTATS}
+	${CCM} ${COBJ} -fpic $< -o $@
 
 #----------------- STATICKE ----------------------------------------#
 ${LIB}.a: ${OBJ}
@@ -146,6 +162,8 @@ calendarUnit.o: ${SCALENDARUNIT}
 petriSim.o: ${SPETRISIM}
 	${CCM} ${COBJ} $< -o $@
 
+stats.o: ${SSTATS}
+	${CCM} ${COBJ} $< -o $@
 
 #------------------ SMAZANI souboru ---------------------------------#
 

@@ -47,7 +47,7 @@
 #define PLACE_SUCC 4
 #define PLACE_FAIL 5
 //time types
-#define TIME_ABS -1
+#define TIME_ABS 9
 #define TIME_EXP 0
 #define TIME_POIS 1
 #define TIME_NORM 2

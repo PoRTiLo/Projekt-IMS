@@ -6,7 +6,7 @@
 #include "statusList.h"
 #include "baseData.h"
 #include "gen.h"
-
+#include <cstring>
 using namespace std;
 
 class SCBase

@@ -75,3 +75,4 @@ unsigned int SCBase::GetId()
 {
 	return this->m_id;
 }
+

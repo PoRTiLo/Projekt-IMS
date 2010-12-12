@@ -22,6 +22,22 @@ unsigned int SCTransition::GetTotalPassed()
 {
 	return 0; //TODO: not implemented yet
 }
+unsigned int SCTransition::GetPriority()
+{
+	return this->m_priority;
+}
+unsigned int SCTransition::GetProbability()
+{
+	return this->m_probability;
+}
+unsigned short SCTransition::GetTimeType()
+{
+	return this->m_timeType;
+}
+double SCTransition::GetTime()
+{
+	return this->m_time;
+}
 int SCTransition::SetArgPrio(unsigned int prio)
 {
 	if(this->m_probability == 0 && this->m_time == 0)
@@ -116,7 +132,7 @@ bool SCTransition::IsReadyToRun()
 				this->m_status = TRANSITION_BAD_DATA;
 				return false;
 			}
-			int a = sizeof(unsigned int);
+		//	int a = sizeof(unsigned int);
 			memcpy(&value,data->data,sizeof(int));
 			memcpy(&capacity,data->data + sizeof(int),sizeof(int));
 			if(capacity < (*it)->GetArgWeight() + value)
@@ -170,6 +186,8 @@ int SCTransition::Run()
 					this->m_status = TRANSITION_ACTION_FAIL;
 					return this->m_status;
 				}
+				if( g_print == true )
+					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
 			}
 			for(it=this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 			{
@@ -178,13 +196,15 @@ int SCTransition::Run()
 					this->m_status = TRANSITION_ACTION_FAIL;
 					return this->m_status;
 				}
+				if( g_print == true )
+					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
 				(*it)->GetTarget()->Run();
 			}
 			if(this->m_directedArcsFrom.empty() && this->m_time != 0)
 			{
 				g_eventCal.Insert(this,this->GetExactTime());
+			}
 		}
-	}
 	}
 	else
 	{
@@ -220,3 +240,4 @@ SSBaseData* SCTransition::GetData()
 	}
 	return &this->m_data;
 }
+

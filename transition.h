@@ -18,6 +18,10 @@ protected:
 	//methods
 public:
 	unsigned int GetTotalPassed();
+	unsigned int GetPriority();
+	unsigned int GetProbability();
+	unsigned short GetTimeType();
+	double GetTime();
 	virtual double GetExactTime();
 	virtual int Run();
 	virtual bool IsReadyToRun();
