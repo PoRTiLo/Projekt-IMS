@@ -8,6 +8,7 @@ class SCDirectedArc;
 class SCCalendar;
 
 extern std::vector<SCPlace*> g_allPlaces;
+extern std::vector<SCTransition*> g_allTrans;
 extern double g_time;
 extern SCCalendar g_eventCal;
 extern unsigned int g_transIndex;

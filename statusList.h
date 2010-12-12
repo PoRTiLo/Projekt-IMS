@@ -1,12 +1,13 @@
 #pragma once
 #define NULL 0
 //transition defines
-#define TRANSITION_OK 0
+#define TRANSITION_OK 0								//prechod v poriadku
 #define TRANSITION_BAD_ARGS -1
 #define TRANSITION_UNCLEAR_PATH -2
 #define TRANSITION_SIM_END 1
 #define TRANSITION_BAD_DATA -3
-#define TRANSITION_ACTION_FAIL -4
+#define TRANSITION_ACTION_FAIL -4					//nepodarilo sa odobrat gulicky miestu
+#define TRANSITION_NOT_RUN -5						//transakcia nemoze prebehnut z dovodu nedostatku guliciek
 //place defines
 #define PLACE_OK 0
 #define PLACE_BAD_ARGS -1
@@ -54,4 +55,4 @@
 #define COMPARE_EQUAL 0								//scplaces are equal
 #define COMPARE_VALUE 1								//value not same
 #define COMPARE_CAP 2								//capacity not same
-
+#define COMPARE_ID 3								//id not same

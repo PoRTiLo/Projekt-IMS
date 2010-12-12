@@ -5,10 +5,12 @@
 #include "transition.h"
 #include "directedArc.h"
 #include "calendar.h"
+#include <limits.h>
 
 
 #include <stdio.h>
 std::vector<SCPlace*> g_allPlaces;
+std::vector<SCTransition*> g_allTrans;
 SCCalendar g_eventCal;
 double g_time = 0;
 double g_simLength = 0;
@@ -18,32 +20,21 @@ unsigned int g_arcIndex = 0;
 
 int Run()
 {
-	/*
-	vector<SCPlace*>::iterator it;
-	int result;
-	while(1)
+	if(g_simLength == 0)
 	{
-		result = PLACE_EMPTY;
-		//for(it=g_allPlaces.begin();it!=g_allPlaces.end();it++)
-		for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
-		{
-			int partialResult = g_allPlaces[i]->Run();//(*it)->Run();
-			if(partialResult == PLACE_SUCC || PLACE_SIM_END)
-			{
-				result = partialResult;
+		g_simLength = numeric_limits<double>::max();
 			}
-		}
-		if(result == PLACE_EMPTY)
+	std::vector<SCTransition*>::iterator it;
+	for(it = g_allTrans.begin(); it < g_allTrans.end(); it++)
 		{
-			break;
+		if((*it)->GetDirectedArcsFrom()->empty())
+			g_eventCal.Insert(*it,g_time);
 		}
-		//todo - dorobit zaciatok simulacie a vyhdzovanie sa z vectoru v placech v pripade 0 guliciek
-	}
-	*/
+
 	SCCalendarUnit *unit = NULL;
 	while(g_time < g_simLength)
 	{
-		unit = g_eventCal.GetFirst();
+		unit = g_eventCal.GetNextUnit();
 		if(unit == NULL)
 		{
 			break;

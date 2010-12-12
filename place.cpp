@@ -1,5 +1,6 @@
 #include "place.h"
 #include "calendar.h"
+#include <set>
 
 SCPlace::SCPlace()
 {
@@ -12,26 +13,21 @@ SCPlace::SCPlace()
 	this->m_id = g_placeIndex++;
 	char buff[25];
 	sprintf(buff,"Place %d",this->m_id);
-	this->m_name = buff;
+	this->m_name = string(buff);
 }
 SCPlace::~SCPlace()
 {
-	if(this->m_data != NULL)
-		delete this->m_data;
 }
 int SCPlace::SetArgCapacity(unsigned int capacity)
 {
 	this->m_capacity = capacity;
 	return this->m_status;
 }
-unsigned int SCPlace::GetArgStartVal()
-{
-	return this->m_startVal;
-}
 int SCPlace::SetArgStartVal(unsigned int startValue)
 {
 	this->m_startVal = startValue;
 	this->m_value = startValue;
+	g_eventCal.Insert(this,g_time);
 	return this->m_status;
 }
 int SCPlace::Run()
@@ -74,7 +70,7 @@ int SCPlace::Run()
 			{
 			case TRANSITION_WAIT:
 				{
-					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
+					double genNonDetNum = SCGen::GenNomInterval();
 					vector<SCDirectedArc*>::iterator it;
 					bool done = false;
 					vector<SCBase*> nullTimeVec;
@@ -105,7 +101,7 @@ int SCPlace::Run()
 					//nulovy cas non determin
 					for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
 					{
-						if(val > SCGenNonDetNum)
+						if(val > genNonDetNum)
 						{
 							if((*itN)->Run() == TRANSITION_OK)
 							{
@@ -134,7 +130,7 @@ int SCPlace::Run()
 					{
 						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 						{
-							if(val > SCGenNonDetNum)
+							if(val > genNonDetNum)
 							{
 								if((*it)->GetTarget()->IsReadyToRun())
 								{
@@ -164,14 +160,14 @@ int SCPlace::Run()
 			case TRANSITION_PROBAB:
 				{
 					vector<SCDirectedArc*>::iterator it;
-					int SCGenNonDetNum = 0; /*TODO: vygeneruj cislo od 0-1 a prirad*/
+					double genNonDetNum = SCGen::GenNomInterval();
 					double probability = 0;
 					bool ok = true;
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 					{
 						double currentProb = 0;
 						SSBaseData *data = (*it)->GetTarget()->GetData();
-						memcpy(&currentProb,&data->data,sizeof(double));
+						memcpy(&currentProb,data->data,sizeof(double));
 						probability += currentProb;
 						if(probability > 100)
 						{
@@ -189,9 +185,9 @@ int SCPlace::Run()
 						{
 							double currentProb = 0;
 							SSBaseData *data = (*it)->GetTarget()->GetData();
-							memcpy(&currentProb,&data->data,sizeof(double));
+							memcpy(&currentProb,data->data,sizeof(double));
 							probability += currentProb;
-							if(SCGenNonDetNum < probability/100)
+							if(genNonDetNum < probability/100)
 							{
 								if((*it)->GetTarget()->Run() == TRANSITION_OK)
 								{
@@ -221,8 +217,8 @@ int SCPlace::Run()
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 					{
 						SSBaseData *data = (*it)->GetTarget()->GetData();
-						int prio;
-						memcpy(&prio,&data->data,sizeof(int));
+						unsigned int prio;
+						memcpy(&prio,data->data,sizeof(int));
 						SSPrioData ref;
 						ref.prio = prio;
 						ref.target = (*it)->GetTarget();
@@ -256,23 +252,47 @@ int SCPlace::Run()
 				break;
 			case TRANSITION_NOPARAM:
 				{	
-					int SCGenNonDetNum = 0; /*TODO: vySCGeneruj cislo od 0-1 a prirad*/
-					int arraySize = this->m_directedArcsTo.size();
-					int val = 1/arraySize;
+					this->CommitTransNoParam();
+				}
+				break;
+			}
+		}
+	}
+	return ret;
+}
+void SCPlace::CommitTransNoParam()
+{
+	double arraySize = this->m_directedArcsTo.size();
+	double val = 1/arraySize;
+	set<SCBase*> failedRun;
+	while(1)
+	{
+		bool done = false;
+		double genNonDetNum = SCGen::GenNomInterval();
 					vector<SCDirectedArc*>::iterator it;
-					bool done = false;
 					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 					{
-						if(val > SCGenNonDetNum)
+			if(val > genNonDetNum)
 						{
 							if((*it)->GetTarget()->Run() == TRANSITION_OK)
 							{
 								done = true;
 								break;
 							}
+				else
+				{
+					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
+					{
+						failedRun.insert((*it)->GetTarget());
 						}
-						val += 1/this->m_directedArcsTo.size();
 					}
+			}
+			val += 1/(double)this->m_directedArcsTo.size();
+		}
+		if(failedRun.size() == this->m_directedArcsTo.size())
+		{
+			break;
+		}
 					if(!done)
 					{
 						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
@@ -281,23 +301,27 @@ int SCPlace::Run()
 							{
 								break;
 							}
+				else
+				{
+					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
+					{
+						failedRun.insert((*it)->GetTarget());
 						}
 					}
 				}
+		}
+		if(failedRun.size() == this->m_directedArcsTo.size())
+		{
 				break;
 			}
 		}
 	}
-	return ret;
-}
 SSBaseData* SCPlace::GetData()
 {
-	this->m_data = new SSBaseData;
-	m_data->mode = PLACE_CAP;
-	memset(m_data->data,0,8);
-	memcpy(&m_data->data,&this->m_value,sizeof(int));
-	memcpy(&m_data->data + sizeof(int),&this->m_capacity,sizeof(int));
-	return this->m_data;
+	this->m_data.mode = PLACE_CAP;
+	memcpy(m_data.data,&this->m_value,sizeof(int));
+	memcpy(m_data.data + sizeof(int),&this->m_capacity,sizeof(int));
+	return &this->m_data;
 }
 int SCPlace::Action(int code, int param)
 {
@@ -329,8 +353,15 @@ unsigned int SCPlace::GetArgCurrentVal()
 {
 	return this->m_value;
 }
+unsigned int SCPlace::GetArgStartVal()
+{
+	return this->m_startVal;
+}
 int SCPlace::Compare(SCPlace *place)
 {
+	if(this->m_id != place->GetId())
+		return COMPARE_ID;
+
 	if(this->m_capacity != place->GetArgCapacity())
 		return COMPARE_CAP;
 

@@ -24,7 +24,7 @@ public:
 	int SetTarget(SCBase *target);
 	int SetStart(SCBase *start);
 	int SetArgWeight(unsigned int weight);
-	int GetArgWeight();
+	unsigned int GetArgWeight();
 	int SetArgInhib();
 	int GetArgInhib();
 	SCBase* GetTarget();

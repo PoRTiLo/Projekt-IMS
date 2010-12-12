@@ -117,7 +117,7 @@ class SCCalendar
 		 * Vrati prvnio prvek kalendare a smaze jej z nej.
 		 * @return <SCCalendarUnit> Vrati dalsi prvek kalendare.
 		 */
-		SCCalendarUnit GetNextUnit();
+		SCCalendarUnit *GetNextUnit();
 
 };
 

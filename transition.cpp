@@ -1,7 +1,9 @@
 #include "transition.h"
+#include "calendar.h"
 
 SCTransition::SCTransition()
 {
+	g_allTrans.push_back(this);
 	this->m_timeType = TIME_ABS;
 	this->m_priority = 0;
 	this->m_probability = 0;
@@ -15,8 +17,6 @@ SCTransition::SCTransition()
 }
 SCTransition::~SCTransition()
 {
-	if(this->m_data != NULL)
-		delete this->m_data;
 }
 unsigned int SCTransition::GetTotalPassed()
 {
@@ -37,7 +37,7 @@ int SCTransition::SetArgPrio(unsigned int prio)
 }
 int SCTransition::SetArgProbability(double probability)
 {
-	if(this->m_priority == 0 && this->m_time == 0)
+	if(this->m_priority == 0 && this->m_time == 0 && probability <= 100)
 	{
 		this->m_probability = probability;
 		this->m_status = TRANSITION_OK;
@@ -86,7 +86,7 @@ bool SCTransition::IsReadyToRun()
 	for(it = this->m_directedArcsFrom.begin();it<this->m_directedArcsFrom.end();it++)
 	{
 		data = (*it)->GetStart()->GetData();
-		int value = 0;
+		unsigned int value = 0;
 		if(data->mode != PLACE_CAP)
 		{
 			this->m_status = TRANSITION_BAD_DATA;
@@ -109,15 +109,16 @@ bool SCTransition::IsReadyToRun()
 		for(it=this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 		{
 			data = (*it)->GetTarget()->GetData();
-			int capacity = 0;
-			int value = 0;
+			unsigned int value = 0;
+			unsigned int capacity = 0;
 			if(data->mode != PLACE_CAP)
 			{
 				this->m_status = TRANSITION_BAD_DATA;
 				return false;
 			}
+			int a = sizeof(unsigned int);
 			memcpy(&value,data->data,sizeof(int));
-			memcpy(&capacity,data->data+sizeof(int),sizeof(int));
+			memcpy(&capacity,data->data + sizeof(int),sizeof(int));
 			if(capacity < (*it)->GetArgWeight() + value)
 			{
 				status = false;
@@ -179,37 +180,43 @@ int SCTransition::Run()
 				}
 				(*it)->GetTarget()->Run();
 			}
+			if(this->m_directedArcsFrom.empty() && this->m_time != 0)
+			{
+				g_eventCal.Insert(this,this->GetExactTime());
 		}
+	}
+	}
+	else
+	{
+		return TRANSITION_NOT_RUN;
 	}
 	return this->m_status;
 }
 SSBaseData* SCTransition::GetData()
 {
-	this->m_data = new SSBaseData;
-	memset(&this->m_data->data,0,8);
-	this->m_data->mode = BASE_DEFAULT;
+	this->m_data.mode = BASE_DEFAULT;
 	if(this->m_status == TRANSITION_OK)
 	{
 
 		if(this->m_time != 0)
 		{
-			this->m_data->mode = TRANSITION_WAIT;
-			memcpy(&this->m_data->data,&this->m_time,sizeof(double));
+			this->m_data.mode = TRANSITION_WAIT;
+			memcpy(this->m_data.data,&this->m_time,sizeof(double));
 		}
 		else if(this->m_priority != 0)
 		{
-			this->m_data->mode = TRANSITION_PRIO;
-			memcpy(&this->m_data->data,&this->m_priority,sizeof(int));
+			this->m_data.mode = TRANSITION_PRIO;
+			memcpy(this->m_data.data,&this->m_priority,sizeof(int));
 		}
 		else if(this->m_probability != 0)
 		{
-			this->m_data->mode = TRANSITION_PROBAB;
-			memcpy(&this->m_data->data,&this->m_probability,sizeof(double));
+			this->m_data.mode = TRANSITION_PROBAB;
+			memcpy(this->m_data.data,&this->m_probability,sizeof(double));
 		}
 		else if(this->m_probability == 0 && this->m_priority == 0 && this->m_time == 0)
 		{
-			this->m_data->mode = TRANSITION_NOPARAM;
+			this->m_data.mode = TRANSITION_NOPARAM;
 		}
 	}
-	return this->m_data;
+	return &this->m_data;
 }

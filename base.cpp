@@ -1,7 +1,7 @@
 #include "base.h"
 SSBaseData* SCBase::GetData()
 {
-	return this->m_data;
+	return &this->m_data;
 }
 int SCBase::GetStatus()
 {
@@ -63,16 +63,13 @@ vector<SCDirectedArc*>* SCBase::GetDirectedArcsFrom()
 }
 SCBase::SCBase()
 {
+	memset(&m_data.data,0,8);
 	this->m_name = "Base default name, do not use this class!";
 	this->m_id = 0;
-	this->m_data = NULL;
 	this->m_status = BASE_OK;
 }
 SCBase::~SCBase()
 {
-	if(this->m_data != NULL)
-		//delete this->m_data;
-		;
 }
 unsigned int SCBase::GetId()
 {

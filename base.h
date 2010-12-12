@@ -18,7 +18,7 @@ protected:
 	int m_status;
 	vector<SCDirectedArc*> m_directedArcsFrom;
 	vector<SCDirectedArc*> m_directedArcsTo;
-	SSBaseData *m_data;
+	SSBaseData m_data;
 public:
 	//methods
 	string GetName();

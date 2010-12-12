@@ -10,6 +10,12 @@
 
 class SCPlace : public SCBase
 {
+private:
+	void CommitTransNoParam();
+	void CommitTransTime();
+	void CommitTransPrio();
+	void CommitTransProbab();
+
 protected:
 	//members
 	unsigned int m_capacity;

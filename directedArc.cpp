@@ -41,7 +41,7 @@ int SCDirectedArc::SetArgInhib()
 	this->m_inhib = DIRECTEDARC_INHIB;
 	return this->m_status;
 }
-int SCDirectedArc::GetArgWeight()
+unsigned int SCDirectedArc::GetArgWeight()
 {
 	return this->m_weight;
 }
