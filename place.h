@@ -33,6 +33,7 @@ protected:
 	unsigned int m_capacity;
 	unsigned int m_value;
 	unsigned int m_startVal;
+	unsigned int m_total;
 	SCDirectedArc *m_lastCommited;
 public:
 	//methods
@@ -47,6 +48,7 @@ public:
 	unsigned int GetArgCapacity();
 	unsigned int GetArgCurrentVal();
 	unsigned int GetArgStartVal();
+	unsigned int GetArgTotal();
 	SCPlace();
 	virtual ~SCPlace();
 };

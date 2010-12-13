@@ -20,6 +20,7 @@ SCPlace::SCPlace()
 	this->m_startVal = 0;
 	this->m_capacity = UINT_MAX;
 	this->m_value = 0;
+	this->m_total = 0;
 	this->m_status = PLACE_OK;
 	this->m_lastCommited = NULL;
 	this->m_id = g_placeIndex++;
@@ -38,6 +39,7 @@ int SCPlace::SetArgCapacity(unsigned int capacity)
 int SCPlace::SetArgStartVal(unsigned int startValue)
 {
 	this->m_startVal = startValue;
+	this->m_total = startValue;
 	this->m_value = startValue;
 	g_eventCal.Insert(this,g_time);
 	return this->m_status;
@@ -342,7 +344,7 @@ int SCPlace::Action(int code, int param)
 	if(code == ACTION_TAKE)
 	{
 		if( g_print == true )
-			cout << "<- Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
+			cout << "time: '" << g_time << "' <-- Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
 		if(m_value - param >= 0)
 		{
 			this->m_value -= param;
@@ -356,8 +358,9 @@ int SCPlace::Action(int code, int param)
 	else if(code == ACTION_RETURN)
 	{
 		if( g_print == true )
-			cout << "-> Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
+			cout << "time: '" << g_time << "' --> Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
 		this->m_value += param;
+		this->m_total++;
 		ret = PLACE_RETURNED;
 	}
 	if( g_print == true )
@@ -398,4 +401,7 @@ void SCPlace::SetLastCommitedArc(SCDirectedArc* directedArc)
 	this->m_lastCommited = directedArc;
 }
 
+unsigned int SCPlace::GetArgTotal() {
 
+	return this->m_total;
+}

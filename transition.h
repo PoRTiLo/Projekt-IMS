@@ -24,12 +24,15 @@ class SCTransition : public SCBase
 protected:
 	unsigned short m_timeType;
 	unsigned int m_priority;
+	unsigned int m_totalOut;
+	unsigned int m_totalIn;
 	double m_time;
 	double m_timeEnd;
 	double m_probability;
 	//methods
 public:
-	unsigned int GetTotalPassed();
+	unsigned int GetTotalPassedIn();
+	unsigned int GetTotalPassedOut();
 	unsigned int GetPriority();
 	unsigned int GetProbability();
 	unsigned short GetTimeType();

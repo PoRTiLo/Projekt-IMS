@@ -23,17 +23,22 @@ void SCStat::PrintStatAll() {
 	PrintPlace();
 	PrintTransition();
 	PrintDirected();
+	PrintEnd();
 }
 
+void SCStat::PrintEnd() {
+
+	cout << "********************************** ********** *******************************" << endl;
+}
 void SCStat::PrintMain() {
 	cout << endl << endl;
-	cout << "******************************** STATISTIKY *****************************" << endl;
+	cout << "********************************** STATISTIKY *******************************" << endl;
 	cout << "*       C" <<endl;
 	cout << "*       E        Pocet mist     : " << g_allPlaces.size() << endl;
 	cout << "*       L        Pocet prechodu : " << g_allTrans.size() << endl;
 	cout << "*       K        Pocet hran     : " << g_allDirected.size() << endl;
 	cout << "*       E" <<endl;
-	cout << "*       M        Doba trvani simulace : " <<endl;
+	cout << "*       M        Doba trvani simulace : " << g_time  <<endl;
 	cout << "*" <<endl;
 }
 
@@ -43,9 +48,9 @@ void SCStat::PrintPlace() {
 
 	unsigned int sizeCap = GetSizeInt( MaxPlaceCapacity() );
 	unsigned int sizeVal = GetSizeInt( MaxPlaceStartValue() );
+	unsigned int sizeCount = GetSizeInt( MaxPlaceTotal() );
 	unsigned int sizeName =  MaxPlaceName();
 	unsigned int sizeEnd = GetSizeInt(1);
-	unsigned int sizeCount = GetSizeInt(1);
 	char capacity[15] = "kapacita";
 	if( sizeCap < strlen(capacity) )
 		sizeCap = strlen(capacity);
@@ -69,8 +74,8 @@ void SCStat::PrintPlace() {
 	cout << "*        " << setfill(' ') << setw(sizePlace) << "." << " | " 
 						<< setw(sizeName) << name << " | " 
 	               << setw(sizeCap) << capacity << " | " 
-						<< setw(sizeVal) << value << " | " 
-						<< setw(sizeEnd) << end << " | "
+						<< setw(sizeEnd) << end << " | " 
+						<< setw(sizeVal) << value << " | "
 						<< setw(sizeCount) << count << endl;
 	cout << "*       " << setw(sizePlace) << " " << setfill('.') << setw(size-sizePlace) << "." << endl;
 
@@ -82,9 +87,9 @@ void SCStat::PrintPlace() {
 		cout << "*       "<< p[k] << setfill(' ') << setw(sizePlace) << i+1 << " | " 
 		                     << setw(sizeName) << g_allPlaces[i]->GetName() << " | "
 									<< setw(sizeCap) << g_allPlaces[i]->GetArgCapacity() << " | "
-									<< setw(sizeVal) << g_allPlaces[i]->GetArgCurrentVal() <<" | " 
-									<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() << " | " 
-									<< setw(sizeCount) << " " << endl;
+									<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() <<" | " 
+									<< setw(sizeVal) << g_allPlaces[i]->GetArgCurrentVal() << " | " 
+									<< setw(sizeCount) << g_allPlaces[i]->GetArgTotal() << endl;
 		if( k < 5 )
 			k++;
 		else if( i > 8 )
@@ -107,7 +112,8 @@ void SCStat::PrintTransition() {
 	unsigned int sizePri = GetSizeInt( MaxTransitionPriority() );
 	unsigned int sizeTime = 0;
 	unsigned int sizePro = GetSizeInt( MaxTransitionProbability() );
-	unsigned int sizeCount = GetSizeInt( MaxTransitionTotalPassed() );
+	unsigned int sizeCount = GetSizeInt( MaxTransitionTotalPassedOut() );
+	unsigned int sizeCountIn = GetSizeInt( MaxTransitionTotalPassedIn() );
 	int sizeTrans = GetSizeInt(g_allTrans.size()) + 3;
 	unsigned int sizeName =  MaxTransitionName();
 	char priority[15] = "priorita";
@@ -118,15 +124,18 @@ void SCStat::PrintTransition() {
 		sizeTime = strlen(time); 
 	char probability[30] = "pravdepodobnost";
 	if( sizePro < strlen(probability) )
-		sizePro = strlen(probability); 
-	char count[19] = "pocet kulicek";
+		sizePro = strlen(probability);
+	char countIn[19] = "pocet k. dovnitr";
+	if( sizeCountIn < strlen(countIn) )
+		sizeCountIn = strlen(countIn);
+	char count[19] = "pocet k. ven";
 	if( sizeCount < strlen(count) )
 		sizeCount = strlen(count);
 	char name[30] = "jmeno";
 	if( sizeName < strlen(name) )
 		sizeName = strlen(name);
 
-	int sizeT = sizeName + sizePri + sizeTime +  sizePro + sizeCount + 2 + 11 + 6;
+	int sizeT = sizeName + sizePri + sizeTime +  sizePro + sizeCount + sizeCountIn + 6 + 11 + 6;
 	cout << "* " << setfill('-') << setw((sizeT-2)/2) << "" << " prechody " << setw((sizeT-1)/2) << "" << endl;
 	cout << "*" << endl;
 	cout << "*        " << setfill(' ') << setw(sizeTrans) << "." << " | " 
@@ -134,9 +143,10 @@ void SCStat::PrintTransition() {
 	               << setw(sizePri) << priority << " | " 
 						<< setw(sizeTime) << time << " | " 
 						<< setw(sizePro) << probability << " | "
+						<< setw(sizeCountIn) << countIn << " | "
 						<< setw(sizeCount) << count << endl;
 	cout << "*       " << setw(sizeTrans) << " " << setfill('.') << setw(sizeT-2) << "." << endl;
-	char p1[13] = "PRECHOD  ";
+	char p1[10] = "PRECHOD ";
 	unsigned int k = 0;
 	for(unsigned int i = 0; i != g_allTrans.size(); i++ )
 	{
@@ -145,16 +155,17 @@ void SCStat::PrintTransition() {
 	               		<< setw(sizePri) << g_allTrans[i]->GetPriority() << " | " 
 								<< setw(sizeTime) << GetTransitionTime(i) << " | " 
 								<< setw(sizePro) << g_allTrans[i]->GetProbability() << " | "
-								<< setw(sizeCount) << g_allTrans[i]->GetTotalPassed() << endl;
-		if( k < 6 )
+								<< setw(sizeCountIn) << g_allTrans[i]->GetTotalPassedIn() << " | "
+								<< setw(sizeCount) << g_allTrans[i]->GetTotalPassedOut() << endl;
+		if( k < 7 )
 			k++;
-		else if( i > 7 )
-			k = 7;
+		else if( i > 8 )
+			k = 8;
 
 	}
-	if( strlen(p1) > g_allPlaces.size() )
+	if( strlen(p1) > g_allTrans.size() )
 	{
-		for(;k<strlen(p1)-1;k++)
+		for(; k<strlen(p1)-1; k++)
 		{
 			cout << "*       "<< p1[k] << endl;
 		}
@@ -240,12 +251,22 @@ int SCStat::MaxTransitionProbability() {
 	return size;
 }
 
-int SCStat::MaxTransitionTotalPassed() {
-	unsigned int size = g_allTrans[0]->GetTotalPassed();
+int SCStat::MaxTransitionTotalPassedIn() {
+	unsigned int size = g_allTrans[0]->GetTotalPassedIn();
 	for( unsigned int i = 1; i < g_allTrans.size(); i++ )
 	{
-		if( size <= g_allTrans[i]->GetTotalPassed() )
-			size = g_allTrans[i]->GetTotalPassed();
+		if( size <= g_allTrans[i]->GetTotalPassedIn() )
+			size = g_allTrans[i]->GetTotalPassedIn();
+	}
+	return size;
+}
+
+int SCStat::MaxTransitionTotalPassedOut() {
+	unsigned int size = g_allTrans[0]->GetTotalPassedOut();
+	for( unsigned int i = 1; i < g_allTrans.size(); i++ )
+	{
+		if( size <= g_allTrans[i]->GetTotalPassedOut() )
+			size = g_allTrans[i]->GetTotalPassedOut();
 	}
 	return size;
 }
@@ -257,6 +278,17 @@ int SCStat::MaxPlaceStartValue() {
 	{
 		if( size < g_allPlaces[i]->GetArgCurrentVal() )
 			size = g_allPlaces[i]->GetArgCurrentVal();
+	}
+	return size;
+}
+
+int SCStat::MaxPlaceTotal() {
+
+	unsigned int size = g_allPlaces[0]->GetArgTotal();
+	for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
+	{
+		if( size < g_allPlaces[i]->GetArgTotal() )
+			size = g_allPlaces[i]->GetArgTotal();
 	}
 	return size;
 }

@@ -20,6 +20,8 @@ SCTransition::SCTransition()
 	this->m_priority = 0;
 	this->m_probability = 0;
 	this->m_time = 0;
+	this->m_totalIn = 0;
+	this->m_totalOut = 0;
 	this->m_status = TRANSITION_OK;
 	this->m_id  = g_transIndex++;
 	this->m_timeEnd = 0;
@@ -30,9 +32,13 @@ SCTransition::SCTransition()
 SCTransition::~SCTransition()
 {
 }
-unsigned int SCTransition::GetTotalPassed()
+unsigned int SCTransition::GetTotalPassedOut()
 {
-	return 0; //TODO: not implemented yet
+	return this->m_totalOut; //TODO: not implemented yet
+}
+unsigned int SCTransition::GetTotalPassedIn()
+{
+	return this->m_totalIn;
 }
 unsigned int SCTransition::GetPriority()
 {
@@ -198,6 +204,7 @@ int SCTransition::Run()
 					this->m_status = TRANSITION_ACTION_FAIL;
 					return this->m_status;
 				}
+				this->m_totalIn++;
 				if( g_print == true )
 					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
 			}
@@ -208,6 +215,7 @@ int SCTransition::Run()
 					this->m_status = TRANSITION_ACTION_FAIL;
 					return this->m_status;
 				}
+				this->m_totalOut++;
 				if( g_print == true )
 					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
 				(*it)->GetTarget()->Run();

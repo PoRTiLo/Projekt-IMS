@@ -48,6 +48,12 @@ class SCStat
 		static int MaxPlaceStartValue();
 
 		/**
+		 * Zjisti nejvetsi pocet vsech kulicek v miste.
+		 * @return <int> nejvetsi pocet vsech kulicek.
+		 */
+		 static int MaxPlaceTotal();
+
+		/**
 		 * Zjisti nejdelsi jmeno mista.
 		 * @return <int> pocet znaku nejvetsiho jmena mista.
 		 */
@@ -72,10 +78,16 @@ class SCStat
 		static int MaxTransitionName();
 
 		/**
-		 * Zjisti nejvetsi pocet proslych kulicek pres misto.
+		 * Zjisti nejvetsi pocet proslych kulicek pres prechod.
 		 * @return <int> nejvetsi pocet kulicek proslych pres prechod.
 		 */
-		static int MaxTransitionTotalPassed();
+		static int MaxTransitionTotalPassedOut();
+
+		/**
+		 * Zjisti nejvetsi pocet veslych kulicek pres prechod.
+		 * @return <int> nejvetsi pocet kulicek proslych pres prechod.
+		 */
+		static int MaxTransitionTotalPassedIn();
 
 		/**
 		 * Typ casovaneho prechodu.
@@ -137,5 +149,10 @@ class SCStat
 		 * Tisk statistiky 'hrana'.
 		 */
 		static void PrintDirected();
+
+		/**
+		 * Tisk koncovych hvezdicek.
+		 */
+		 static void PrintEnd();
 };
 #endif //STATS_H__
