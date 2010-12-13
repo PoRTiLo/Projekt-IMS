@@ -29,6 +29,7 @@ unsigned int g_transIndex = 0;
 unsigned int g_placeIndex = 0;
 unsigned int g_arcIndex = 0;
 bool g_print = true;
+bool g_printT = true;
 bool g_printAll = true;
 
 int Run()
@@ -65,6 +66,7 @@ int Run()
 	if(g_printAll)												// tiskne souhrnou statistiku
 		SCStat::PrintStatAll();
 
+	cout << endl;
 	return 0;
 }
 void SetSimulationLength(double length)
@@ -86,32 +88,57 @@ int TrToPl(SCTransition *start,SCPlace *end,SCDirectedArc *arc)
 
 void SetPrint(int argcIn, const char* argvIn[]) {
 
-	if( argcIn == 1 )
+	if( argcIn == 1 || (argcIn == 2 && argvIn[1][0] == 'm') )
 	{
+		cout << endl;
 		g_print = true;
 		g_printAll = true;
 	}
-	else if( argcIn > 1 && argcIn < 3 )
+	else if( argcIn > 1 && argcIn < 4 )
 	{
-		if( argvIn[1][0] == '-' && argvIn[1][1] == 'n' )
+		if( argvIn[1][0] == '-' && (argvIn[1][1] == 'n' || argvIn[1][9] == 'n') )
 		{
 			g_print = false;
 			g_printAll = false;
 		}
-		else if( argvIn[1][0] == '-' && argvIn[1][1] == 's' )
+		else if( argvIn[1][0] == '-' && (argvIn[1][1] == 's' || argvIn[1][9] == 's') )
 		{
 			g_print = true;
 			g_printAll = false;
 		}
-		else if( argvIn[1][0] == '-' && argvIn[1][1] == 'a' )
+		else if( argvIn[1][0] == '-' && (argvIn[1][1] == 'a' || argvIn[1][9] == 'a') )
 		{
 			g_print = false;
 			g_printAll = true;
 		}
+		cout << endl;
 	}
 	else
 	{
 		g_print = false;
 		g_printAll = false;
 	}
+}
+
+short int WhichModel( int argcIn, const char* argvIn[] ) {
+
+	short int model = -1;
+	if( argcIn == 1 )
+	{
+		// vsehny modely
+	}
+	else if( argcIn == 2 || argcIn == 3 ) //run model1 && run -stat model1
+	{
+		string pom = "";
+		char pomChar[10];
+		if( argcIn == 2 && argvIn[1][0] == 'm' )
+			strcpy(pomChar, argvIn[1]);
+		else if( argcIn == 3 && argvIn[2][0] == 'm' )
+			strcpy(pomChar, argvIn[2]);
+		for( unsigned int i = 5; i < strlen(pomChar); i++ )
+			pom += pomChar[i];
+		model = atoi(pom.c_str());
+	}
+
+	return model;
 }

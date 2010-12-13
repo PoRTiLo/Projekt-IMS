@@ -29,10 +29,12 @@ extern unsigned int g_transIndex;
 extern unsigned int g_placeIndex;
 extern unsigned int g_arcIndex;
 extern bool g_print;
+extern bool g_printT;
 extern bool g_printAll;
 
 int Run();
 void SetSimulationLength(double length);
 int PlToTr(SCPlace *start,SCTransition *end, SCDirectedArc *arc);
 int TrToPl(SCTransition *start,SCPlace *end, SCDirectedArc *arc);
-void SetPrint(int argcIn, const char* atgvIn[]);
+void SetPrint(int argcIn, const char* argvIn[]);
+short int WhichModel(int argcIn, const char* argvIn[]);

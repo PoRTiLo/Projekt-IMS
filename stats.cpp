@@ -85,7 +85,7 @@ void SCStat::PrintPlace() {
 	for(unsigned int i = 0; i != g_allPlaces.size(); i++ )
 	{
 		cout << "*       "<< p[k] << setfill(' ') << setw(sizePlace) << i+1 << " | " 
-		                     << setw(sizeName) << g_allPlaces[i]->GetName() << " | "
+		                     << setw(sizeName) << g_allPlaces[i]->GetName().c_str() << " | "
 									<< setw(sizeCap) << g_allPlaces[i]->GetArgCapacity() << " | "
 									<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() <<" | " 
 									<< setw(sizeVal) << g_allPlaces[i]->GetArgCurrentVal() << " | " 
@@ -111,7 +111,7 @@ void SCStat::PrintTransition() {
 
 	unsigned int sizePri = GetSizeInt( MaxTransitionPriority() );
 	unsigned int sizeTime = 0;
-	unsigned int sizePro = GetSizeInt( MaxTransitionProbability() );
+	unsigned int sizePro = GetSizeDouble( MaxTransitionProbability() );
 	unsigned int sizeCount = GetSizeInt( MaxTransitionTotalPassedOut() );
 	unsigned int sizeCountIn = GetSizeInt( MaxTransitionTotalPassedIn() );
 	int sizeTrans = GetSizeInt(g_allTrans.size()) + 3;
@@ -151,9 +151,9 @@ void SCStat::PrintTransition() {
 	for(unsigned int i = 0; i != g_allTrans.size(); i++ )
 	{
 		cout << "*       "<< p1[k] << setfill(' ') << setw(sizeTrans) << i+1 << " | " 
-								<< setw(sizeName) << g_allTrans[i]->GetName() << " | " 
+								<< setw(sizeName) << g_allTrans[i]->GetName().c_str() << " | " 
 	               		<< setw(sizePri) << g_allTrans[i]->GetPriority() << " | " 
-								<< setw(sizeTime) << GetTransitionTime(i) << " | " 
+								<< setw(sizeTime) << GetTransitionTime(i).c_str() << " | " 
 								<< setw(sizePro) << g_allTrans[i]->GetProbability() << " | "
 								<< setw(sizeCountIn) << g_allTrans[i]->GetTotalPassedIn() << " | "
 								<< setw(sizeCount) << g_allTrans[i]->GetTotalPassedOut() << endl;
@@ -197,7 +197,7 @@ void SCStat::PrintDirected() {
 	for(unsigned int i = 0; i != g_allDirected.size(); i++ )
 	{
 		cout << "*       "<< p[k] << setfill(' ') << setw(sizeCount) << i+1 << " | " 
-								<< setw(sizeName) << g_allDirected[i]->GetName() << " | " 
+								<< setw(sizeName) << g_allDirected[i]->GetName().c_str() << " | " 
 	               		<< setw(sizeWeight) << g_allDirected[i]->GetArgWeight() << endl;
 		if( k < 5 )
 			k++;
@@ -221,6 +221,13 @@ unsigned int SCStat::GetSizeInt( unsigned int i ) {
 	return strlen(num);
 }
 
+unsigned int SCStat::GetSizeDouble( double i ) {
+
+	char num[30];
+	sprintf(num, "%f", i);
+	return strlen(num);
+}
+
 int SCStat::MaxPlaceCapacity() {
 	unsigned int size = g_allPlaces[0]->GetArgCapacity();
 	for( unsigned int i = 1; i < g_allPlaces.size(); i++ )
@@ -241,8 +248,8 @@ int SCStat::MaxTransitionPriority() {
 	return size;
 }
 
-int SCStat::MaxTransitionProbability() {
-	unsigned int size = g_allTrans[0]->GetProbability();
+double SCStat::MaxTransitionProbability() {
+	double size = g_allTrans[0]->GetProbability();
 	for( unsigned int i = 1; i < g_allTrans.size(); i++ )
 	{
 		if( size <= g_allTrans[i]->GetProbability() )
@@ -331,12 +338,12 @@ string SCStat::GetTransitionTime( int i ) {
 		type = "";
 
 	if( type != "" )
-		type += convertInt( g_allTrans[i]->GetTime() ) + ")";
+		type += convertDouble( g_allTrans[i]->GetTime() ) + ")";
 
 	return type;
 }
 
-string SCStat::convertInt( int num ) {
+string SCStat::convertDouble( double num ) {
 	
 	stringstream ss;
 	ss << num;

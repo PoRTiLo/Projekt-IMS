@@ -30,6 +30,7 @@ private:
 
 protected:
 	//members
+	bool m_print;
 	unsigned int m_capacity;
 	unsigned int m_value;
 	unsigned int m_startVal;
@@ -45,10 +46,12 @@ public:
 	virtual int Action(int code, int param = 1);
 	int SetArgCapacity(unsigned int capacity);
 	int SetArgStartVal(unsigned int startVal);
+	void SetArgPrint( bool print );
 	unsigned int GetArgCapacity();
 	unsigned int GetArgCurrentVal();
 	unsigned int GetArgStartVal();
 	unsigned int GetArgTotal();
+	bool IsPrint();
 	SCPlace();
 	virtual ~SCPlace();
 };

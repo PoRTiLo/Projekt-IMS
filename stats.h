@@ -36,6 +36,13 @@ class SCStat
 		static unsigned int GetSizeInt(unsigned int i);
 
 		/**
+		 * Velikost cisla - pocet znaku.
+		 * @param[in] <double> i cislo potrebne zjistt pocet znaku.
+		 * @return <unsigned int> pocet znaku cisla.
+		 */
+		static unsigned int GetSizeDouble( double i );
+
+		/**
 		 * Zjisti nejvetsi kapacitu mist.
 		 * @return <int> nejvetsi kapacita mista.
 		 */
@@ -63,7 +70,7 @@ class SCStat
 		 * Zjisti nejvetsi pravdepodobnost prechodu.
 		 * @return <int> nejvesti prevdepodobnost prechodu.
 		 */
-		static int MaxTransitionProbability();
+		static double MaxTransitionProbability();
 
 		/**
 		 * Zjisti nejvetsi prioritu prechodu.
@@ -97,10 +104,10 @@ class SCStat
 
 		/**
 		 * Prevod cisla integru na retezec.
-		 * @param[in] <int> num prevadene cislo.
+		 * @param[in] <double> num prevadene cislo.
 		 * @return <string> cislo ve formatu retezce.
 		 */
-		static string convertInt( int num );
+		static string convertDouble( double num );
 
 		/**
 		 * Zjisti nejdelsi jmeno hrany.

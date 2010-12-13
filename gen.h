@@ -82,7 +82,15 @@ class SCGen
 		 * @param[in] <double> stx sigma ( pro 3stx ..99% obsahu)
 		 * @return <double>
 		 */
-		static double GenGaus( double ex, double stx );
+		static double GenNormal( double ex, double stx );
+
+		/**
+		 * Normalni rozlozeni-Gaussovo rozlozeni - nahodna cisla v R(0,1)
+		 * @param[in] <double> min minimalni hodnota
+		 * @param[in] <double> max maximalni hodnota
+		 * @return <double>
+		 */
+		static double GenGaus( double min, double max );
 
 		/**
 		 * Poissonovo rozlozeni

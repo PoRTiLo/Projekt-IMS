@@ -11,7 +11,7 @@
  */
 
 #pragma once
-#define NULL 0
+//#define NULL 0
 //transition defines
 #define TRANSITION_OK 0								//prechod v poriadku
 #define TRANSITION_BAD_ARGS -1
@@ -67,4 +67,10 @@
 #define COMPARE_EQUAL 0								//scplaces are equal
 #define COMPARE_VALUE 1								//value not same
 #define COMPARE_CAP 2								//capacity not same
-#define COMPARE_ID 3								//id not same
+#define COMPARE_ID 3								//id not sam
+// coreFunc typ modelu
+#define MODEL_0 0									// vsechny modely
+#define MODEL_1 1									// 1 model
+#define MODEL_2 2
+#define MODEL_3 3
+

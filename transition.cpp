@@ -44,7 +44,7 @@ unsigned int SCTransition::GetPriority()
 {
 	return this->m_priority;
 }
-unsigned int SCTransition::GetProbability()
+double SCTransition::GetProbability()
 {
 	return this->m_probability;
 }
@@ -205,8 +205,8 @@ int SCTransition::Run()
 					return this->m_status;
 				}
 				this->m_totalIn++;
-				if( g_print == true )
-					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
+				if( g_printT == true )
+					cout << " po provedeni prechodu '" << this->m_name.c_str() << "'" << " hranou: '" << (*it)->GetName().c_str() << "'." << endl;
 			}
 			for(it=this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 			{
@@ -216,8 +216,8 @@ int SCTransition::Run()
 					return this->m_status;
 				}
 				this->m_totalOut++;
-				if( g_print == true )
-					cout << " po provedeni prechodu '" << this->m_name << "'" << " hranou: '" << (*it)->GetName() << "'." << endl;
+				if( g_printT == true )
+					cout << " po provedeni prechodu '" << this->m_name.c_str() << "'" << " hranou: '" << (*it)->GetName().c_str() << "'." << endl;
 				(*it)->GetTarget()->Run();
 			}
 			if(this->m_directedArcsFrom.empty() && this->m_time != 0)

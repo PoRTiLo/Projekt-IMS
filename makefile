@@ -46,6 +46,7 @@ COBJ=-std=c++98 -Wall -pedantic -Wextra -c
 .PHONY: all
 .PHONY: run
 .PHONY: clean
+.PHONY: clean-all
 .PHONY: delete
 .PHONY: run-dynamic
 .PHONY: help
@@ -64,25 +65,104 @@ dynamic: ${PROGRAM}-dynamic
 # vsechno
 all:  ${PROGRAM} ${PROGRAM}-dynamic
 
-# spusti priklad
-run:
-	./${PROGRAM}
+#............................................. model1 ...............#
+# spusti priklad s vypisem
+run-model1:
+	./${PROGRAM} model1
 
 # spusti priklad bez vypisu
-run-nostat:
-	./${PROGRAM} -nostat
+run-nostat-model1:
+	./${PROGRAM} -nostat model1
 
 # statistika jednotlivych kroku
-run-stat:
-	./${PROGRAM} -stat
+run-stat-model1:
+	./${PROGRAM} -stat model1
 
 # konecna souhrna statistika
-run-allstat:
-	./${PROGRAM} -allstat
+run-allstat-model1:
+	./${PROGRAM} -allstat model1
 
-# spusteni s dynamickou knihovnou
-run-dynamic:
-	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic
+# spusteni s dynamickou knihovnou s vypisem
+run-dynamic-model1:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic model1
+
+# spusteni s dynamickou knihovnou bez vypisu
+run-dynamic-nonstat-model1:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -nonstat model1
+
+# spusteni s dynamickou knihovnous jednotlivyma krokama 
+run-dynamic-stat-model1:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -stat model1
+
+# spusteni s dynamickou knihovnou se souhrnou statistikou 
+run-dynamic-allstat-model1:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -allstat model1
+
+#............................................. model2 ...............#
+# spusti priklad s vypisem
+run-model2:
+	./${PROGRAM} model2
+
+# spusti priklad bez vypisu
+run-nostat-model2:
+	./${PROGRAM} -nostat model2
+
+# statistika jednotlivych kroku
+run-stat-model2:
+	./${PROGRAM} -stat model2
+
+# konecna souhrna statistika
+run-allstat-model2:
+	./${PROGRAM} -allstat model2
+
+# spusteni s dynamickou knihovnou s vypisem
+run-dynamic-model2:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic model2
+
+# spusteni s dynamickou knihovnou bez vypisu
+run-dynamic-nonstat-model2:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -nonstat model2
+
+# spusteni s dynamickou knihovnous jednotlivyma krokama 
+run-dynamic-stat-model2:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -stat model2
+
+# spusteni s dynamickou knihovnou se souhrnou statistikou 
+run-dynamic-allstat-model2:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -allstat model2
+
+#............................................. model3 ...............#
+# spusti priklad s vypisem
+run-model3:
+	./${PROGRAM} model3
+
+# spusti priklad bez vypisu
+run-nostat-model3:
+	./${PROGRAM} -nostat model3
+
+# statistika jednotlivych kroku
+run-stat-model3:
+	./${PROGRAM} -stat model3
+
+# konecna souhrna statistika
+run-allstat-model3:
+	./${PROGRAM} -allstat model3
+
+# spusteni s dynamickou knihovnou s vypisem
+run-dynamic-model3:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic model3
+
+# spusteni s dynamickou knihovnou bez vypisu
+run-dynamic-nonstat-model3:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -nonstat model3
+
+# spusteni s dynamickou knihovnous jednotlivyma krokama 
+run-dynamic-stat-model3:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -stat model3
+
+# spusteni s dynamickou knihovnou se souhrnou statistikou 
+run-dynamic-allstat-model3:
+	LD_LIBRARY_PATH="." ./${PROGRAM}-dynamic -allstat model3
 
 #----------------- KOMPILACE ----------------------------------------#
 ${PROGRAM}: main.o ${LIB}.a
@@ -180,6 +260,10 @@ transPrioData.o: ${STRANSPRIODATA}
 # odstrani zkompilovane soubory
 clean: 
 	rm -f *.o ${PROGRAM} ${PROGRAM}-dynamic
+
+# odstrani zkompilovane soubory a vytvorene knihovny
+clean-all: clean
+	rm -f *.so*.a
 
 # smaze vsenchno krome zdrojovych souboru a makefile
 delete: 

@@ -17,6 +17,7 @@
 SCPlace::SCPlace()
 {
 	g_allPlaces.push_back(this);
+	this->m_print = true;
 	this->m_startVal = 0;
 	this->m_capacity = UINT_MAX;
 	this->m_value = 0;
@@ -343,8 +344,8 @@ int SCPlace::Action(int code, int param)
 	int ret = ACTION_DEFAULT;
 	if(code == ACTION_TAKE)
 	{
-		if( g_print == true )
-			cout << "time: '" << g_time << "' <-- Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
+		if( g_print == true && this->m_print == true )
+			cout << "time: '" << g_time << "' <-- Misto s nazvem '" << this->m_name.c_str() << "' a kapacitou '"<< this->m_value << "'";
 		if(m_value - param >= 0)
 		{
 			this->m_value -= param;
@@ -357,14 +358,20 @@ int SCPlace::Action(int code, int param)
 	}
 	else if(code == ACTION_RETURN)
 	{
-		if( g_print == true )
-			cout << "time: '" << g_time << "' --> Misto s nazvem '" << m_name << "' a kapacitou '"<<m_value << "'";
+		if( g_print == true && this->m_print == true )
+			cout << "time: '" << g_time << "' --> Misto s nazvem '" << this->m_name.c_str() << "' a kapacitou '"<< this->m_value << "'";
 		this->m_value += param;
 		this->m_total++;
 		ret = PLACE_RETURNED;
 	}
-	if( g_print == true )
-		cout << " zmenilo svou kapacitu na: '"<<m_value << "'";
+	if( g_print == true && this->m_print == true )
+	{
+		cout << " zmenilo svou kapacitu na: '"<< this->m_value << "'";
+		g_printT = true;
+	}
+	else
+		g_printT = false;
+
 	return ret;
 }
 unsigned int SCPlace::GetArgCapacity()
@@ -405,3 +412,14 @@ unsigned int SCPlace::GetArgTotal() {
 
 	return this->m_total;
 }
+
+bool SCPlace::IsPrint() {
+
+	return this->m_print;
+}
+
+void SCPlace::SetArgPrint( bool print ) {
+
+	this->m_print = print;
+}
+

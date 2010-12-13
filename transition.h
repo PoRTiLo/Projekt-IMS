@@ -34,7 +34,7 @@ public:
 	unsigned int GetTotalPassedIn();
 	unsigned int GetTotalPassedOut();
 	unsigned int GetPriority();
-	unsigned int GetProbability();
+	double GetProbability();
 	unsigned short GetTimeType();
 	double GetTime();
 	virtual double GetExactTime();
