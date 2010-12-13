@@ -29,7 +29,7 @@ SCALENDARUNIT=calendarUnit.cpp calendarUnit.h
 SPETRISIM=PetriSim.h
 SSTATS=stats.cpp stats.h
 STRANSPRIODATA=transPrioData.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim soStats.o soTransPrioData.o
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soStats.o 
 SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cpp calendar.cpp calendarUnit.cpp stats.cpp
 HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h PetriSim.h stats.h
 
