@@ -1,9 +1,9 @@
-/*IMS-----------------
+/*IMS - Modelovani a simulace
  *
  * Project:  Simulator cernobilych stochastickych Petriho siti
- * File:     SCGen.h
- * Author:   Jaroslav Sendler, xsendl00, xsendl00@stud.fit.vutr.cz
- *           Dusan Kovacic, xkovac21, xkovac21@stud.fit.vutbr.cz
+ * File:     gen.h
+ * Author:   Dusan Kovacic, xkovac21, xkovac21@stud.fit.vutbr.cz
+ *           Jaroslav Sendler, xsendl00, xsendl00@stud.fit.vutr.cz
  *
  * Encoding: UTF-8
  *

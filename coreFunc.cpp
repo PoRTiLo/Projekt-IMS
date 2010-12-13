@@ -1,3 +1,15 @@
+/*IMS - Modelovani a simulace
+ *
+ * Project:  Simulator cernobilych stochastickych Petriho siti
+ * File:     coreFunc.cpp
+ * Author:   Dusan Kovacic, xkovac21, xkovac21@stud.fit.vutbr.cz
+ *           Jaroslav Sendler, xsendl00, xsendl00@stud.fit.vutr.cz
+ *
+ * Encoding: UTF-8
+ *
+ * Description:
+ */
+
 #include "coreFunc.h"
 #include "place.h"
 #include "transition.h"

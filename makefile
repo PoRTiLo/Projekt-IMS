@@ -1,5 +1,5 @@
 #makefile
-  # IMS- Implementace diskr. simulatoru zalozeneho na rizeni UDALOSTMI(opak procesne orientovaneho pristupu)
+  # IMS- Simulator cernobilych stochasticky Petriho siti
   # 29.11.2010
   # Autor: Jaroslav Sendler, FIT, xsendl00(at)stud.fit.vutbr.cz
   #        Dusan Kovacic, FIT, xkovac21(at)stud.fit.vutbr.cz
@@ -16,8 +16,8 @@ LIB=ptnet
 PROJECT=xkovac21_xsendl00
 
 # seznam souboru
-OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o
-OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o
+OBJM=base.o coreFunc.o directedArc.o main.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o transPrioData.o
+OBJ=base.o coreFunc.o directedArc.o place.o transition.o gen.o calendar.o calendarUnit.o petriSim.o stats.o transPrioData.o
 SBASE=base.cpp base.h
 SCOREFUNC=coreFunc.cpp coreFunc.h
 SDIRECTEDARC=directedArc.cpp directedArc.h
@@ -28,7 +28,8 @@ SCALENDAR=calendar.cpp calendar.h
 SCALENDARUNIT=calendarUnit.cpp calendarUnit.h
 SPETRISIM=PetriSim.h
 SSTATS=stats.cpp stats.h
-SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim soStats.o
+STRANSPRIODATA=transPrioData.h
+SOOBJ=soBase.o soCoreFunc.o soDirectedArc.o soPlace.o soTransition.o soGen.o soCalendar.o soCalendarUnit.o soPetriSim soStats.o soTransPrioData.o
 SRC=base.cpp coreFunc.cpp directedArc.cpp main.cpp place.cpp transition.cpp gen.cpp calendar.cpp calendarUnit.cpp stats.cpp
 HEAD=base.h baseData.h directedArc.h coreFunc.h place.h statusList.h transition.h transPrioData.h gen.h calendar.h calendarUnit.h PetriSim.h stats.h
 
@@ -48,6 +49,9 @@ COBJ=-std=c++98 -Wall -pedantic -Wextra -c
 .PHONY: delete
 .PHONY: run-dynamic
 .PHONY: help
+.PHONY: run-nostat
+.PHONY: run-allstat
+.PHONY: run-stat
 
 #--------------------------------------------------------------------#
 
@@ -130,6 +134,9 @@ soPetriSim.o: ${SPETRISIM}
 soStats.o: ${SSTATS}
 	${CCM} ${COBJ} -fpic $< -o $@
 
+soTransPrioData.o: ${STRANSPRIODATA}
+	${CCM} ${COBJ} -fpic $< -o $@
+
 #----------------- STATICKE ----------------------------------------#
 ${LIB}.a: ${OBJ}
 	ar crs $@ $^
@@ -165,6 +172,9 @@ petriSim.o: ${SPETRISIM}
 stats.o: ${SSTATS}
 	${CCM} ${COBJ} $< -o $@
 
+transPrioData.o: ${STRANSPRIODATA}
+	${CCM} ${COBJ} $< -o $@
+
 #------------------ SMAZANI souboru ---------------------------------#
 
 # odstrani zkompilovane soubory
@@ -186,16 +196,21 @@ zip:
 
 #------------------ NAPOVEDA ----------------------------------------#
 help:
+		@echo ""
 		@echo "----------MAKEFILE--------"
 		@echo "make(build)	- Staticke sestaveni knihovny"
 		@echo "make dynamic	- Kompilace s dynamickou knihovnou"
 		@echo "make all   	- Kompletni kompilace souboru"
-		@echo "run        	- Spusteni staticke verze"
+		@echo "run        	- Spusteni staticke verze s vypisy"
+		@echo "run-nostat 	- Spusteni staticke verze bez vypisu"
+		@echo "run-allstat	- Spusteni staticke verze se souhrnyma vypisema na konci"
+		@echo "run-stat   	- Spsuteni staticke verze s vypisema po kroku"
 		@echo "run-dynamic	- Spusteni dynamicke verze"
 		@echo "clean      	- Smazani zkompilovanych souboru"
 		@echo "delete     	- Smazani vsech souboru, krome zdrojovych"
 		@echo "tar        	- Sbaleni potrebnych souboru pomoci tar"
 		@echo "zip        	- Sbaleni potrebnych souboru pomoci zip"
 		@echo "help       	- Vypis teto napovedy"
+		@echo ""
 
 #-------------------------------------------------------------------#
