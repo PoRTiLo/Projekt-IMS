@@ -65,11 +65,14 @@ int SCPlace::Run()
 			SSBaseData *data = (*it)->GetTarget()->GetData();
 			if(data->mode != TRANSITION_NOPARAM)
 			{	
-				if(currentMode != data->mode && (currentMode != TRANSITION_DEFAULT || currentMode != TRANSITION_NOPARAM || currentMode != TRANSITION_PRIO))
+				if(currentMode != data->mode)
 				{
-					this->m_status = RUNTIME_TRANSITION_CRASH;
-					ret = PLACE_FAIL;
-					break;
+					if(currentMode != TRANSITION_DEFAULT && currentMode != TRANSITION_NOPARAM)
+					{
+						this->m_status = RUNTIME_TRANSITION_CRASH;
+						ret = PLACE_FAIL;
+						break;
+					}
 				}
 				currentMode = data->mode;
 			}
@@ -85,184 +88,17 @@ int SCPlace::Run()
 			{
 			case TRANSITION_WAIT:
 				{
-					double genNonDetNum = SCGen::GenNomInterval();
-					vector<SCDirectedArc*>::iterator it;
-					bool done = false;
-					vector<SCBase*> nullTimeVec;
-					//najde nulovy cas
-					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-					{
-						SSBaseData *data;
-						data = (*it)->GetTarget()->GetData();
-						double time = 0;
-						if(data->mode != TRANSITION_WAIT)
-						{
-							this->m_status = TRANSITION_BAD_DATA;
-							ret = PLACE_FAIL;
-							break;
-						}
-						else
-						{
-							memcpy(&time,data->data,sizeof(double));
-							if(time == 0)
-							{
-								nullTimeVec.push_back((*it)->GetTarget());
-							}
-						}
-					}
-					vector<SCBase*>::iterator itN;
-					int arraySize = nullTimeVec.size();
-					int val = 1/arraySize;
-					//nulovy cas non determin
-					for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
-					{
-						if(val > genNonDetNum)
-						{
-							if((*itN)->Run() == TRANSITION_OK)
-							{
-								done = true;
-								break;
-							}
-						}
-						val += 1/this->m_directedArcsTo.size();
-					}
-					//nulovy cas skusa
-					if(!done)
-					{
-						for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
-						{
-							if((*itN)->Run() == TRANSITION_OK)
-							{
-								done = true;
-								break;
-							}
-						}
-					}
-					//vsetky non determin
-					arraySize = this->m_directedArcsTo.size();
-					val = 1/arraySize;
-					if(!done)
-					{
-						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-						{
-							if(val > genNonDetNum)
-							{
-								if((*it)->GetTarget()->IsReadyToRun())
-								{
-									g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
-									done = true;
-									break;
-								}
-							}
-							val += 1/this->m_directedArcsTo.size();
-						}
-					}
-					//vsetky skusa
-					if(!done)
-					{
-						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-						{
-							if((*it)->GetTarget()->IsReadyToRun())
-							{
-								g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
-								done = true;
-								break;
-							}
-						}
-					}
+					this->CommitTransTime();
 				}
 				break;
 			case TRANSITION_PROBAB:
 				{
-					vector<SCDirectedArc*>::iterator it;
-					double genNonDetNum = SCGen::GenNomInterval();
-					double probability = 0;
-					bool ok = true;
-					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-					{
-						double currentProb = 0;
-						SSBaseData *data = (*it)->GetTarget()->GetData();
-						memcpy(&currentProb,data->data,sizeof(double));
-						probability += currentProb;
-						if(probability > 100)
-						{
-							this->m_status = RUNTIME_PLACE_CRASH_PROBAB;
-							ok = false;
-							break;
-						}
-
-					}
-					probability = 0;
-					if(ok)
-					{
-						bool done = false;
-						for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-						{
-							double currentProb = 0;
-							SSBaseData *data = (*it)->GetTarget()->GetData();
-							memcpy(&currentProb,data->data,sizeof(double));
-							probability += currentProb;
-							if(genNonDetNum < probability/100)
-							{
-								if((*it)->GetTarget()->Run() == TRANSITION_OK)
-								{
-									done = true;
-									break;
-								}
-							}
-						}
-						if(!done)
-						{
-							for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-							{
-								if((*it)->GetTarget()->Run() == TRANSITION_OK)
-								{
-									break;
-								}
-							}
-						}
-					}
+					this->CommitTransProbab();
 				}
 				break;
 			case TRANSITION_PRIO:
 				{
-					vector<SCDirectedArc*>::iterator it;
-					vector<SSPrioData>prioVector;
-					//nacitam vsetky sipky k danemu miestu
-					for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
-					{
-						SSBaseData *data = (*it)->GetTarget()->GetData();
-						unsigned int prio;
-						memcpy(&prio,data->data,sizeof(int));
-						SSPrioData ref;
-						ref.prio = prio;
-						ref.target = (*it)->GetTarget();
-						prioVector.push_back(ref);
-					}
-					vector<SSPrioData>::iterator itInt;
-					vector<SSPrioData>::iterator data;
-					unsigned int highestPrio = 0;
-					bool sent = false;
-					while(!sent)
-					{
-						//zistim prechod s najvacsou prioritou
-						for(itInt = prioVector.begin();itInt<prioVector.end();itInt++)
-						{
-							if((*itInt).prio > highestPrio)
-							{
-								highestPrio = (*itInt).prio;
-								data = itInt;
-							}
-						}
-						if(data->target->Run() == TRANSITION_OK)
-						{
-							sent = true;
-						}
-						else
-						{
-							prioVector.erase(data);
-						}
-					}
+					this->CommitTransPrio();
 				}
 				break;
 			case TRANSITION_NOPARAM:
@@ -274,6 +110,229 @@ int SCPlace::Run()
 		}
 	}
 	return ret;
+}
+void SCPlace::CommitTransTime()
+{
+	int ret = PLACE_OK  ;
+	vector<SCDirectedArc*>::iterator it;
+	vector<SCBase*> nullTimeVec;
+	//najde nulovy cas
+	for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+	{
+		SSBaseData *data;
+		data = (*it)->GetTarget()->GetData();
+		double time = 0;
+		memcpy(&time,data->data,sizeof(double));
+		if(time == 0)
+		{
+			nullTimeVec.push_back((*it)->GetTarget());
+		}
+	}
+	double arraySize = 0;
+	double val = 0;
+	if(!nullTimeVec.empty())
+	{
+		vector<SCBase*>::iterator itN;
+		arraySize = nullTimeVec.size();
+		val = 1/arraySize;
+		set<SCBase*> failedRun;
+		while(1)
+		{
+			double genNonDetNum = SCGen::GenNomInterval();
+			//nulovy cas non determin
+			bool done = false;
+			for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
+			{
+				if(val > genNonDetNum)
+				{
+					if((*itN)->Run() == TRANSITION_OK)
+					{
+						done = true;
+						break;
+					}
+					else
+					{
+						if(failedRun.find(*itN) == failedRun.end())
+						{
+							failedRun.insert(*itN);
+						}
+					}
+				}
+				val += 1/(double)this->m_directedArcsTo.size();
+			}
+			if(failedRun.size() == nullTimeVec.size())
+			{
+				break;
+			}
+			//nulovy cas prvy
+			if(!done)
+			{
+				for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
+				{
+					if((*itN)->Run() == TRANSITION_OK)
+					{
+						done = true;
+						break;
+					}
+					else
+					{
+						if(failedRun.find(*itN) == failedRun.end())
+						{
+							failedRun.insert(*itN);
+						}
+					}
+				}
+				if(failedRun.size() == nullTimeVec.size())
+				{
+					break;
+				}
+			}
+		}
+	}
+	bool done = false;
+	double genNonDetNum = SCGen::GenNomInterval();
+	//vsetky non determin
+	arraySize = this->m_directedArcsTo.size();
+	val = 1/arraySize;
+	for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+	{
+		if(val > genNonDetNum)
+		{
+			if((*it)->GetTarget()->IsReadyToRun())
+			{
+				(*it)->GetTarget()->SetLastCommitedArc(*it);
+				g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
+				done = true;
+				break;
+			}
+		}
+		val += 1/(double)this->m_directedArcsTo.size();
+	}
+	//vsetky skusa
+	if(!done)
+	{
+		for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+		{
+			if((*it)->GetTarget()->IsReadyToRun())
+			{
+				(*it)->GetTarget()->SetLastCommitedArc(*it);
+				g_eventCal.Insert((*it)->GetTarget(),(*it)->GetTarget()->GetExactTime());
+				done = true;
+				break;
+			}
+		}
+	}
+}
+void SCPlace::CommitTransPrio()
+{
+	double arraySize = this->m_directedArcsTo.size();
+	double val = 1/arraySize;
+	set<SCBase*> failedRun;
+	vector<SCDirectedArc*>::iterator it;
+	vector<SSPrioData>prioVector2;
+	vector<SSPrioData>::iterator itInt;
+	//nacitam vsetky sipky k danemu miestu
+	for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+	{
+		SSBaseData *data = (*it)->GetTarget()->GetData();
+		unsigned int prio;
+		memcpy(&prio,data->data,sizeof(int));
+		SSPrioData ref;
+		ref.prio = prio;
+		ref.target = (*it)->GetTarget();
+		prioVector2.push_back(ref);
+	}
+	vector<SSPrioData>prioVector;
+	vector<SCBase*>samePrioVec;
+	bool finish = false;
+	while(!finish)
+	{
+		prioVector = prioVector2;
+		bool sent = false;
+		while(!sent)
+		{
+			unsigned int highestPrio = 0;
+			samePrioVec.clear();
+			//zistim prechod s najvacsou prioritou
+			for(itInt = prioVector.begin();itInt<prioVector.end();itInt++)
+			{
+				if((*itInt).prio == highestPrio)
+				{
+					samePrioVec.push_back(itInt->target);
+				}
+				else if((*itInt).prio > highestPrio)
+				{
+					samePrioVec.clear();
+					samePrioVec.push_back(itInt->target);
+					highestPrio = (*itInt).prio;
+				}
+			}
+			double rand = SCGen::GenNomInterval();
+			vector<SCBase*>::iterator itB;
+			double arraySize = samePrioVec.size();
+			double val = 1/arraySize;
+			//try rand
+			for(itB = samePrioVec.begin(); itB < samePrioVec.end(); itB++)
+			{
+				if( val > rand)
+				{
+					if((*itB)->Run() == TRANSITION_OK)
+					{
+						sent = true;
+						break;
+					}
+					else
+					{
+						if(failedRun.find(*itB) == failedRun.end())
+						{
+							failedRun.insert(*itB);
+						}
+					}
+				}
+				val += 1/arraySize; 
+			}
+			if(failedRun.size() == this->m_directedArcsTo.size())
+			{
+				finish = true;
+				break;
+			}
+			if(!sent)
+			{
+				for(itB = samePrioVec.begin(); itB < samePrioVec.end(); itB++)
+				{
+					if((*itB)->Run() == TRANSITION_OK)
+					{
+						sent = true;
+						break;
+					}
+					else
+					{
+						if(failedRun.find(*itB) == failedRun.end())
+						{
+							failedRun.insert(*itB);
+						}
+					}
+				}
+			}
+			if(failedRun.size() == this->m_directedArcsTo.size())
+			{
+				finish = true;
+				break;
+			}
+			//vymaz prvky s najvyssou prioritou zo zoznamu ak nie je preveditelny ani jeden
+			for(itInt = prioVector.begin();itInt<prioVector.end();itInt++)
+			{
+				if(highestPrio == itInt->prio)
+				{
+					itInt = prioVector.erase(itInt);
+				}
+				if(itInt == prioVector.end())
+				{
+					break;
+				}
+			}
+		}	
+	}
 }
 void SCPlace::CommitTransNoParam()
 {
@@ -330,6 +389,94 @@ void SCPlace::CommitTransNoParam()
 		{
 			break;
 		}
+	}
+}
+void SCPlace::CommitTransProbab()
+{
+	double arraySize = this->m_directedArcsTo.size();
+	double val = 1/arraySize;
+	set<SCBase*> failedRun;
+	vector<SCDirectedArc*>::iterator it;
+	double probability = 0;
+	bool ok = true;
+	int zeroProbTrans = 0; //pocet prechodov bez parametra
+	//skontrolujem sucet pravdepodobnosti a zistim prechody bez parametra
+	for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+	{
+		double currentProb = 0;
+		SSBaseData *data = (*it)->GetTarget()->GetData();
+		memcpy(&currentProb,data->data,sizeof(double));
+		if(currentProb == 0)
+		{
+			zeroProbTrans++;
+		}
+		probability += currentProb;
+		if(probability > 100)
+		{
+			this->m_status = RUNTIME_TRANS_PROB_LIMIT;
+			ok = false;
+			break;
+		}
+
+	}
+	//pravdepodobnost prechodov bez parametra
+	double noParamTransProb = (100-probability)/(double)zeroProbTrans;
+	while(ok)
+	{
+		double genNonDetNum = SCGen::GenNomInterval();
+		probability = 0;
+		bool done = false;
+		for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+		{
+			double currentProb = 0;
+			SSBaseData *data = (*it)->GetTarget()->GetData();
+			memcpy(&currentProb,data->data,sizeof(double));
+			if(currentProb == 0)
+			{
+				currentProb = noParamTransProb;
+			}
+			probability += currentProb;
+			if(genNonDetNum < probability/100)
+			{
+				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				{
+					done = true;
+					break;
+				}
+				else
+				{
+					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
+					{
+						failedRun.insert((*it)->GetTarget());
+					}
+				}
+			}
+		}
+		if(failedRun.size() == this->m_directedArcsTo.size())
+		{
+			break;
+		}
+		if(!done)
+		{
+			for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
+			{
+				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				{
+					break;
+				}
+				else
+				{
+					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
+					{
+						failedRun.insert((*it)->GetTarget());
+					}
+				}
+			}
+			if(failedRun.size() == this->m_directedArcsTo.size())
+			{
+				break;
+			}
+		}		
 	}
 }
 SSBaseData* SCPlace::GetData()
@@ -399,25 +546,14 @@ int SCPlace::Compare(SCPlace *place)
 
 	return COMPARE_EQUAL;
 }
-SCDirectedArc* SCPlace::GetLastCommitedArc()
-{
-	return this->m_lastCommited;
-}
-void SCPlace::SetLastCommitedArc(SCDirectedArc* directedArc)
-{
-	this->m_lastCommited = directedArc;
-}
-
 unsigned int SCPlace::GetArgTotal() {
 
 	return this->m_total;
 }
-
 bool SCPlace::IsPrint() {
 
 	return this->m_print;
 }
-
 void SCPlace::SetArgPrint( bool print ) {
 
 	this->m_print = print;

@@ -12,6 +12,8 @@
 
 #include "PetriSim.h"
 
+short int WhichModel(int argcIn, const char* argvIn[]);
+
 int main(int argc,const char* argv[])
 {
 	SetPrint( argc, argv);
@@ -54,7 +56,7 @@ int main(int argc,const char* argv[])
 
 		Run();
 	}
-	else if( model == MODEL_3 )
+	else if( model == MODEL_3 )						//model dokumentacia strana TODO: X
 	{
 		SCPlace p[3];
 		SCDirectedArc a[4];
@@ -70,6 +72,66 @@ int main(int argc,const char* argv[])
 
 		Run();
 	}
+	else if( model == MODEL_4 )						//model dokumentacia strana TODO: X
+	{
+		SCPlace p[3];
+		SCDirectedArc a[4];
+		SCTransition t[2];
 
+		p[0].SetArgStartVal(3);
+		t[0].SetArgPrio(5);
+		t[1].SetArgPrio(4);
+
+		PlToTr(&p[0],&t[0],&a[0]);
+		PlToTr(&p[0],&t[1],&a[1]);
+		TrToPl(&t[0],&p[1],&a[2]);
+		TrToPl(&t[1],&p[2],&a[3]);
+
+		Run();
+	}
+	else if( model == MODEL_5 )						//model dokumentacia strana TODO: X
+	{
+		
+	}
+	
+	SCPlace p[3];
+	SCDirectedArc a[4];
+	SCTransition t[2];
+
+	p[0].SetArgStartVal(100);
+	t[0].SetArgTime(5);
+	t[1].SetArgTime(4);
+
+	PlToTr(&p[0],&t[0],&a[0]);
+	PlToTr(&p[0],&t[1],&a[1]);
+	TrToPl(&t[0],&p[1],&a[2]);
+	TrToPl(&t[1],&p[2],&a[3]);
+
+	Run();
+
+	g_allPlaces;
 	return 0;
+}
+
+short int WhichModel( int argcIn, const char* argvIn[] ) {
+
+	short int model = -1;
+	if( argcIn == 1 )
+	{
+		// vsehny modely
+	}
+	else if( argcIn == 2 || argcIn == 3 ) //run model1 && run -stat model1
+	{
+		string pom = "";
+		char pomChar[10];
+		if( argcIn == 2 && argvIn[1][0] == 'm' )
+			strcpy(pomChar, argvIn[1]);
+		else if( argcIn == 3 && argvIn[2][0] == 'm' )
+			strcpy(pomChar, argvIn[2]);
+		for( unsigned int i = 5; i < strlen(pomChar); i++ )
+			pom += pomChar[i];
+		model = atoi(pom.c_str());
+	}
+
+	return model;
 }

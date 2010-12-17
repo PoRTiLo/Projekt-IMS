@@ -66,6 +66,9 @@ dynamic: ${PROGRAM}-dynamic
 all:  ${PROGRAM} ${PROGRAM}-dynamic
 
 #............................................. model1 ...............#
+run:
+	./${PROGRAM}
+
 # spusti priklad s vypisem
 run-model1:
 	./${PROGRAM} model1

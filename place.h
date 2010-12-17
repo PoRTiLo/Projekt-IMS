@@ -35,11 +35,8 @@ protected:
 	unsigned int m_value;
 	unsigned int m_startVal;
 	unsigned int m_total;
-	SCDirectedArc *m_lastCommited;
 public:
 	//methods
-	SCDirectedArc* GetLastCommitedArc();
-	void SetLastCommitedArc(SCDirectedArc *directedArc);
 	int Compare(SCPlace *place);
 	virtual int Run();
 	virtual SSBaseData* GetData();

@@ -37,13 +37,13 @@ int Run()
 	if(g_simLength == 0)
 	{
 		g_simLength = numeric_limits<double>::max();
-			}
+	}
 	std::vector<SCTransition*>::iterator it;
 	for(it = g_allTrans.begin(); it < g_allTrans.end(); it++)
-		{
+	{
 		if((*it)->GetDirectedArcsFrom()->empty())
 			g_eventCal.Insert(*it,g_time);
-		}
+	}
 
 	SCCalendarUnit *unit = NULL;
 	while(g_time < g_simLength)
@@ -118,27 +118,4 @@ void SetPrint(int argcIn, const char* argvIn[]) {
 		g_print = false;
 		g_printAll = false;
 	}
-}
-
-short int WhichModel( int argcIn, const char* argvIn[] ) {
-
-	short int model = -1;
-	if( argcIn == 1 )
-	{
-		// vsehny modely
-	}
-	else if( argcIn == 2 || argcIn == 3 ) //run model1 && run -stat model1
-	{
-		string pom = "";
-		char pomChar[10];
-		if( argcIn == 2 && argvIn[1][0] == 'm' )
-			strcpy(pomChar, argvIn[1]);
-		else if( argcIn == 3 && argvIn[2][0] == 'm' )
-			strcpy(pomChar, argvIn[2]);
-		for( unsigned int i = 5; i < strlen(pomChar); i++ )
-			pom += pomChar[i];
-		model = atoi(pom.c_str());
-	}
-
-	return model;
 }

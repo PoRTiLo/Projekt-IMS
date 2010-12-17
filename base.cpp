@@ -79,6 +79,7 @@ SCBase::SCBase()
 	this->m_name = "Base default name, do not use this class!";
 	this->m_id = 0;
 	this->m_status = BASE_OK;
+	this->m_lastCommited = NULL;
 }
 SCBase::~SCBase()
 {
@@ -87,4 +88,11 @@ unsigned int SCBase::GetId()
 {
 	return this->m_id;
 }
-
+SCDirectedArc* SCBase::GetLastCommitedArc()
+{
+	return this->m_lastCommited;
+}
+void SCBase::SetLastCommitedArc(SCDirectedArc* directedArc)
+{
+	this->m_lastCommited = directedArc;
+}

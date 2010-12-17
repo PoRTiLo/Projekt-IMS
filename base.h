@@ -31,8 +31,11 @@ protected:
 	vector<SCDirectedArc*> m_directedArcsFrom;
 	vector<SCDirectedArc*> m_directedArcsTo;
 	SSBaseData m_data;
+	SCDirectedArc *m_lastCommited;
 public:
 	//methods
+	SCDirectedArc* GetLastCommitedArc();
+	void SetLastCommitedArc(SCDirectedArc *directedArc);
 	string GetName();
 	void SetName(string name);
 	unsigned int GetId();

@@ -55,6 +55,9 @@ class SCCalendar
 		 */
 		SCCalendarUnit* Search( const double time );
 
+
+		SCCalendarUnit* SearchRandom( const double time );
+
 		/**
 		 * Smazani urciteho mista v kalendari.
 		 * @param[in] <SCCalndarUnit*> misto v kalendari
@@ -119,6 +122,14 @@ class SCCalendar
 		 *
 		 */
 		void Insert( SCBase *base, double time );
+
+		/**
+		 *
+		 *
+		 *
+		 *
+		 */
+		void InsertRandom( SCBase *base, double time );
 
 		/**
 		 * Zobrazi obsah kalendare. Vypise casy vsech prvku.

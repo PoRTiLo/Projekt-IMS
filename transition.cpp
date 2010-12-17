@@ -220,9 +220,15 @@ int SCTransition::Run()
 					cout << " po provedeni prechodu '" << this->m_name.c_str() << "'" << " hranou: '" << (*it)->GetName().c_str() << "'." << endl;
 				(*it)->GetTarget()->Run();
 			}
+					//startovaci event
 			if(this->m_directedArcsFrom.empty() && this->m_time != 0)
 			{
 				g_eventCal.Insert(this,this->GetExactTime());
+			}
+			//callback na place
+			if(this->m_lastCommited != NULL)
+			{
+				this->GetLastCommitedArc()->GetStart()->Run();
 			}
 		}
 	}
