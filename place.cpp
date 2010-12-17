@@ -537,7 +537,7 @@ int SCPlace::Action(int code, int param)
 	if(code == ACTION_TAKE)
 	{
 		if( g_print == true && this->m_print == true )
-			cout << "cas: '" << g_time << "' <-- " << this->m_name.c_str() << "(Akt. hodnota ['"<< this->m_value << "'";
+			cout << "time: '" << g_time << "' <-- " << this->m_name.c_str() << "(Act. value ['"<< this->m_value << "'";
 		if(m_value - param >= 0)
 		{
 			this->m_value -= param;
@@ -551,7 +551,7 @@ int SCPlace::Action(int code, int param)
 	else if(code == ACTION_RETURN)
 	{
 		if( g_print == true && this->m_print == true )
-			cout << "cas: '" << g_time << "' --> " << this->m_name.c_str() << "(Akt. hodnota ['"<< this->m_value << "'";
+			cout << "time: '" << g_time << "' --> " << this->m_name.c_str() << "(Act. value ['"<< this->m_value << "'";
 		this->m_value += param;
 		this->m_total++;
 		ret = PLACE_RETURNED;

@@ -211,7 +211,7 @@ int SCTransition::Run()
 				}
 				this->m_totalIn++;
 				if( g_printT == true )
-					cout << " -- vaha('"<< (*it)->GetArgWeight() <<  "') --> " << this->GetName().c_str() << endl;
+					cout << " -- weight('"<< (*it)->GetArgWeight() <<  "') --> " << this->GetName().c_str() << endl;
 			}
 			for(it=this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 			{
@@ -223,7 +223,7 @@ int SCTransition::Run()
 				this->m_totalOut++;
 				if( g_printT == true )
 					//cout << " po provedeni prechodu '" << this->m_name.c_str() << "'" << " hranou: '" << (*it)->GetName().c_str() << "'." << endl;
-					cout << " -- vaha('"<< (*it)->GetArgWeight() <<  "') --> " << this->GetName().c_str() << endl;
+					cout << " -- weight('"<< (*it)->GetArgWeight() <<  "') --> " << this->GetName().c_str() << endl;
 				int retVal = 0;
 				retVal = (*it)->GetTarget()->Run();
 				if(retVal != PLACE_OK)
