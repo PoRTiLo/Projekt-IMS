@@ -26,6 +26,11 @@ void SCStat::PrintStatAll() {
 	PrintEnd();
 }
 
+void SCStat::PrintLegend() {
+
+	cout<<endl<< "Legenda:  Cti - Misto 2 zmenilo svoji kapacitu z 4 na 3 prvodením prechodu Prechod 2 s hranou o vaze 1" << endl << endl;
+}
+
 void SCStat::PrintEnd() {
 
 	cout << "********************************** ********** *******************************" << endl;
@@ -52,7 +57,7 @@ void SCStat::PrintPlace() {
 	unsigned int sizeName =  MaxPlaceName();
 	unsigned int sizeEnd = GetSizeInt(1);
 	char capacity[15] = "kapacita";
-	if( sizeCap < strlen(capacity) )
+	if( sizeCap < strlen(capacity) || MaxPlaceCapacity() == UINT_MAX )
 		sizeCap = strlen(capacity);
 	char value[30] = "konecny stav kulicek";
 	if( sizeVal < strlen(value) )
@@ -85,9 +90,13 @@ void SCStat::PrintPlace() {
 	for(unsigned int i = 0; i != g_allPlaces.size(); i++ )
 	{
 		cout << "*       "<< p[k] << setfill(' ') << setw(sizePlace) << i+1 << " | " 
-		                     << setw(sizeName) << g_allPlaces[i]->GetName().c_str() << " | "
-									<< setw(sizeCap) << g_allPlaces[i]->GetArgCapacity() << " | "
-									<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() <<" | " 
+		                     << setw(sizeName) << g_allPlaces[i]->GetName().c_str() << " | ";
+		if( g_allPlaces[i]->GetArgCapacity() == UINT_MAX )
+			cout << setw(sizeCap) << "inf"  << " | ";
+		else
+			cout << setw(sizeCap) << g_allPlaces[i]->GetArgCapacity()  << " | ";
+
+		cout							<< setw(sizeEnd) << g_allPlaces[i]->GetArgStartVal() <<" | " 
 									<< setw(sizeVal) << g_allPlaces[i]->GetArgCurrentVal() << " | " 
 									<< setw(sizeCount) << g_allPlaces[i]->GetArgTotal() << endl;
 		if( k < 5 )
@@ -160,7 +169,7 @@ void SCStat::PrintTransition() {
 		if( k < 7 )
 			k++;
 		else if( i > 8 )
-			k = 8;
+			k = 7;
 
 	}
 	if( strlen(p1) > g_allTrans.size() )
@@ -327,7 +336,7 @@ string SCStat::GetTransitionTime( int i ) {
 	string type;
 
 	if( TIME_ABS == g_allTrans[i]->GetTimeType() )
-		type = "";
+		type = "abs(";
 	else if( TIME_EXP == g_allTrans[i]->GetTimeType() )
 		type = "exp(";
 	else if( TIME_POIS ==  g_allTrans[i]->GetTimeType() )
@@ -337,9 +346,12 @@ string SCStat::GetTransitionTime( int i ) {
 	else
 		type = "";
 
-	if( type != "" )
+	if( type ==  "norm(" )
+		type += convertDouble( g_allTrans[i]->GetTime() ) + "-" + convertDouble( g_allTrans[i]->GetTimeEnd() ) + ")";
+	else if( type != "" )
 		type += convertDouble( g_allTrans[i]->GetTime() ) + ")";
-
+	else
+		cout << "spatne zadane"<<endl;
 	return type;
 }
 

@@ -23,10 +23,10 @@
 class SCPlace : public SCBase
 {
 private:
-	void CommitTransNoParam();
-	void CommitTransTime();
-	void CommitTransPrio();
-	void CommitTransProbab();
+	int CommitTransNoParam();
+	int CommitTransTime();
+	int CommitTransPrio();
+	int CommitTransProbab();
 
 protected:
 	//members
@@ -37,6 +37,7 @@ protected:
 	unsigned int m_total;
 public:
 	//methods
+	bool CheckTransitions();
 	int Compare(SCPlace *place);
 	virtual int Run();
 	virtual SSBaseData* GetData();

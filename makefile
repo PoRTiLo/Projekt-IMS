@@ -266,7 +266,7 @@ clean:
 
 # odstrani zkompilovane soubory a vytvorene knihovny
 clean-all: clean
-	rm -f *.so*.a
+	rm -f *.so *.a
 
 # smaze vsenchno krome zdrojovych souboru a makefile
 delete: 

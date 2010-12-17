@@ -37,3 +37,4 @@ void SetSimulationLength(double length);
 int PlToTr(SCPlace *start,SCTransition *end, SCDirectedArc *arc);
 int TrToPl(SCTransition *start,SCPlace *end, SCDirectedArc *arc);
 void SetPrint(int argcIn, const char* argvIn[]);
+bool ValidateModel();

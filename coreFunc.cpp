@@ -38,13 +38,21 @@ int Run()
 	{
 		g_simLength = numeric_limits<double>::max();
 	}
+	if(!ValidateModel())
+	{
+		return -1;
+	}
 	std::vector<SCTransition*>::iterator it;
 	for(it = g_allTrans.begin(); it < g_allTrans.end(); it++)
 	{
 		if((*it)->GetDirectedArcsFrom()->empty())
-			g_eventCal.Insert(*it,g_time);
+			g_eventCal.Insert(*it,(*it)->GetExactTime());
 	}
 
+	if( g_print )
+		SCStat::PrintLegend();
+
+	int ret = 0;
 	SCCalendarUnit *unit = NULL;
 	while(g_time < g_simLength)
 	{
@@ -59,7 +67,14 @@ int Run()
 			break;
 		}
 		g_time = unit->GetTime();
-		unit->GetBase()->Run();
+		if((ret = unit->GetBase()->Run()) != BASE_OK)
+		{
+			if(SCBase::EvaluateErrorCode(ret,unit->GetBase()) == BASE_FATAL)
+			{
+				delete unit;
+				break;
+			}
+		}
 		delete unit;
 	}
 
@@ -118,4 +133,41 @@ void SetPrint(int argcIn, const char* argvIn[]) {
 		g_print = false;
 		g_printAll = false;
 	}
+}
+bool ValidateModel()
+{
+	bool ret = true;
+	bool res = false;
+	cout<<"PetriSim version 1.0.0"<<endl<<endl;
+	cout<<"Checking for model validity... ";
+	//preskuma ci sa v modely nenachadza nekonecny cyklus s nulovym casom
+	vector<SCTransition*>::iterator it;
+	vector<SCPlace*>::iterator it2;
+	//prehliada vsetky miesta
+	for(it2 = g_allPlaces.begin(); it2 < g_allPlaces.end(); it2++)
+	{
+		if(!(*it2)->CheckTransitions())
+		{
+			ret = false;
+		}
+	}
+	//prehlada vsetky prechody
+	for(it = g_allTrans.begin(); it < g_allTrans.end(); it++)
+	{
+		if((*it)->CheckZeroTimeLoop())
+		{
+			if(ret)
+			{
+				cout<<"failed!"<<endl<<endl;
+			}
+			cout<<"MODEL LOGIC ERROR: Model contains infinite loop in zero time and cannot be simulated properly, Check model !!!"<<endl;
+			ret = false;
+			break;
+		}
+	}
+	if(ret)
+	{
+		cout<<"sucess!"<<endl<<endl;
+	}
+	return ret;
 }

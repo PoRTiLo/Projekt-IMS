@@ -121,6 +121,7 @@ class SCStat
 		 */
 		static int MaxDirectedWeight();
 
+
 	public:
 		/**
 		 * Konstruktor.
@@ -161,5 +162,10 @@ class SCStat
 		 * Tisk koncovych hvezdicek.
 		 */
 		 static void PrintEnd();
+
+		/**
+		 * Tisk legendy pro jednotlive vypisy
+		 */
+		static void PrintLegend();
 };
 #endif //STATS_H__

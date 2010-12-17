@@ -73,6 +73,10 @@ vector<SCDirectedArc*>* SCBase::GetDirectedArcsFrom()
 {
 	return &this->m_directedArcsFrom;
 }
+vector<SCDirectedArc*>* SCBase::GetDirectedArcsTo()
+{
+	return &this->m_directedArcsTo;
+}
 SCBase::SCBase()
 {
 	memset(&m_data.data,0,8);
@@ -95,4 +99,98 @@ SCDirectedArc* SCBase::GetLastCommitedArc()
 void SCBase::SetLastCommitedArc(SCDirectedArc* directedArc)
 {
 	this->m_lastCommited = directedArc;
+}
+/*static*/int SCBase::EvaluateErrorCode(int code,SCBase* subject)
+{
+	int ret = BASE_OK;
+	switch(code)
+	{
+		case BASE_FATAL:
+			ret = BASE_FATAL;
+			break;
+		case TRANSITION_BAD_DATA:
+			cout<<endl<<"MODEL RUNTIME ERROR: Unexpected data arrived: Check model !!!" <<endl;
+			ret = BASE_FATAL;
+			break;
+		case TRANSITION_BAD_ARGS:
+			if(subject != NULL)
+				cout<<endl<<"MODEL RUNTIME ERROR: Unexpected parameters for transition name: "<<subject->GetName().c_str()<<", Check model !!!" <<endl;
+			else
+				cout<<endl<<"MODEL RUNTIME ERROR: Unexpected parameters for transition, Check model !!!" <<endl;
+			ret = BASE_FATAL;
+			break;
+		case RUNTIME_TRANSITION_CRASH:
+			if(subject != NULL)
+				cout<<endl<<"MODEL RUNTIME ERROR: Bad transition combination for place name: "<<subject->GetName().c_str()<<", Check model !!!" <<endl;
+			else
+				cout<<endl<<"MODEL RUNTIME ERROR: Bad transition combination for place, Check model !!!" <<endl;
+			ret = BASE_FATAL;
+			break;
+		case RUNTIME_TRANS_PROB_LIMIT:
+			if(subject != NULL)
+				cout<<endl<<"MODEL RUNTIME ERROR: The sum of transition probabilities for place name: "<<subject->GetName().c_str()<<" is more then 100%, Check model !!!" <<endl;
+			else
+				cout<<endl<<"MODEL RUNTIME ERROR: The sum of transition probabilities is more then 100%, Check model !!!" <<endl;
+			ret = BASE_FATAL;
+			break;
+		case RUNTIME_TRANS_PROB_LOW:
+			if(subject != NULL)
+				cout<<endl<<"MODEL RUNTIME ERROR: The sum of transition probabilities for place name: "<<subject->GetName().c_str()<<" is not 100%, Check model !!!" <<endl;
+			else
+				cout<<endl<<"MODEL RUNTIME ERROR: The sum of transition probabilities is not 100%, Check model !!!" <<endl;
+			ret = BASE_FATAL;
+			break;
+		case PLACE_SIM_END:
+		case PLACE_EMPTY:
+		case TRANSITION_SIM_END:
+		case TRANSITION_NOT_RUN:
+		case TRANSITION_ACTION_FAIL:
+		default:
+			ret = BASE_OK;
+	}
+	return ret;
+}
+bool SCBase::IsCycle(vector<SCBase*> *base)
+{
+	vector<SCBase*>::iterator itB;
+	for(itB = base->begin(); itB < base->end(); itB++)
+	{
+		if(this == *itB)
+			return true;
+	}
+	
+	base->push_back(this);
+	SSBaseData* data = NULL;
+	data = this->GetData();
+	bool ret = false;
+
+	if(data != NULL)
+	{
+		vector<SCDirectedArc*>::iterator it;
+		double time = 0;
+		switch(data->mode)
+		{
+		case  TRANSITION_WAIT:
+			memcpy(&time,data->data,sizeof(double));
+			if(time != 0)
+			{
+				return false;
+			}
+		case TRANSITION_PROBAB:
+		case TRANSITION_PRIO:
+		case TRANSITION_NOPARAM:
+		case PLACE_CAP:
+			break;
+		}
+	}
+	vector<SCDirectedArc*>::iterator it;
+	for(it = this->m_directedArcsTo.begin(); it < this->m_directedArcsTo.end(); it++)
+	{
+		if((*it)->GetTarget()->IsCycle(base))
+		{
+			ret = true;
+			break;
+		}
+	}
+	return ret;
 }

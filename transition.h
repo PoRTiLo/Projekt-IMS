@@ -22,7 +22,7 @@ class SCTransition : public SCBase
 {
 	//members
 protected:
-	unsigned short m_timeType;
+	int m_timeType;
 	unsigned int m_priority;
 	unsigned int m_totalOut;
 	unsigned int m_totalIn;
@@ -31,19 +31,21 @@ protected:
 	double m_probability;
 	//methods
 public:
+	bool CheckZeroTimeLoop();
 	unsigned int GetTotalPassedIn();
 	unsigned int GetTotalPassedOut();
 	unsigned int GetPriority();
 	double GetProbability();
 	unsigned short GetTimeType();
 	double GetTime();
+	double GetTimeEnd();
 	virtual double GetExactTime();
 	virtual int Run();
 	virtual bool IsReadyToRun();
 	virtual SSBaseData* GetData();
 	int SetArgPrio(unsigned int prio);
-	int SetArgTime(double time, unsigned short type = TIME_ABS);
-	int SetArgTime(double from,double to,unsigned short type = TIME_NORM);
+	int SetArgTime(double time, int type = TIME_ABS);
+	int SetArgTime(double from,double to,int type = TIME_NORM);
 	int SetArgProbability(double probability);
 	int GetStatus();
 	SCTransition();

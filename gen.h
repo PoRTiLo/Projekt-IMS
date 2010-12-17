@@ -21,8 +21,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <limits.h>
-#include <time.h>
-#include <sys/time.h>
+
+
 #define PI 3.1415926535897932384626433832795
 
 class SCGen
@@ -33,7 +33,7 @@ class SCGen
 		/**
 		 * Konstruktor
 		 */
-		SCGen();
+		SCGen(){}
 
 		/**
 		 * Destruktor
@@ -53,14 +53,6 @@ class SCGen
 		 * @return <double> nahodne cislo v doubleervalu (a,b)
 		 */
 		static double GenNomInterval( double a, double b );
-
-		/**
-		 * SCGenerator pseudonahodnych cisel v urcitem rozsahu
-		 * @param[in] <int> a dolni hranice
-		 * @param[in] <int> b horni hranice
-		 * @return <int> nahodne cislo v doubleervalu (a,b)
-		 */
-		static int GenNomInterval( int a, int b );
 
 		/**
 		 * SCGenerator pseudonahodnych cisel v doubleervalu (0,1)
@@ -115,12 +107,6 @@ class SCGen
 		 * @return <double>
 		 */
 		static double GenPoisson( double poiss );
-
-		/**
-		 *
-		 *
-		 */
-		static void InitGenSeed();
 
 };
 

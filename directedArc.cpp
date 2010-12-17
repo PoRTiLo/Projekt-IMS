@@ -45,6 +45,7 @@ int SCDirectedArc::SetArgWeight(unsigned int weight)
 	this->m_weight = weight;
 	return this->m_status;
 }
+/*
 int SCDirectedArc::SetArgInhib()
 {
 	if(m_weight != 1)
@@ -54,6 +55,7 @@ int SCDirectedArc::SetArgInhib()
 	this->m_inhib = DIRECTEDARC_INHIB;
 	return this->m_status;
 }
+*/
 unsigned int SCDirectedArc::GetArgWeight()
 {
 	return this->m_weight;
@@ -68,7 +70,6 @@ int SCDirectedArc::GetStatus()
 }
 int SCDirectedArc::SetTarget(SCBase *target)
 {
-	//TODO: doplnit kontrolu place-transition alebo transition-place
 	if(target != NULL)
 	{
 		this->m_target = target;
@@ -81,7 +82,6 @@ int SCDirectedArc::SetTarget(SCBase *target)
 }
 int SCDirectedArc::SetStart(SCBase *start)
 {
-	//TODO: doplnit kontrolu place-transition alebo transition-place
 	if(start != NULL)
 	{
 		this->m_start = start;

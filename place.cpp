@@ -47,15 +47,19 @@ int SCPlace::SetArgStartVal(unsigned int startValue)
 }
 int SCPlace::Run()
 {
-	if(this->m_directedArcsTo.size() == 0)
+	if(this->m_status != PLACE_OK)
+	{
+		return this->m_status;
+	}
+	else if(this->m_directedArcsTo.size() == 0)
 	{
 		return PLACE_SIM_END;
 	}
-	if(this->m_value <= 0)
+	else if(this->m_value <= 0)
 	{
 		return PLACE_EMPTY;
 	}
-	int ret = PLACE_SUCC;
+	int ret = PLACE_OK;
 	int currentMode = TRANSITION_DEFAULT;
 	if(this->m_status == PLACE_OK)
 	{
@@ -69,8 +73,7 @@ int SCPlace::Run()
 				{
 					if(currentMode != TRANSITION_DEFAULT && currentMode != TRANSITION_NOPARAM)
 					{
-						this->m_status = RUNTIME_TRANSITION_CRASH;
-						ret = PLACE_FAIL;
+						ret = this->m_status = RUNTIME_TRANSITION_CRASH;
 						break;
 					}
 				}
@@ -88,22 +91,22 @@ int SCPlace::Run()
 			{
 			case TRANSITION_WAIT:
 				{
-					this->CommitTransTime();
+					ret = this->CommitTransTime();
 				}
 				break;
 			case TRANSITION_PROBAB:
 				{
-					this->CommitTransProbab();
+					ret = this->CommitTransProbab();
 				}
 				break;
 			case TRANSITION_PRIO:
 				{
-					this->CommitTransPrio();
+					ret = this->CommitTransPrio();
 				}
 				break;
 			case TRANSITION_NOPARAM:
 				{	
-					this->CommitTransNoParam();
+					ret = this->CommitTransNoParam();
 				}
 				break;
 			}
@@ -111,9 +114,9 @@ int SCPlace::Run()
 	}
 	return ret;
 }
-void SCPlace::CommitTransTime()
+int SCPlace::CommitTransTime()
 {
-	int ret = PLACE_OK  ;
+	int ret = PLACE_OK;
 	vector<SCDirectedArc*>::iterator it;
 	vector<SCBase*> nullTimeVec;
 	//najde nulovy cas
@@ -145,13 +148,18 @@ void SCPlace::CommitTransTime()
 			{
 				if(val > genNonDetNum)
 				{
-					if((*itN)->Run() == TRANSITION_OK)
+
+					if((ret = (*itN)->Run()) == TRANSITION_OK)
 					{
 						done = true;
 						break;
 					}
 					else
 					{
+						if(this->EvaluateErrorCode(ret,*itN) == BASE_FATAL)
+						{
+							return ret;
+						}
 						if(failedRun.find(*itN) == failedRun.end())
 						{
 							failedRun.insert(*itN);
@@ -169,13 +177,17 @@ void SCPlace::CommitTransTime()
 			{
 				for(itN = nullTimeVec.begin();itN<nullTimeVec.end();itN++)
 				{
-					if((*itN)->Run() == TRANSITION_OK)
+					if((ret = (*itN)->Run()) == TRANSITION_OK)
 					{
 						done = true;
 						break;
 					}
 					else
 					{
+						if(this->EvaluateErrorCode(ret,*itN) == BASE_FATAL)
+						{
+							return ret;
+						}
 						if(failedRun.find(*itN) == failedRun.end())
 						{
 							failedRun.insert(*itN);
@@ -222,9 +234,11 @@ void SCPlace::CommitTransTime()
 			}
 		}
 	}
+	return ret;
 }
-void SCPlace::CommitTransPrio()
+int SCPlace::CommitTransPrio()
 {
+	int ret = PLACE_OK;
 	double arraySize = this->m_directedArcsTo.size();
 	double val = 1/arraySize;
 	set<SCBase*> failedRun;
@@ -276,13 +290,17 @@ void SCPlace::CommitTransPrio()
 			{
 				if( val > rand)
 				{
-					if((*itB)->Run() == TRANSITION_OK)
+					if((ret = (*itB)->Run()) == TRANSITION_OK)
 					{
 						sent = true;
 						break;
 					}
 					else
 					{
+						if(this->EvaluateErrorCode(ret,*itB) == BASE_FATAL)
+						{
+							return ret;
+						}
 						if(failedRun.find(*itB) == failedRun.end())
 						{
 							failedRun.insert(*itB);
@@ -300,13 +318,17 @@ void SCPlace::CommitTransPrio()
 			{
 				for(itB = samePrioVec.begin(); itB < samePrioVec.end(); itB++)
 				{
-					if((*itB)->Run() == TRANSITION_OK)
+					if((ret = (*itB)->Run()) == TRANSITION_OK)
 					{
 						sent = true;
 						break;
 					}
 					else
 					{
+						if(this->EvaluateErrorCode(ret,*itB) == BASE_FATAL)
+						{
+							return ret;
+						}
 						if(failedRun.find(*itB) == failedRun.end())
 						{
 							failedRun.insert(*itB);
@@ -333,10 +355,11 @@ void SCPlace::CommitTransPrio()
 			}
 		}	
 	}
+	return ret;
 }
-void SCPlace::CommitTransNoParam()
+int SCPlace::CommitTransNoParam()
 {
-
+	int ret = PLACE_OK;
 	double arraySize = this->m_directedArcsTo.size();
 	double val = 1/arraySize;
 	set<SCBase*> failedRun;
@@ -349,13 +372,17 @@ void SCPlace::CommitTransNoParam()
 		{
 			if(val > genNonDetNum)
 			{
-				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				if((ret = (*it)->GetTarget()->Run()) == TRANSITION_OK)
 				{
 					done = true;
 					break;
 				}
 				else
 				{
+					if(this->EvaluateErrorCode(ret,(*it)->GetTarget()) == BASE_FATAL)
+					{
+						return ret;
+					}
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
@@ -372,12 +399,16 @@ void SCPlace::CommitTransNoParam()
 		{
 			for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 			{
-				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				if((ret = (*it)->GetTarget()->Run()) == TRANSITION_OK)
 				{
 					break;
 				}
 				else
 				{
+					if(this->EvaluateErrorCode(ret,(*it)->GetTarget()) == BASE_FATAL)
+					{
+						return ret;
+					}
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
@@ -390,9 +421,11 @@ void SCPlace::CommitTransNoParam()
 			break;
 		}
 	}
+	return ret;
 }
-void SCPlace::CommitTransProbab()
+int SCPlace::CommitTransProbab()
 {
+	int ret = PLACE_OK;
 	double arraySize = this->m_directedArcsTo.size();
 	double val = 1/arraySize;
 	set<SCBase*> failedRun;
@@ -411,13 +444,16 @@ void SCPlace::CommitTransProbab()
 			zeroProbTrans++;
 		}
 		probability += currentProb;
-		if(probability > 100)
-		{
-			this->m_status = RUNTIME_TRANS_PROB_LIMIT;
-			ok = false;
-			break;
-		}
-
+	}
+	if(probability > 100)
+	{
+		ret = this->m_status = RUNTIME_TRANS_PROB_LIMIT;
+		ok = false;
+	}
+	else if(probability != 100 && zeroProbTrans == 0)
+	{
+		ret = this->m_status = RUNTIME_TRANS_PROB_LOW;
+		ok = false;
 	}
 	//pravdepodobnost prechodov bez parametra
 	double noParamTransProb = (100-probability)/(double)zeroProbTrans;
@@ -438,13 +474,17 @@ void SCPlace::CommitTransProbab()
 			probability += currentProb;
 			if(genNonDetNum < probability/100)
 			{
-				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				if((ret = (*it)->GetTarget()->Run()) == TRANSITION_OK)
 				{
 					done = true;
 					break;
 				}
 				else
 				{
+					if(this->EvaluateErrorCode(ret,(*it)->GetTarget()) == BASE_FATAL)
+					{
+						return ret;
+					}
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
@@ -460,12 +500,16 @@ void SCPlace::CommitTransProbab()
 		{
 			for(it = this->m_directedArcsTo.begin();it<this->m_directedArcsTo.end();it++)
 			{
-				if((*it)->GetTarget()->Run() == TRANSITION_OK)
+				if((ret = (*it)->GetTarget()->Run()) == TRANSITION_OK)
 				{
 					break;
 				}
 				else
 				{
+					if(this->EvaluateErrorCode(ret, (*it)->GetTarget()) == BASE_FATAL)
+					{
+						return ret;
+					}
 					if(failedRun.find((*it)->GetTarget()) == failedRun.end())
 					{
 						failedRun.insert((*it)->GetTarget());
@@ -478,6 +522,7 @@ void SCPlace::CommitTransProbab()
 			}
 		}		
 	}
+	return ret;
 }
 SSBaseData* SCPlace::GetData()
 {
@@ -492,7 +537,7 @@ int SCPlace::Action(int code, int param)
 	if(code == ACTION_TAKE)
 	{
 		if( g_print == true && this->m_print == true )
-			cout << "time: '" << g_time << "' <-- Misto s nazvem '" << this->m_name.c_str() << "' a kapacitou '"<< this->m_value << "'";
+			cout << "cas: '" << g_time << "' <-- " << this->m_name.c_str() << "(Akt. hodnota ['"<< this->m_value << "'";
 		if(m_value - param >= 0)
 		{
 			this->m_value -= param;
@@ -506,14 +551,14 @@ int SCPlace::Action(int code, int param)
 	else if(code == ACTION_RETURN)
 	{
 		if( g_print == true && this->m_print == true )
-			cout << "time: '" << g_time << "' --> Misto s nazvem '" << this->m_name.c_str() << "' a kapacitou '"<< this->m_value << "'";
+			cout << "cas: '" << g_time << "' --> " << this->m_name.c_str() << "(Akt. hodnota ['"<< this->m_value << "'";
 		this->m_value += param;
 		this->m_total++;
 		ret = PLACE_RETURNED;
 	}
 	if( g_print == true && this->m_print == true )
 	{
-		cout << " zmenilo svou kapacitu na: '"<< this->m_value << "'";
+		cout << "-->'"<< this->m_value << "'])";
 		g_printT = true;
 	}
 	else
@@ -558,4 +603,78 @@ void SCPlace::SetArgPrint( bool print ) {
 
 	this->m_print = print;
 }
-
+bool SCPlace::CheckTransitions()
+{
+	bool ret = true;
+	int currentTransition = TRANSITION_DEFAULT;
+	vector<SCDirectedArc*>::iterator it;
+	for(it = this->m_directedArcsTo.begin(); it < this->m_directedArcsTo.end(); it++)
+	{
+		if((*it)->GetTarget()->GetStatus() != TRANSITION_OK)
+		{
+			if(ret)
+			{
+				cout<<"failed!"<<endl<<endl;
+			}
+			cout<<"MODEL SEMANTIC ERROR: Transition: "<<(*it)->GetName().c_str()<<" contains bad arguments, Check model !!!"<<endl;
+			ret = false;
+		}
+		if(currentTransition == TRANSITION_DEFAULT)
+		{
+			currentTransition =  (*it)->GetTarget()->GetData()->mode;
+		}
+		else
+		{
+			if(currentTransition == TRANSITION_NOPARAM)
+			{
+				currentTransition =  (*it)->GetTarget()->GetData()->mode;
+			}
+			else
+			{
+				if(currentTransition != (*it)->GetTarget()->GetData()->mode && (*it)->GetTarget()->GetData()->mode != TRANSITION_NOPARAM)
+				{
+					if(ret)
+					{
+						cout<<"failed!"<<endl<<endl;
+					}
+					cout<<"MODEL SEMANTIC ERROR: Place: "<<this->GetName().c_str()<<" has more types of transitions available, Check model !!!"<<endl;
+					ret = false;
+				}
+			}
+		}
+	}
+	if(currentTransition == TRANSITION_PROBAB)
+	{
+		unsigned int noParamCount = 0;
+		double fullProbab = 0;
+		for(it = this->m_directedArcsTo.begin(); it < this->m_directedArcsTo.end(); it++)
+		{
+			if((*it)->GetTarget()->GetData()->mode == TRANSITION_NOPARAM)
+			{
+				noParamCount++;
+			}
+			double probab = 0;
+			memcpy(&probab,(*it)->GetTarget()->GetData()->data,sizeof(double));
+			fullProbab += probab;
+		}
+		if(fullProbab > 100)
+		{
+			if(ret)
+			{
+				cout<<"failed!"<<endl<<endl;
+			}
+			cout<<"MODEL SEMANTIC ERROR: The sum of transition probabilities for place: "<<this->GetName().c_str()<<" is more then 100%, Check model !!!"<<endl;
+			ret = false;
+		}
+		if(fullProbab < 100 && noParamCount == 0)
+		{
+			if(ret)
+			{
+				cout<<"failed!"<<endl<<endl;
+			}
+			cout<<"MODEL SEMANTIC ERROR: The sum of transition probabilities for place: "<<this->GetName().c_str()<<" is lower then 100%, Check model !!!"<<endl;
+			ret = false;
+		}
+	}
+	return ret;
+}

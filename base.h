@@ -34,6 +34,7 @@ protected:
 	SCDirectedArc *m_lastCommited;
 public:
 	//methods
+	static int EvaluateErrorCode(int code,SCBase* subject = NULL);
 	SCDirectedArc* GetLastCommitedArc();
 	void SetLastCommitedArc(SCDirectedArc *directedArc);
 	string GetName();
@@ -47,7 +48,9 @@ public:
 	int GetStatus();
 	int AddDirectedArcFrom(SCDirectedArc *directedArc);
 	int AddDirectedArcTo(SCDirectedArc *directedArc);
+	bool IsCycle(vector<SCBase*> *base);
 	vector<SCDirectedArc*>* GetDirectedArcsFrom();
+	vector<SCDirectedArc*>* GetDirectedArcsTo();
 
 	SCBase();
 	~SCBase();
