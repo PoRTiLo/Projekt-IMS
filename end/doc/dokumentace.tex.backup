@@ -1,0 +1,548 @@
+\documentclass[a4paper, 11pt]{report}[15.3.2010]									% valikost stranky, styl a pismo
+
+%% packages
+\usepackage[left=2cm, text={17cm, 24cm}, top=3cm]{geometry}		% rozmery stranky
+\usepackage{times}
+\usepackage[czech]{babel}
+\usepackage[latin2]{inputenc}
+%\usepackage[IL2]{fontenc}													% kodovani fontu
+
+\usepackage{graphics}
+%\usepackage[pdftex]{graphicx}
+
+\usepackage{amsmath}
+ %  \usepackage{amsfonts}   % if you want the fonts
+   \usepackage{amssymb}    % if you want extra symbols
+%\usepackage{latexsym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,petri}
+\usepackage{colortbl}
+%\usepackage{pnets}
+%\usepackage{pstricks}
+\usepackage{amsthm}
+\pagestyle{plain}
+
+  \usepackage{color}
+
+  \usepackage[unicode,colorlinks,hyperindex,plainpages=false,pdftex]{hyperref}
+  \definecolor{links}{rgb}{0.4,0.5,0}
+  \definecolor{anchors}{rgb}{1,0,0}
+
+
+
+\begin{document}
+\chapter{Úvod}
+Tento dokument pojednává o funkènosti, tvorbì a základních informacích o tvorbì simulátoru modelù P/T\footnote{Place/Transitions} Petriho sítí ve formì knihovny k programovacímu jazyku C++. Za pomocí statické a nebo dynamické knihovny je mo¾né vytvoøit model Petriho sítì a následnì jej nasimulovat. Jedná se stochastické èernobílé P/T Petriho sítì s roz¹íøenými vlastnostmi o pravdìpodobnosti, prioritu a èasování pøechodù, které jim dávají výpoèetní sílu Turingova stroje, tedy jsou schopny poèítat v¹echny vyèíslitelné funkce. 
+
+\section{kapitola}
+Na projektu pracoval dvouèlenný tým slo¾ený ze studentù bakaláøského studia, úkoly byly rozdìleny následovnì:
+\begin{itemize}
+  \item Du¹an Kovaèiè (vedoucí týmu) - jádro simulace, dokumentace.
+  \item Jaroslav Sendler - kalendáø, generátory pseudonáhodných èísel, statistika a výpisy, dokumentace.
+\end{itemize}
+Pro úèely øe¹ení tohoto projektu nebyl vyu¾it ¾ádný pravidelný poradce, tudí¾ nebylo pou¾ito ¾ádných rad z tøetích stran a¾ na jednu konzultaci s hodnotícím, panem Hrubým Martinem, Ing., Ph.D..
+Odborná a pomocná literatura:
+\begin{enumerate}
+ \item Rábová Z. a kol: Modelování a simulace, VUT Brno, 1992, ISBN 80-214-0480-9
+ \item Soubor materiálù prezentovaných na pøedná¹kách
+ \item JANOU©EK, Vladimír: Modelování objektù Petriho sítìmi, Brno, 1998. 137 s. Dizertaèní práce. VUT, Fakulta elektrotechniky a informatiky
+\end{enumerate}
+
+
+\chapter{Rozbor tématu a pou¾itých metod/technologií}
+Petriho sít je matematická reprezentace diskrétních distribuovaných systémù.
+\theoremstyle{definition}
+\newtheorem{definice}{Definice}[chapter]
+\begin{definice}
+Základní zápis Petriho sítì je mo¾ný v grafické formì popisující stavy a pøechody mezi stavy, umo¾òuje vyjádøení paralelismu a nedeterminismu (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt\footnote{https://www.fit.vutbr.cz/study/courses/index.php?id=7409}}, opora IMS strana 31)
+\end{definice}
+
+Definici v podobì matematického zápisu viz. Definice P/T Petriho sítì (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 126).
+
+\begin{definice} Petriho sí» je ¹estice 
+$\Sigma$ = ($P$, $T$, $F$ , $W$, $C$, $M_0$)\\ \\
+kde:
+\begin{itemize}
+   \item $P$ je mno¾ina míst
+   \item $T$ je mno¾ina pøechodù, $P$ $\cap$ $T$ = 0
+   \item $F$ $\subseteq$ ($P$ $\times$ $T$) $\cup$ ($T$ $\times$ $P$) incidenèní relace
+   \item $W$ : $F$ $\rightarrow$ \{1,2, ...\} váhová funkce
+   \item Kapacity míst. $C$ : $P$ $\rightarrow$ $N$
+   \item $M_0$ poèáteèní znaèení, $M_0$ : $P$ $\rightarrow$ $N$
+   \item ($M$ se nazývá znaèení Petriho sítì)
+\end{itemize}
+\end{definice}
+
+Petriho sí» je tvoøena pomocí následujících objektù (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 127):
+
+\subsection*{Místa}   
+\textit{Místa} (Places), modelují parciální stavy systému. Jejich vizuální vyjádøení v grafu Petriho sítí je ukázáno na obrázku \ref{pic1}.
+\begin{figure}[h]
+  \begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, label=above:$p_0$] (p0){};
+    \end{tikzpicture}
+    \caption{Vyjádøení místa v grafu}
+    \label{pic1}
+  \end{center}
+\end{figure}
+
+Vlastnosti míst jsou definovány pomocí znaèek (tokens), které vyjadøují okam¾itý stav systému. Tento stav je zobrazen na obrázku èíslo \ref{pic2}.
+\begin{figure}[h]
+  \begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, tokens=5, label=above:$p_0$] (p0){};
+    \end{tikzpicture}
+    \caption{Vyjádøení místa s 5 znaèkami v grafu}
+    \label{pic2}
+  \end{center}
+\end{figure}
+
+Je-li znaèka v místì  pøítomna, modeluje to skuteènost, ¾e dané stanovisko, uplatòované pøi posuzování, stavu je momentálnì aktuální, nebo-li podmínka je splnìna. Ka¾dé místo má nadefinovaný poèáteèní stav (poèet znaèek na zaèátku) a kapacitu (maximální poèet znaèek na místì). Místo bez ohodnocení je chápáno jako místo s neomezenou kapacitou.
+
+\subsection*{Pøechody}   
+ \textit{Pøechod} (Transitions), definují vzory mo¾ných událostí. Mezi vlastnosti je¾ definují pøechod patøí vstupní a výstupní místa, které jsou vyjádøeny orientovanými hranami spojující místa a pøechody (viz.\ref{Hrany}).
+
+Obrázek \ref{pic3} zobrazuje grafický náèrt pøechodù. Èást A ukazuje zapsání vstupu do pøechodu a èást B zapsání výstupu.
+
+\begin{figure}[h]
+  \begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, tokens=1, label=above:$p_0$, label=left:A] (p0){};
+    \node at ( 1,1) [transition] (t1)[]{}
+      edge [pre] (p0);
+%------------------------------------
+    \node at ( 8,1) [place, tokens=1, label=above:$p_0$] (p0){};
+    \node at ( 6,1) [transition, label=left:B] (t1)[]{}
+      edge [post] (p0);
+    \end{tikzpicture}
+    \caption{A - Vstup do pøechodu, B - výstup z pøechodu}
+    \label{pic3}
+  \end{center}
+\end{figure}
+Pøechod je proveditelný pouze pokud splòuje vstupní a následnì výstupní podmínky. Jako vstupní podmínky se jeví obsah znaèek v místì vstupu. Pøi provádìní pøechodu se znaèky ze vstupního místa odeberou a pøesunou se na výstupní místo, tímto se pou¾ijí výstupní podmínky. Zavedením roz¹íøení pro Petriho sítì zvìt¹ujeme jejich popisnou sílu. Jsou to:
+\begin{description}
+  \item[priority pøechodù] - (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 131) je-li pøechod s vy¹¹í prioritou proveditelný, tak se provede døív ne¾ kterýkoliv proveditelný pøechod s ni¾¹í prioritou. Pokud pøechodu neurèíme velikost priority jako defaultnì je brána hodnota \textit{0}, tato hodnota je i rezervována pro pøechody èasované. Díky prioritì je mo¾no øe¹it deterministické konflikty.
+  \item[pravdìpodobnosti pøechodù] - (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 133) je udávána v procentech. Celkový souèet pravdìpodobnosti v¹ech pøechodù ve stejné úrovni musí být \textit{1}, neboli \textit{100\%}.
+  \item[èasování pøechodù] - (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 135) do Petriho sítí pøiná¹í mo¾nost pracovat s èasem. Doposud byly v¹echny zmìny v síti provedeny okam¾itì. Nyní zmìny mohou trvat urèitou dobu.
+\end{description}
+Tato roz¹íøení se navzájem nesmí kombinovat (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 134). Obrázek \ref{pic4} ukazuje pou¾ití P/T s roz¹íøeními.
+
+\begin{figure}[h]
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,0) [place, tokens=1, label=above:$p_0$, label=left:A] (p0){};
+    \node at ( 3,1) [place, label=above:$p_1$] (p1){};
+    \node at ( 3,-1) [place, label=above:$p_2$] (p2){};
+    \node at ( 1,1) [transition] (t1)[label=above:30\%, label=below:akce1]{}
+      edge [pre] (p0)
+      edge [post] (p1);
+    \node at (1,-1) [transition] (t2)[label=above:70\%, label=below:akce2]{}
+      edge [pre] (p0)
+      edge [post] (p2);
+%---------------------------------------------------
+    \node at ( 5,0) [place, tokens=1, label=above:$p_0$, label=left:B] (p0){};
+    \node at ( 9,0) [place, label=above:$p_1$] (p1){};
+    \node at ( 7,0) [transition] (t1)[label=below:3s]{}
+      edge [pre] (p0)
+      edge [post] (p1);
+%-----------------------------------------------------
+    \node at ( 12,1) [place, tokens=1, label=above:$p_0$, label=left:C] (p0){};
+    \node at ( 10,-1) [transition] (t1)[]{}
+      edge [pre] (p0);
+    \node at (12,-1) [transition] (t2)[label=below:{$p = 1$}]{}
+      edge [pre] (p0);
+    \node at (14,-1) [transition] (t3)[label=below:{$p = 2$}]{}
+      edge [pre] (p0);
+  \end{tikzpicture}
+  \caption{A - pravdìpodobnost pøechodu, B - èasovaný pøechod, C - priority pøechodù }
+  \label{pic4}
+\end{figure}
+
+
+\newpage
+\subsection*{Orinetované hrany}\label{Hrany}
+  \textit{Hrany} (Arcs), spojují místa s pøechody nebo pøechody s místy. Vlastnost, která udává poèet znaèek, které se souèasnì po hranì pøesunou se oznaèuje \textit{váhová funkce} (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 127). Defaultnì se chápe s hodnotou \textit{1}. Obrázek \ref{pic5} zobrazuje pøíklad mo¾nosti zápisu.
+\begin{figure}[h]
+  \begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, tokens=1, label=above:$p_0$] (p0){};
+    \node at ( -1,-1) [place, tokens=2, label=above:$p_1$] (p1){};
+    \node at ( 3,1) [place, label=above:$p_2$] (p2){};
+    \node at ( 1,1) [transition] (t1)[]{}
+      edge [pre] (p0)
+      edge [pre] node[auto]{2}(p1)
+      edge [post] (p2);
+    \end{tikzpicture}
+    \caption{Hrana s kapacitou}
+    \label{pic5}
+  \end{center}
+\end{figure}
+
+\section{Tvorba simulátoru}
+Simulátor byl navr¾ený tak, aby uspokojoval nejzákladnìj¹í parametry vyu¾ití a byl jednoduchý a srozumitelný pro u¾ivatele. Základní cíle byly tedy stanoveny na jednoduchost a intuitivnost. S trochou pøedstavivosti je pøedvídatelné co ka¾dá zadaná funkce dìlá a jaké je její pou¾ití. Na výsledný simulátor by bylo pomìrnì jednoduché navázat grafické u¾ivatelské rozhraní. Dal¹ím významným kriteriem pøi tvorbì, byla nutnost eliminovat co nejvíce chyb pøi samotném zápise zkoumaného modelu. Pøi prvním pohledu na slo¾itìj¹í model, mù¾e být jeho význam nejasný, ale po podrobnìj¹ím prostudování je koncepènì toto¾ný s grafickým zápisem. Samotný nápad o zápis modelu a jeho ovládání je výhradnì dílem autora, inspirovaný podobnou knihovnou SIMLIB (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 167).
+
+\section{Podnìty tvorby}
+PetriSim 1.0.0 byl vytvoøený jen z poznatkù a nápadù autorù, bez ovlivnìní studováním funkènosti jiných podobných nástrojù pro simulaci. Pou¾ité algoritmy nejen, ¾e umo¾òují zápis a simulaci Petriho sítì s roz¹íøeními definovanými v úvodu, ale i sémantickou kontrolu správnosti výsledného modelu a schopnost adekvátní simulace. Bez této kontroly by byl napøíklad mo¾ný nekoneèný cyklus v nulovém èase, a nebo prùbìh nekoneènì trvající simulace. V pøípadì takovýchto zji¹tìní, je u¾ivatel okam¾itì upozornìný o vzniklé situaci a je mu navrhnuto øe¹ení. Nejvìt¹í motivací pro nekopírování nápovìd byla tu¾ba vymyslet nìco originálního. Autoøi pøi zaèátku tvorby ji¾ mìli zku¹enosti s danou problematikou.
+
+\chapter{Koncepce simulátoru}
+
+Simulátor je postavený na konceptu jednoduchosti a intuitivnosti, aby se co nejvíce pøiblí¾il logikou grafickému zápisu a byl tak pochopitelný pro u¾ivatele. Skládá se z tøech hlavních tøíd a to \texttt{SCTransition}, \texttt{SCPlace} a \texttt{SCDirectedArc}, pøièem¾ ka¾dá z nich reprezentuje urèitou èást grafického zápisu. Tøída \texttt{SCTransition} pøechod, tøída \texttt{SCPlace} místo a tøída \texttt{SCDirectedArc} hranu. Ka¾dé tøídì je mo¾né pøidìlit nastavení podle definice Petriho sítì. Podobnì jako pøi grafickém zápise, je na vytvoøení koneèného modelu potøebné propojit v¹echny elementy. Podle definice je mo¾né spojit pøechod s místem, na co¾ slou¾í funkce \texttt{TrToPl(pøechod,míto,hrana)}, zkratka \uv{TransitionToPlace}, a nebo místo s pøechodem pomocí funkce \texttt{PlToTr(místo,pøechod,hrana)}, zkratka \uv{PlaceToTransition}. Konkrétní funkènost, pøesné mo¾nosti nastavení jednotlivých elementù, jako i nastavení výpisu statistik a provedení simulace budou popsány v dal¹ích kapitolách.
+
+\chapter{Architektura simulaèního modelu/simulátoru}
+Pro samotné pou¾ití knihovny je nutné si ve zdrojovém souboru jazyka C++ pøidat hlavièkový soubor \texttt{PetriSim.h}, který plnì zpøístupní danou knihovnu. Na výbìr je statická a nebo dynamická knihovna, kterou je nutné pøilinkovat pøi kompilaci výsledného programu.
+\section{Tøídy}
+\subsection*{SCBase}
+Základní rozhraní pro tøídy SCPlace a SCTransition
+
+\begin{table}[h]
+  \begin{tabular}{ l  r  p{7cm}  } 
+  %\rowcolor[gray]{0.9}
+& &{\textbf{ METODY}}    \\
+\multicolumn{3}{l}{\texttt{string\textbf{ GetName()}}}\\
+  & parametry                & ¾ádné\\
+  & funkènost                & vrátí aktuální jméno objektu \\ 
+  & vrácená hodnota          & jméno objektu\\\hline
+  %\rowcolor[gray]{0.9}
+\multicolumn{3}{l}{\texttt{void\textbf{ SetName(}string name\textbf{)}}} \\
+  & parametry                & jméno  - \texttt{string}\\
+  & funkènost                & nastavení jména objektu \\ 
+  & vrácená hodnota          & ¾ádná\\\hline
+  %\rowcolor[gray]{0.9}
+\multicolumn{3}{l}{\texttt{int\textbf{ GetStatus()}}}\\
+  & parametry                & ¾ádné\\
+  & funkènost                & vrátí status objektu \\ 
+  & vrácená hodnota          & aktuální stav objektu, bli¾¹í informace v \texttt{StatusList.h}\\ \hline
+  \end{tabular}
+  %\caption{Srovnání slu¾eb WWW, Email a Jabber}
+  %\label{tab2}
+\end{table}
+
+\newpage
+\subsection*{SCPlace : SCBase}
+Je náhradou místa v grafické reprezentaci.
+\begin{table}[h]
+  \begin{tabular}{ l  r  p{7cm}  }
+  %\rowcolor[gray]{0.9}
+& &{\textbf{ METODY}}    \\
+\multicolumn{3}{l}{\texttt{int\textbf{ SetArgCapacity(}unsigned int capacity\textbf{)}}}  \\
+  & parametry                & kapacita  - \texttt{unsigned int}\\
+  & funkènost                & nastavení místu maximální kapacitu \\ 
+  & vrácená hodnota          & aktuální stav místa\\ \hline
+  %\rowcolor[gray]{0.9}
+\multicolumn{3}{l}{\texttt{int\textbf{ SetArgStartVal(}unsigned int startVal\textbf{)}}}  \\
+  & parametry                & poèáteèní hodnota - \texttt{unsigned int}\\
+  & funkènost                & nastavení poèáteèní hodnotu znaèek \\ 
+  & vrácená hodnota          & aktuální stav místa\\ \hline
+  \end{tabular}
+  %\caption{Srovnání slu¾eb WWW, Email a Jabber}
+  %\label{tab2}
+\end{table}
+  
+\subsection*{SCTransition:SCBase}
+Je náhradou pøechodù v grafické reprezentaci.
+
+\begin{table}[h]
+  \begin{tabular}{ l  r  p{9cm}  }
+  & &{\textbf{ METODY}}    \\
+  %\rowcolors{2}[gray]{0.9}
+\multicolumn{3}{l}{\texttt{int\textbf{ SetArgPrio(}unsigned int prio\textbf{)}}} \\
+  & parametry                & priorita  - \texttt{unsigned int}\\
+  & funkènost                & nastavení pøechodu zadanou prioritu \\ 
+  & vrácená hodnota          & aktuální stav pøechodu\\\hline
+  \multicolumn{3}{l}{\texttt{int\textbf{ SetArgTime(}double time, int type = TIME\_ABS\textbf{)}}}\\
+  & parametry                & èas - \texttt{double}\\
+  &                          & typ èasu  - \texttt{int}\\
+  &                          & \texttt{TIME\_NORM}  - základní èas, absolutní èas\\
+  &                          & \texttt{TIME\_EXP}  - exponenciální rozlo¾ení\\
+  & funkènost                & nastaví èas a jeho typ \\ 
+  & vrácená hodnota          & aktuální stav pøechodu\\\hline
+  \multicolumn{3}{l}{\texttt{int\textbf{ SetArgTimeEx(}double from, double to, int type = TIME\_ROV\textbf{)}}}\\
+  & parametry                & interval èas od - \texttt{double}\\
+  &                          & interval èas do - \texttt{double}\\
+  &                          & typ èasu  - \texttt{int}\\
+  &                          & \texttt{TIME\_NORM}  - základní èas, gaussovo rolzo¾ení\\
+  &                          & \texttt{TIME\_ROV}  - základní èas,rovnomìrné rozlo¾ení\\
+  & funkènost                & nastaví èas a jeho typ \\ 
+  & vrácená hodnota          & aktuální stav pøechodu\\\hline
+  \multicolumn{3}{l}{\texttt{int\textbf{ SetArgProbability(}double probability\textbf{)}}}\\
+  & parametry                & pravdìpodobnost - \texttt{double}\\
+  & funkènost                & nastaví pravdìpodobnost dabému pøechodu\\
+  & vrácená hodnota          & ¾ádná\\ \hline
+  \end{tabular}
+  %\caption{Srovnání slu¾eb WWW, Email a Jabber}
+  %\label{tab2}
+
+\end{table}
+
+\subsection*{SCStats}
+Tøída starající se o statistiky simulace. Výpis statistiky závisí na pou¾ití funkcí \texttt{PrintSteps(bool stav)} a \texttt{PrintSummary(bool stav)}. Poèáteèní hodnota tisku statistik nachází ve stavu \uv{tiskni}. Pokud je pøíznak nastaven, statistiky se tisknou na standardní výstup. Funkce \texttt{PrintSteps} ovládá tisk výpisù po jednotlivých krocích, tiskne se tedy pokud probìhne v simulaci zmìna. Druhá funkce \texttt{PrintSummary} se stará o tisk souhrnné výsledné statistiky.
+
+Pomocí privátní promìnné tøídy \texttt{CSPlace} lze mìnit tisk statistiky po krocích pro jednotlivá místa. Tato promìnná je pro ka¾dé místo nastavena na true, její hodnotu mù¾eme zmìnit funkcí \texttt{SetArgPrint( bool stav)}.
+
+  
+\section{Funkce}
+\begin{table}[h]
+  \begin{tabular}{ l r  p{13cm}  }
+%  \rowcolor[gray]{0.9}
+\multicolumn{3}{l}{\texttt{void\textbf{ SetSimulationLength(}double time\textbf{)}}}    \\
+  & parametry                & maximální délka simulace - \texttt{double}\\
+  & funkènost                & nastaví maximální délku bìhu simulace\\ 
+  & vrácená hodnota          & ¾ádná\\\hline
+  %\rowcolor[gray]{0.9}
+\multicolumn{3}{l}{\texttt{int\textbf{ Run()}}} \\
+  & parametry                & ¾ádné\\
+  & funkènost                & provede celou simulaci, zkontroluje validitu modelu a správný bìh simulace\\
+  & vrácená hodnota          & v pøípadì jak nastane chyba s modelem nebo s jeho úspì¹ným dokonèením, upozorní u¾ivatele a vrátí \texttt{-1} \\
+  &			     & v pøípadì úspì¹ného provedení simulace vrátí \texttt{0}\\ \hline
+  \end{tabular}
+  %\caption{Srovnání slu¾eb WWW, Email a Jabber}
+  %\label{tab2}
+\end{table}
+
+\section{Pou¾ití knihovny}
+Pou¾ití knihovny je demonstrováno na modelu èíslo \ref{mod3}.
+\begin{table}[h]
+\begin{tabular}{ l l }
+\texttt{PrintSteps(true)} & // nastavení tisku statistiky po krocích\\
+\texttt{PrintSummary(false)} & // vypnutí tisku celkové souhrnné statistiky\\\newline
+\texttt{SCPlace p;}&// vytvoøení místa\\
+\texttt{SCDirectedArc a;}&// vytvoøení pøechodu\\
+\texttt{SCTransition t;}&// vytvoøení ¹ipky (hrany)\\\newline
+\texttt{t.SetArgTime(5,TIME\_EXP);}&// nastavení pøechodu\\
+\texttt{TrToPl(\&t,\&p,\&a);}&// urøení vazby mezi pøechodem a místem, orientovaná ¹ipka\\
+  \texttt{SetSimulationLength(100);}&// nastavení délky bìhu simulace\\\\
+  \texttt{Run();}&// start simulace\\
+\end{tabular}
+\end{table}
+
+\chapter{Podstata simulaèních experimentù a jejich prùbìh}
+Model byl vytvoøen na základì dokázání správnosti na¹eho analyzátoru. Experimentováním s rùznými primitivními modely byla zkontrolována  Korektnost simulátoru.
+\section{Primitivní modely}
+
+Obrázek \ref{mod0} reprezentuje funkènost pravdìpodobnosti pøechodù.
+
+\begin{figure}[h]
+ \begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,0) [place, tokens=5, label=above:$p_0$] (p0){};
+    \node at ( 3,1) [place, label=above:$p_1$] (p1){};
+    \node at ( 3,-1) [place, label=above:$p_2$] (p2){};
+    \node at ( 1,1) [transition] (t1)[label=below:80\%]{}
+      edge [pre] (p0)
+      edge [post] (p1);
+    \node at (1,-1) [transition] (t2){}
+      edge [pre] (p0)
+      edge [post] node[auto]{2}(p2);
+  \end{tikzpicture}
+  \caption{Model reprezentující procenta pøechodù}
+  \label{mod0}
+ \end{center}
+\end{figure}
+
+Obrázek \ref{mod1} reprezentuje funkènost priorit pøechodù.
+
+\begin{figure}[h]
+\begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, tokens=1, label=above:$p_0$] (p0){};
+    \node at ( -1,-1) [place, tokens=5, label=above:$p_0$] (p1){};
+    \node at ( 3,1) [place, label=above:$p_1$] (p2){};
+    \node at ( 3,-1) [place, label=above:$p_2$] (p3){};
+    \node at ( 1,1) [transition] (t1)[label=above:{$prio=1$}]{}
+      edge [pre] (p0)
+      edge [pre] node[auto]{5}(p1)
+      edge [post] (p2);
+    \node at (1,-1) [transition] (t2){}
+      edge [pre] (p1)
+      edge [post](p3);
+  \end{tikzpicture}
+  \caption{Model reprezentující prioritu pøechodù}
+  \label{mod1}
+\end{center}
+\end{figure}
+\newpage
+Obrázek \ref{mod2} reprezentuje funkènost èasování pøechodù.
+
+\begin{figure}[h]
+\begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,1) [place, label=above:$p_0$] (p0){10};
+    \node at ( -1,-1) [place, tokens=1, label=above:$p_0$] (p1){};
+    \node at ( 3,1) [place, label=above:$p_1$] (p2){};
+    \node at ( 3,-1) [place, label=above:$p_2$] (p3){};
+    \node at ( 1,1) [transition] (t1)[label=below:10-20]{}
+      edge [pre] (p0)
+      edge [post] (p2);
+    \node at (1,-1) [transition] (t2){}
+      edge [pre] (p1)
+      edge [pre] (p0)
+      edge [post] node[auto]{10}(p3);
+  \end{tikzpicture}
+  \caption{Model reprezentující èasovaný pøechod}
+  \label{mod2}
+\end{center}
+\end{figure}
+Obrázek \ref{mod3} reprezentuje funkènost generování znaèek s exponenciálním rozlo¾ením 5.
+
+\begin{figure}[h]
+\begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( 1,1) [place, label=above:$p_0$] (p0){};
+    \node at ( -1,1) [transition] (t1)[label=below:exp(5)]{}
+      edge [post] (p0);
+  \end{tikzpicture}
+  \caption{Model reprezentující èasovaný pøechod}
+  \label{mod3}
+\end{center}
+\end{figure}
+Obrázek \ref{mod4} reprezentuje funkènost nekoneèné smyèky.
+
+\begin{figure}[h]
+\begin{center}
+  \begin{tikzpicture}
+    [place/.style={circle,draw=black!80,thick, inner sep=0pt,minimum size=10mm},
+    transition/.style={rectangle,draw=black!80,thick,inner sep=0pt,minimum size=4mm},
+    bend angle=45,
+    pre/.style={<-, shorten <=1pt,>=stealth', semithick},
+    post/.style={->, shorten >=1pt, >=stealth', semithick}]
+    \node at ( -1,0) [place, tokens=1, label=above:$p_0$] (p0){};
+    \node at ( 3,0) [place, label=above:$p_0$] (p1){};
+    \node at ( 7,0) [place, label=above:$p_1$] (p2){};
+    \node at ( 1,0) [transition] (t1)[]{}
+      edge [pre] (p0)
+      edge [post] (p1);
+    \node at (5,1) [transition] (t2){}
+      edge [pre] (p1)
+      edge [post] (p2);
+    \node at (5,0) [transition] (t3){}
+      edge [pre] (p2)
+      edge [post] (p1);
+  \end{tikzpicture}
+  \caption{Model reprezentující nekoneènou smyèku}
+  \label{mod4}
+\end{center}
+\end{figure}
+
+\newpage
+\section{Model}
+Na obrázku \ref{mod5}  je vyobrazen komplexní model Petriho sítì. Tato sí» byla vymy¹lena za úèelem ukázat mo¾nosti implementované knihovny. Tudí¾ nevychází z reality. Spojuje zde v¹echny po¾adované vlastnosti míst, pøechodù i hran.
+\begin{figure}[h]
+\begin{center}
+\scalebox{0.85}{
+\includegraphics[angle=0]{bigModel.png} }
+\caption{Model reprezentující v¹echnu funkènost knihovny}
+\label{mod5}
+\end{center}
+\end{figure}
+\newpage
+\section{Statistika}
+Pøíklad statistiky po krocích je zobrazen na obrázku \ref{stat1}. Ka¾dý øádek zaèíná parametrem \texttt{time} urèující aktuální èas. Pomocí ¹ipek \texttt{-->}(zvìt¹ení kap.) nebo \texttt{<--}(zmen¹ení kap.) je graficky zobrazena zmìna kapacity místa. Èást \texttt{Place 0 \dots} zobrazuje jméno místa, následuje informace o zmìnì kapacity, o váze hrany, pøes kterou se proces provedl a o jménì pøechodu.
+\begin{figure}[h]
+$\texttt{time:'2.3' -->Place 0(Act. value ['0'-->'1'])--weight('1')--> Transition 0}$\\
+$\texttt{time:'2.4' <--Place 0(Act. value ['1'-->'0'])--weight('1')--> Transition 8}$
+\caption{Pøíklad statistiky po krocích}
+\label{stat1}
+\end{figure}
+
+Obrázek \ref{stat2} pojednává o celkové souhrnné statistice. \texttt{Place count} znaèí celkový poèet míst v zadaném modelu, \texttt{Transitio count} celkový poèet pøechodù v modelu a \texttt{Directeds count} celkový poèet hran v modelu. \texttt{Simulation time} je èas bìhu simulace.
+\begin{figure}[h]
+$\texttt{************************ STATISTICS **********************}$\\
+\texttt{* \hspace{1cm}       T}\\
+\texttt{* \hspace{1cm}       O \hspace{0.4cm}       Places count      : 12}\\
+\texttt{* \hspace{1cm}      T  \hspace{0.4cm}      Transitions count : 14}\\
+\texttt{* \hspace{1cm}      A  \hspace{0.4cm}     Directeds count   : 27}\\
+\texttt{* \hspace{1cm}      L}\\
+\texttt{* \hspace{1cm}      S  \hspace{0.4cm}      Simulation time   : 68.8996}
+\caption{Pøíklad souhrné statistiky}
+\label{stat2}
+\end{figure}
+
+Na obrázku \ref{stat3} je zobrazena statistika míst. Jednotlivé sloupce popoøadì znaèí : poøadí prvkù, jména prvkù, kapacita míst, poèáteèní hodnota místa, koncová hodnota místa a poslední sloupec obsahuje celkový poèet kulièek na daném místì.
+\begin{figure}[h]
+\texttt{* ------------------------------ places --------------------------}\\
+\texttt{*}\\
+\texttt{* \hspace{.7cm}           . | \hspace{.4cm}    name | capcity | start state | final state tags | total tags}\\
+\texttt{* \hspace{.2cm}           ...................................................................}\\
+\texttt{* \hspace{.2cm}      P    1 |  Place 0 |   \hspace{.7cm}  inf |\hspace{2.3cm}           0 |\hspace{3.45cm} 0 |\hspace{.7cm}         11}\\
+\texttt{* \hspace{.2cm}      L    2 |  Place 1 |   \hspace{.7cm}  inf |\hspace{2.3cm}           0 |\hspace{3.45cm}                0 |\hspace{.7cm}          0}\\
+\texttt{* \hspace{.2cm}      A    3 |  Place 2 |   \hspace{.7cm}  inf |\hspace{2.3cm}           0 |\hspace{3.45cm}                0 |\hspace{.7cm}          0}\\
+\texttt{* \hspace{.2cm}      C    4 |  Place 3 |   \hspace{.7cm}  inf |\hspace{2.3cm}           0 |\hspace{3.45cm}                0 |\hspace{.7cm}          0}
+\caption{Pøíklad souhrnné statistiky Místa}
+\label{stat3}
+\end{figure}
+
+Statistika pøechodù je zobrazena na obrázku \ref{stat4}. Obsahuje v¹echny dùle¾ité vlastnosti pøechodù : poøadí prvku, jména pøechodù, prioritu, èasovaný pøechod, pravdìpodobnost, poèet znaèek vstupujících a vystupujících z pøechodu.
+\begin{figure}[h]
+\texttt{* -------------------------- transitions --------------------------}\\
+\texttt{*}\\
+\texttt{*\hspace{.7cm}            . |  \hspace{1.6cm}        name | priority | timed transition | probability | \dots }\\
+\texttt{*\hspace{.2cm}            ......................................................................}\\
+\texttt{*\hspace{.2cm}       T    1 |  Transition 0 |\hspace{1.65cm}        0 | \hspace{1.85cm}         exp(10) | \hspace{2.3cm}0 }\\
+\texttt{*\hspace{.2cm}       R    2 |  Transition 1 |\hspace{1.65cm}        0 | \hspace{3.225cm}               5 | \hspace{2.075cm}          0 }\\
+\texttt{*\hspace{.2cm}       A    3 |  Transition 2 |\hspace{1.65cm}        1 | \hspace{3.225cm}               0 | \hspace{2.075cm}          0 }
+\caption{Pøíklad souhrnné statistiky Pøechodù}
+\label{stat4}
+\end{figure}
+
+Obrázek \ref{stat5} pøedstavuje charakteristiku hrany s vlastnostmi jméno a váha hrany.
+\begin{figure}[h]
+\texttt{* --------------------- directed arc ---------------------}\\
+\texttt{*}\\
+\texttt{*\hspace{.7cm}            . |\hspace{2.25cm}            name | weight}\\
+\texttt{*\hspace{.2cm}            .............................}\\
+\texttt{*\hspace{.2cm}       D    1 |  Directed arc 0 |\hspace{1.1cm}      1}\\
+\texttt{*\hspace{.2cm}       I    2 |  Directed arc 1 |\hspace{1.1cm}      1}\\
+\texttt{*\hspace{.2cm}       R    3 |  Directed arc 2 |\hspace{1.1cm}      1}\\
+\texttt{*\hspace{.2cm}       E    4 |  Directed arc 3 |\hspace{1.1cm}      1}
+\caption{Pøíklad souhrnné statistiky Hran}
+\label{stat5}
+\end{figure}
+
+\chapter{Shrnutí simulaèních experimentù a závìr}
+Experimentováním s mnoha primitivními modely jsme dokázali správnost øe¹ení simulace Petriho sítì s roz¹íøené o prioritu, pravdìpodobnost a èasování hran na¹im simulátorem. Výsledky simulací ¹irokospektrálních testù pozùstávajících s modelù Petriho sítí zamìøených na odhalení pøípadných chyb neodhalily ¾ádnou, tak¾e mù¾eme zkonstatovat, ¾e daný simulátor se chová korektnì a podává adekvátní výstupy zdokumentované v pøede¹lých kapitolách. Nìkteré validnì zapsané Petriho sítì v¹ak není mo¾né simulovat, proto tento simulátor obsahuje rùzné kontrolní mechanizmy na detekci takovýchto modelù a v konkretním pøípadì upozorní na danou skuteènost u¾ivatele, navrhne mu øe¹ení a popøípadì informace o chybovém stavu.
+\end{document}
