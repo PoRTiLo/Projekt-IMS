@@ -40,7 +40,7 @@ Na projektu pracoval dvouèlenný tým slo¾ený ze studentù bakaláøského studia, úko
   \item Du¹an Kovaèiè (vedoucí týmu) - jádro simulace, dokumentace.
   \item Jaroslav Sendler - kalendáø, generátory pseudonáhodných èísel, statistika a výpisy, dokumentace.
 \end{itemize}
-Pro úèely øe¹ení tohoto projektu nebyl vyu¾it ¾ádný pravidelný poradce, tudí¾ nebylo pou¾ito ¾ádných rad z tøetích stran a¾ na jednu konzultaci s hodnotícím, panem Hrubým.
+Pro úèely øe¹ení tohoto projektu nebyl vyu¾it ¾ádný pravidelný poradce, tudí¾ nebylo pou¾ito ¾ádných rad z tøetích stran a¾ na jednu konzultaci s hodnotícím, panem Hrubým Martinem, Ing., Ph.D..
 Odborná a pomocná literatura:
 \begin{enumerate}
  \item Rábová Z. a kol: Modelování a simulace, VUT Brno, 1992, ISBN 80-214-0480-9
@@ -50,7 +50,7 @@ Odborná a pomocná literatura:
 
 
 \chapter{Rozbor tématu a pou¾itých metod/technologií}
-Petriho sít je matematická reprezentace diskrétních distribuovaných systémù. Vznikla za úèelem modelovat øídící systémy.
+Petriho sít je matematická reprezentace diskrétních distribuovaných systémù.
 \theoremstyle{definition}
 \newtheorem{definice}{Definice}[chapter]
 \begin{definice}
@@ -141,7 +141,7 @@ Pøechod je proveditelný pouze pokud splòuje vstupní a následnì výstupní podmínky
   \item[pravdìpodobnosti pøechodù] - (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 133) je udávána v procentech. Celkový souèet pravdìpodobnosti v¹ech pøechodù ve stejné úrovni musí být \textit{1}, neboli \textit{100\%}.
   \item[èasování pøechodù] - (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 135) do Petriho sítí pøiná¹í mo¾nost pracovat s èasem. Doposud byly v¹echny zmìny v síti provedeny okam¾itì. Nyní zmìny mohou trvat urèitou dobu.
 \end{description}
-Tato roz¹íøení se navzájem nesmí kombinovat. Obrázek \ref{pic4} ukazuje pou¾ití P/T s roz¹íøeními.
+Tato roz¹íøení se navzájem nesmí kombinovat (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 134). Obrázek \ref{pic4} ukazuje pou¾ití P/T s roz¹íøeními.
 
 \begin{figure}[h]
   \begin{tikzpicture}
@@ -203,15 +203,15 @@ Tato roz¹íøení se navzájem nesmí kombinovat. Obrázek \ref{pic4} ukazuje pou¾ití 
   \end{center}
 \end{figure}
 
-\section{kapitola}
-Simulátor byl navr¾ený tak, aby uspokojoval nejzákladnìj¹í parametry vyu¾ití a byl jednoduchý a srozumitelný pro u¾ivatele. Základní cíle byly tedy stanoveny na jednoduchost a intuitivnost. S trochou pøedstavivosti je absolutnì pøedvídatelné co ka¾dá zadaná funkce dìlá a jaké je jej pou¾ití. Na výsledný simulátor by bylo pomìrnì jednoduché navázat grafické u¾ivatelské rozhraní. Dal¹ím významným kriteriem pøi tvorbì, byla nutnost eliminovat co nejvíce chyb pøi samotném zápise zkoumaného modelu. Pøi prvním pohledu na slo¾itìj¹í model, mù¾e být jeho význam nejasný, ale po podrobnìj¹ím prostudování je koncepènì toto¾ný s grafickým zápisem. Samotný nápad o zápis modelu a jeho ovládání je výhradnì dílem autora, inspirovaný podobnou knihovnou SIMLIB (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 167).
+\section{Tvorba simulátoru}
+Simulátor byl navr¾ený tak, aby uspokojoval nejzákladnìj¹í parametry vyu¾ití a byl jednoduchý a srozumitelný pro u¾ivatele. Základní cíle byly tedy stanoveny na jednoduchost a intuitivnost. S trochou pøedstavivosti je pøedvídatelné co ka¾dá zadaná funkce dìlá a jaké je její pou¾ití. Na výsledný simulátor by bylo pomìrnì jednoduché navázat grafické u¾ivatelské rozhraní. Dal¹ím významným kriteriem pøi tvorbì, byla nutnost eliminovat co nejvíce chyb pøi samotném zápise zkoumaného modelu. Pøi prvním pohledu na slo¾itìj¹í model, mù¾e být jeho význam nejasný, ale po podrobnìj¹ím prostudování je koncepènì toto¾ný s grafickým zápisem. Samotný nápad o zápis modelu a jeho ovládání je výhradnì dílem autora, inspirovaný podobnou knihovnou SIMLIB (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 167).
 
-\section{kapitola}
-PetriSim 1.0.0 byl vytvoøený jen z poznatkù a nápadù autorù, bez ovlivnìní studováním funkènosti jiných podobných nástrojù pro simulaci. Pou¾ité algoritmy ne jen, ¾e umo¾òují zápis a simulaci Petriho sítì s roz¹íøeními definovanými v úvodì, ale i sémantickou kontrolu správnosti výsledného modelu a schopnost adekvátní simulace. Bez této kontroly by byl napøíklad mo¾ný nekoneèný cyklus v nulovém èase, a nebo prùbìh nekoneènì trvající simulace. V pøípadì takovýchto zji¹tìní, je u¾ivatel okam¾itì upozornìný o vzniklé situaci a je mu navrhnuto øe¹ení. Nejvìt¹í motivací pro nekopírování nápovìd byla tu¾ba vymyslet nìco originálního. Autoøi pøi zaèátku tvorby ji¾ mìli zku¹enosti s danou problematikou.
+\section{Podnìty tvorby}
+PetriSim 1.0.0 byl vytvoøený jen z poznatkù a nápadù autorù, bez ovlivnìní studováním funkènosti jiných podobných nástrojù pro simulaci. Pou¾ité algoritmy nejen, ¾e umo¾òují zápis a simulaci Petriho sítì s roz¹íøeními definovanými v úvodu, ale i sémantickou kontrolu správnosti výsledného modelu a schopnost adekvátní simulace. Bez této kontroly by byl napøíklad mo¾ný nekoneèný cyklus v nulovém èase, a nebo prùbìh nekoneènì trvající simulace. V pøípadì takovýchto zji¹tìní, je u¾ivatel okam¾itì upozornìný o vzniklé situaci a je mu navrhnuto øe¹ení. Nejvìt¹í motivací pro nekopírování nápovìd byla tu¾ba vymyslet nìco originálního. Autoøi pøi zaèátku tvorby ji¾ mìli zku¹enosti s danou problematikou.
 
-%\section{Koncepce simulátoru}
+\chapter{Koncepce simulátoru}
 
-Simulátor je postavený na konceptu jednoduchosti a intuitivnosti, aby se co nejvíce pøiblí¾il logikou grafickému zápisu a byl tak lehko pochopitelný pro u¾ivatele. Skládá se z tøech hlavních tøíd a to \texttt{SCTransition}, \texttt{SCPlace} a \texttt{SCDirectedArc}, pøi èem ka¾dá z nich reprezentuje urèitou èást grafického zápisu. Tøída \texttt{SCTransition} pøechod, tøída \texttt{SCPlace} místo a tøída \texttt{SCDirectedArc} hranu. Ka¾dé tøídì je mo¾né pøidìlit nastavení podle definice Petriho sítì. Podobnì jako pøi grafickém zápise, je na vytvoøení koneèného modelu potøebné pospojovat v¹echny elementy. Podle definice je mo¾né spojit pøechod s místem, na co slou¾í funkce \texttt{TrToPl(pøechod,míto,hrana)}, zkratka \uv{TransitionToPlace}, a nebo místo s pøechodem pomocí funkce \texttt{PlToTr(místo,pøechod,hrana)}, zkratka \uv{PlaceToTransition}. Konkrétní funkènost, pøesné mo¾nosti nastavení jednotlivých elementù, jako i nastavení výpisu statistik a provedení simulace budou popsány v dal¹ích kapitolách.
+Simulátor je postavený na konceptu jednoduchosti a intuitivnosti, aby se co nejvíce pøiblí¾il logikou grafickému zápisu a byl tak pochopitelný pro u¾ivatele. Skládá se z tøech hlavních tøíd a to \texttt{SCTransition}, \texttt{SCPlace} a \texttt{SCDirectedArc}, pøièem¾ ka¾dá z nich reprezentuje urèitou èást grafického zápisu. Tøída \texttt{SCTransition} pøechod, tøída \texttt{SCPlace} místo a tøída \texttt{SCDirectedArc} hranu. Ka¾dé tøídì je mo¾né pøidìlit nastavení podle definice Petriho sítì. Podobnì jako pøi grafickém zápise, je na vytvoøení koneèného modelu potøebné propojit v¹echny elementy. Podle definice je mo¾né spojit pøechod s místem, na co¾ slou¾í funkce \texttt{TrToPl(pøechod,míto,hrana)}, zkratka \uv{TransitionToPlace}, a nebo místo s pøechodem pomocí funkce \texttt{PlToTr(místo,pøechod,hrana)}, zkratka \uv{PlaceToTransition}. Konkrétní funkènost, pøesné mo¾nosti nastavení jednotlivých elementù, jako i nastavení výpisu statistik a provedení simulace budou popsány v dal¹ích kapitolách.
 
 \chapter{Architektura simulaèního modelu/simulátoru}
 Pro samotné pou¾ití knihovny je nutné si ve zdrojovém souboru jazyka C++ pøidat hlavièkový soubor \texttt{PetriSim.h}, který plnì zpøístupní danou knihovnu. Na výbìr je statická a nebo dynamická knihovna, kterou je nutné pøilinkovat pøi kompilaci výsledného programu.
@@ -300,9 +300,9 @@ Je náhradou pøechodù v grafické reprezentaci.
 \end{table}
 
 \subsection*{SCStats}
-Tøída starající se o statistiky simulace. Výpis statistiky závisí na nastavení dvou globálních promìnných \texttt{g\_print} a \texttt{g\_printAll}. Poèáteèní hodnota obou promìnných se nachází ve stavu true. Pokud je pøíznak nastaven na true, statistiky se tisknou na standardní výstup. Promìnná \texttt{g\_print} ovládá tisk výpisù po jednotlivých krocích, tiskne se tedy pokud probìhne v simulaci zmìna. Druhá globální promìnná \texttt{g\_printAll} se stará o tisk souhrnné výsledné statistiky. Pro nastavení tìchto globálních promìnných existují dvì funkce \texttt{SetArgGPrint(bool stav)} a \texttt{SetArgGPrintAll(bool stav)}.
+Tøída starající se o statistiky simulace. Výpis statistiky závisí na pou¾ití funkcí \texttt{PrintSteps(bool stav)} a \texttt{PrintSummary(bool stav)}. Poèáteèní hodnota tisku statistik nachází ve stavu \uv{tiskni}. Pokud je pøíznak nastaven, statistiky se tisknou na standardní výstup. Funkce \texttt{PrintSteps} ovládá tisk výpisù po jednotlivých krocích, tiskne se tedy pokud probìhne v simulaci zmìna. Druhá funkce \texttt{PrintSummary} se stará o tisk souhrnné výsledné statistiky.
 
-Promìnná \texttt{g\_print} je ovlivnitelná pro ka¾dé místo zvlá¹» a to pomocí privátní promìnné tøídy \texttt{CSPlace}. Tato promìnná je pro ka¾dé místo nastavena na true, její hodnotu mù¾eme zmìnit funkcí \texttt{SetArgPrint( bool stav)}.
+Pomocí privátní promìnné tøídy \texttt{CSPlace} lze mìnit tisk statistiky po krocích pro jednotlivá místa. Tato promìnná je pro ka¾dé místo nastavena na true, její hodnotu mù¾eme zmìnit funkcí \texttt{SetArgPrint( bool stav)}.
 
   
 \section{Funkce}
@@ -328,8 +328,8 @@ Promìnná \texttt{g\_print} je ovlivnitelná pro ka¾dé místo zvlá¹» a to pomocí pr
 Pou¾ití knihovny je demonstrováno na modelu èíslo \ref{mod3}.
 \begin{table}[h]
 \begin{tabular}{ l l }
-\texttt{SetArgGPrint(true)} & // nastavení tisku statistiky po krocích\\
-\texttt{SetArgGPrintAll(false)} & // vypnutí tisku celkové souhrnné statistiky\\\newline
+\texttt{PrintSteps(true)} & // nastavení tisku statistiky po krocích\\
+\texttt{PrintSummary(false)} & // vypnutí tisku celkové souhrnné statistiky\\\newline
 \texttt{SCPlace p;}&// vytvoøení místa\\
 \texttt{SCDirectedArc a;}&// vytvoøení pøechodu\\
 \texttt{SCTransition t;}&// vytvoøení ¹ipky (hrany)\\\newline
@@ -339,7 +339,7 @@ Pou¾ití knihovny je demonstrováno na modelu èíslo \ref{mod3}.
   \texttt{Run();}&// start simulace\\
 \end{tabular}
 \end{table}
-\section{Makefile}
+
 \chapter{Podstata simulaèních experimentù a jejich prùbìh}
 Model byl vytvoøen na základì dokázání správnosti na¹eho analyzátoru. Experimentováním s rùznými primitivními modely byla zkontrolována  Korektnost simulátoru.
 \section{Primitivní modely}

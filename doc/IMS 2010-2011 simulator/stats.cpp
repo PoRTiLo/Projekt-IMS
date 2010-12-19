@@ -213,10 +213,10 @@ void SCStat::PrintDirected() {
 		cout << "*       "<< p[k] << setfill(' ') << setw(sizeCount) << i+1 << " | " 
 								<< setw(sizeName) << g_allDirected[i]->GetName().c_str() << " | " 
 	               		<< setw(sizeWeight) << g_allDirected[i]->GetArgWeight() << endl;
-		if( k < 5 )
+		if( k < 13 )
 			k++;
-		else if( i > 6 )
-			k = 5;
+		else if( i > 14 )
+			k = 13;
 	}
 	if( strlen(p) > g_allPlaces.size() )
 	{

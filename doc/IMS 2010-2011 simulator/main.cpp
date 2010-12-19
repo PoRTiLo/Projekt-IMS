@@ -34,7 +34,7 @@ int main(int argc,const char* argv[])
 	if( model == MODEL_1 )									//model dokumentacia - obr 5.1, demonstruje funkcnost pravdepodobnostnych 
 	{														//prechodov	
 		SCPlace p[3];
-		SCDirectedArc a[4];
+		SCDirectedArc a[16];
 		SCTransition t[2];
 
 		p[0].SetArgStartVal(5);

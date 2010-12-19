@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.10.12)  19 DEC 2010 11:50
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.10.12)  19 DEC 2010 13:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -720,25 +720,21 @@ a v pro-cen-tech. Cel-kov[]y sou[]cet pravd[]epodobnosti
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3]
+[3] [4]
+Kapitola 3.
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 214.
 
- (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (23.79344pt too wide) in paragraph at lines 214--215
-\OT1/ptm/m/n/10.95 funkce \OT1/pcr/m/n/10.95 PlToTr(m[]^^Psto,p[]rechod,hrana)\
-OT1/ptm/m/n/10.95 , zkratka []Pla-ce-To-Tran-si-tion\. Konkr[]etn[]^^P funk[]cn
-ost, p[]resn[]e mo[]znosti
- []
+) [5
 
-[4] [5]
-Kapitola 3.
+]
+Kapitola 4.
 
-Overfull \hbox (22.52882pt too wide) in paragraph at lines 217--218
-\OT1/ptm/m/n/10.95 Pro sa-motn[]e pou[]zit[]^^P knihovny je nutn[]e si ve zdro-
-jov[]em sou-boru ja-zyka C++ p[]ridat hlavi[]ckov[]y sou-bor \OT1/pcr/m/n/10.95
- PetriSim.h\OT1/ptm/m/n/10.95 ,
+Overfull \hbox (13.1449pt too wide) in paragraph at lines 217--218
+\OT1/ptm/m/n/10.95 Pro sa-motn[]e pou[]zit[]^^P knihovny je nutn[]e ve zdro-jov
+[]em sou-boru ja-zyka C++ p[]ridat hlavi[]ckov[]y sou-bor \OT1/pcr/m/n/10.95 Pe
+triSim.h\OT1/ptm/m/n/10.95 ,
  []
 
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
@@ -752,7 +748,7 @@ v
 [6
 
 ] [7] [8]
-Kapitola 4.
+Kapitola 5.
 [9
 
 ] [10] <bigModel.png, id=165, 578.16pt x 408.02437pt>
@@ -793,7 +789,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [12] [13]
-Kapitola 5.
+Kapitola 6.
 
 Overfull \hbox (5.20325pt too wide) in paragraph at lines 547--548
 \OT1/ptm/m/n/10.95 Experimentov[]an[]^^Pm s mnoha pri-mi-tivn[]^^Pmi mo-dely js
@@ -801,31 +797,17 @@ me dok[]azali spr[]avnost []re[]sen[]^^P si-mu-lace Pe-t-riho s[]^^Pt[]e s roz[
 ]s[]^^P[]ren[]e
  []
 
-
-Overfull \hbox (5.56648pt too wide) in paragraph at lines 547--548
-\OT1/ptm/m/n/10.95 poz[]ust[]avaj[]^^Pc[]^^Pch s mo-del[]u Pe-t-riho s[]^^Pt[]^
-^P zam[]e[]ren[]ych na od-ha-len[]^^P p[]r[]^^Ppadn[]ych chyb ne-od-ha-lily []z
-[]adnou, tak[]ze m[]u[]zeme
- []
-
-
-Overfull \hbox (4.75633pt too wide) in paragraph at lines 547--548
-\OT1/ptm/m/n/10.95 r[]uzn[]e kon-t-roln[]^^P me-cha-ni-zmy na de-tekci ta-kov[]
-ychto mo-del[]u a v kon-kretn[]^^Pm p[]r[]^^Ppad[]e upo-zorn[]^^P na da-nou sku
-te[]cnost
- []
-
 [14
 
 ] (./dokumentace.aux) ) 
 Here is how much of TeX's memory you used:
  14632 strings out of 495027
- 239552 string characters out of 1181418
- 325405 words of memory out of 3000000
+ 239548 string characters out of 1181418
+ 322406 words of memory out of 3000000
  17426 multiletter control sequences out of 15000+50000
  29615 words of font info for 70 fonts, out of 3000000 for 9000
  38 hyphenation exceptions out of 8191
- 47i,13n,66p,1112b,931s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,13n,66p,1105b,931s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
 exmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive
@@ -835,7 +817,7 @@ public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier
 share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/
 fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on dokumentace.pdf (14 pages, 206277 bytes).
+Output written on dokumentace.pdf (14 pages, 206745 bytes).
 PDF statistics:
  239 PDF objects out of 1000 (max. 8388607)
  60 named destinations out of 1000 (max. 500000)
