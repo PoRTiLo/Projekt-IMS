@@ -24,6 +24,8 @@
 
 short int WhichModel(int argcIn, const char* argvIn[]);
 
+void SetPrint(int argcIn, const char* argvIn[]);
+
 int main(int argc,const char* argv[])
 {
 	SetPrint( argc, argv);
@@ -186,4 +188,37 @@ short int WhichModel( int argcIn, const char* argvIn[] ) {
 	}
 
 	return model;
+}
+void SetPrint(int argcIn, const char* argvIn[]) {
+
+	if( argcIn == 1 || (argcIn == 2 && argvIn[1][0] == 'm') )
+	{
+		cout << endl;
+		g_print = true;
+		g_printAll = true;
+	}
+	else if( argcIn > 1 && argcIn < 4 )
+	{
+		if( argvIn[1][0] == '-' && (argvIn[1][1] == 'n' || argvIn[1][9] == 'n') )
+		{
+			g_print = false;
+			g_printAll = false;
+		}
+		else if( argvIn[1][0] == '-' && (argvIn[1][1] == 's' || argvIn[1][9] == 's') )
+		{
+			g_print = true;
+			g_printAll = false;
+		}
+		else if( argvIn[1][0] == '-' && (argvIn[1][1] == 'a' || argvIn[1][9] == 'a') )
+		{
+			g_print = false;
+			g_printAll = true;
+		}
+		cout << endl;
+	}
+	else
+	{
+		g_print = false;
+		g_printAll = false;
+	}
 }

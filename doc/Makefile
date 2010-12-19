@@ -10,7 +10,8 @@ NAME=ims
 all:	$(FILE)
 
 $(FILE): $(FILE).tex
-	latex $(FILE).tex
+#	latex $(FILE).tex
+	pdflatex $(FILE).tex
 	pdflatex $(FILE).tex
 	pdflatex $(FILE).tex
 	cp $(FILE).pdf ../

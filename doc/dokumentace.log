@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.10.12)  17 DEC 2010 20:09
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.10.12)  19 DEC 2010 11:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -7,19 +7,20 @@ entering extended mode
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
 yphenation, czech, slovak, loaded.
-(/usr/share/texmf-texlive/tex/latex/base/article.cls
-Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/report.cls
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size11.clo
 File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
-\c@section=\count80
-\c@subsection=\count81
-\c@subsubsection=\count82
-\c@paragraph=\count83
-\c@subparagraph=\count84
-\c@figure=\count85
-\c@table=\count86
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -39,9 +40,9 @@ Package ifpdf Info: pdfTeX in pdf mode detected.
 Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
 )
-\Gm@cnth=\count87
-\Gm@cntv=\count88
-\c@Gm@tempcnt=\count89
+\Gm@cnth=\count88
+\Gm@cntv=\count89
+\c@Gm@tempcnt=\count90
 \Gm@bindingoffset=\dimen103
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
@@ -60,11 +61,11 @@ Language: czech 2008/07/06 v3.1a Czech support from the babel system
 
 (/usr/share/texmf-texlive/tex/generic/babel/babel.def
 File: babel.def 2008/07/06 v3.8l Babel common definitions
-\babel@savecnt=\count90
+\babel@savecnt=\count91
 \U@D=\dimen107
 )
 Package babel Info: Making " an active character on input line 172.
-\cs@wordlen=\count91
+\cs@wordlen=\count92
 Package babel Info: Making - an active character on input line 226.
 ))
 (/usr/share/texmf-texlive/tex/latex/base/inputenc.sty
@@ -74,6 +75,21 @@ Package: inputenc 2008/03/30 v1.1d Input encoding file
 
 (/usr/share/texmf-texlive/tex/latex/base/latin2.def
 File: latin2.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count93
 ))
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
@@ -95,13 +111,13 @@ Package: amsbsy 1999/11/29 v1.2d
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count92
+\inf@bad=\count94
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count93
-\leftroot@=\count94
+\uproot@=\count95
+\leftroot@=\count96
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count95
-\DOTSCASE@=\count96
+\classnum@=\count97
+\DOTSCASE@=\count98
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
@@ -110,15 +126,15 @@ LaTeX Info: Redefining \cdots on input line 467.
 \big@size=\dimen110
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count97
-\c@MaxMatrixCols=\count98
+\macc@depth=\count99
+\c@MaxMatrixCols=\count100
 \dotsspace@=\muskip10
-\c@parentequation=\count99
-\dspbrk@lvl=\count100
+\c@parentequation=\count101
+\dspbrk@lvl=\count102
 \tag@help=\toks19
-\row@=\count101
-\column@=\count102
-\maxfields@=\count103
+\row@=\count103
+\column@=\count104
+\maxfields@=\count105
 \andhelp@=\toks20
 \eqnshift@=\dimen111
 \alignsep@=\dimen112
@@ -158,22 +174,6 @@ Package: pgf 2008/01/15 v2.00 (rcs-revision 1.12)
 (/usr/share/texmf/tex/latex/pgf/basiclayer/pgfcore.sty
 (/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
-
-(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
-
-(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
-Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
-)
-(/etc/texmf/tex/latex/config/graphics.cfg
-File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
-)
-Package graphics Info: Driver file: pdftex.def on input line 91.
-
-(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
-\Gread@gobject=\count104
-))
 \Gin@req@height=\dimen117
 \Gin@req@width=\dimen118
 )
@@ -193,10 +193,10 @@ Package: pgfsys 2008/02/07 v2.00 (rcs-revision 1.31)
 \pgf@yb=\dimen124
 \pgf@xc=\dimen125
 \pgf@yc=\dimen126
-\c@pgf@counta=\count105
-\c@pgf@countb=\count106
-\c@pgf@countc=\count107
-\c@pgf@countd=\count108
+\c@pgf@counta=\count106
+\c@pgf@countb=\count107
+\c@pgf@countc=\count108
+\c@pgf@countd=\count109
 
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/01/13  (rcs-revision 1.6)
@@ -211,8 +211,8 @@ File: pgfsys-common-pdf.def 2007/12/17  (rcs-revision 1.8)
 )))
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2008/01/23  (rcs-revision 1.6)
-\pgfsyssoftpath@smallbuffer@items=\count109
-\pgfsyssoftpath@bigbuffer@items=\count110
+\pgfsyssoftpath@smallbuffer@items=\count110
+\pgfsyssoftpath@bigbuffer@items=\count111
 )
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
@@ -244,9 +244,9 @@ Package: pgfcore 2008/01/15 v2.00 (rcs-revision 1.6)
 )
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@stack=\toks26
-\c@pgfmath@parsecounta=\count111
-\c@pgfmath@parsecountb=\count112
-\c@pgfmath@parsecountc=\count113
+\c@pgfmath@parsecounta=\count112
+\c@pgfmath@parsecountb=\count113
+\c@pgfmath@parsecountc=\count114
 \pgfmath@parsex=\dimen127
 )
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathoperations.code.tex
@@ -285,7 +285,7 @@ File: pgfcorescopes.code.tex 2008/01/15  (rcs-revision 1.26)
 \pgfpic=\box29
 \pgf@hbox=\box30
 \pgf@layerbox@main=\box31
-\pgf@picture@serial@count=\count114
+\pgf@picture@serial@count=\count115
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2007/12/12  (rcs-revision 1.8)
@@ -312,7 +312,7 @@ File: pgfcorearrows.code.tex 2007/06/07  (rcs-revision 1.8)
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2007/12/10  (rcs-revision 1.9)
 \pgf@max=\dimen150
-\pgf@sys@shading@range@num=\count115
+\pgf@sys@shading@range@num=\count116
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2008/01/15  (rcs-revision 1.1)
@@ -355,7 +355,7 @@ Package: tikz 2008/02/13 v2.00 (rcs-revision 1.27)
 
 (/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2007/03/09 v2.00 (rcs-revision 1.9)
-\pgf@plot@mark@count=\count116
+\pgf@plot@mark@count=\count117
 \pgfplotmarksize=\dimen155
 )
 \tikz@lastx=\dimen156
@@ -366,18 +366,18 @@ File: pgflibraryplothandlers.code.tex 2007/03/09 v2.00 (rcs-revision 1.9)
 \tikzsiblingdistance=\dimen161
 \tikz@figbox=\box34
 \tikz@tempbox=\box35
-\tikztreelevel=\count117
-\tikznumberofchildren=\count118
-\tikznumberofcurrentchild=\count119
-\tikz@fig@count=\count120
+\tikztreelevel=\count118
+\tikznumberofchildren=\count119
+\tikznumberofcurrentchild=\count120
+\tikz@fig@count=\count121
 
 (/usr/share/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2008/01/15  (rcs-revision 1.1)
-\pgfmatrixcurrentrow=\count121
-\pgfmatrixcurrentcolumn=\count122
-\pgf@matrix@numberofcolumns=\count123
+\pgfmatrixcurrentrow=\count122
+\pgfmatrixcurrentcolumn=\count123
+\pgf@matrix@numberofcolumns=\count124
 )
-\tikz@expandcount=\count124
+\tikz@expandcount=\count125
 
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
@@ -400,7 +400,7 @@ ations.code.tex
 \pgfdecoratedinputsegmentcompleteddistance=\dimen164
 \pgfdecoratedinputsegmentremainingdistance=\dimen165
 \pgf@decorate@distancetomove=\dimen166
-\pgf@decorate@repeatstate=\count125
+\pgf@decorate@repeatstate=\count126
 \pgfdecorationsegmentamplitude=\dimen167
 \pgfdecorationsegmentlength=\dimen168
 ))
@@ -423,17 +423,31 @@ File: tikzlibraryfit.code.tex 2008/02/06 v2.00 (rcs-revision 1.2)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypetri
 .code.tex
 File: tikzlibrarypetri.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
-) (/usr/share/texmf-texlive/tex/latex/amscls/amsthm.sty
+) (/usr/share/texmf-texlive/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2001/02/13 v0.1j Color table columns (DPC)
+
+(/usr/share/texmf-texlive/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen169
+\extrarowheight=\dimen170
+\NC@list=\toks28
+\extratabsurround=\skip46
+\backup@length=\skip47
+)
+\everycr=\toks29
+\minrowclearance=\skip48
+)
+(/usr/share/texmf-texlive/tex/latex/amscls/amsthm.sty
 Package: amsthm 2004/08/06 v2.20
-\thm@style=\toks28
-\thm@bodyfont=\toks29
-\thm@headfont=\toks30
-\thm@notefont=\toks31
-\thm@headpunct=\toks32
-\thm@preskip=\skip46
-\thm@postskip=\skip47
-\thm@headsep=\skip48
-\dth@everypar=\toks33
+\thm@style=\toks30
+\thm@bodyfont=\toks31
+\thm@headfont=\toks32
+\thm@notefont=\toks33
+\thm@headpunct=\toks34
+\thm@preskip=\skip49
+\thm@postskip=\skip50
+\thm@headsep=\skip51
+\dth@everypar=\toks35
 )
 (/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
@@ -448,9 +462,9 @@ O)
 (/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
 Package: xcolor-patch 2009/10/02 xcolor patch
 ))
-\@linkdim=\dimen169
-\Hy@linkcounter=\count126
-\Hy@pagecounter=\count127
+\@linkdim=\dimen171
+\Hy@linkcounter=\count127
+\Hy@pagecounter=\count128
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
@@ -523,10 +537,10 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )))
-\Fld@menulength=\count128
-\Field@Width=\dimen170
-\Fld@charsize=\dimen171
-\Field@toks=\toks34
+\Fld@menulength=\count129
+\Field@Width=\dimen172
+\Fld@charsize=\dimen173
+\Field@toks=\toks36
 Package hyperref Info: Hyper figures OFF on input line 4377.
 Package hyperref Info: Link nesting OFF on input line 4382.
 Package hyperref Info: Hyper index ON on input line 4385.
@@ -538,39 +552,36 @@ Package hyperref Info: PDF/A mode OFF on input line 4407.
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count129
-\c@Item=\count130
-\c@Hfootnote=\count131
+\Hy@abspage=\count130
+\c@Item=\count131
+\c@Hfootnote=\count132
 )
 *hyperref using driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
-\Fld@listcount=\count132
-) (./dokumentace.aux
-
-LaTeX Warning: Label `pic3' multiply defined.
-
-)
+\Fld@listcount=\count133
+) (./dokumentace.aux)
 \openout1 = `dokumentace.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 31.
- (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 33.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 *geometry auto-detecting driver*
@@ -616,127 +627,217 @@ driver: pdftex
 -----------------------
 (/usr/share/texmf/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count133
-\scratchdimen=\dimen172
+\scratchcounter=\count134
+\scratchdimen=\dimen174
 \scratchbox=\box38
-\nofMPsegments=\count134
-\nofMParguments=\count135
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count136
-\MPscratchDim=\dimen173
-\MPnumerator=\count137
-\everyMPtoPDFconversion=\toks36
+\nofMPsegments=\count135
+\nofMParguments=\count136
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count137
+\MPscratchDim=\dimen175
+\MPnumerator=\count138
+\everyMPtoPDFconversion=\toks38
 )
-Package hyperref Info: Link coloring ON on input line 31.
+Package hyperref Info: Link coloring ON on input line 33.
  (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count138
+\c@section@level=\count139
 )
-LaTeX Info: Redefining \ref on input line 31.
-LaTeX Info: Redefining \pageref on input line 31.
+LaTeX Info: Redefining \ref on input line 33.
+LaTeX Info: Redefining \pageref on input line 33.
  (./dokumentace.out) (./dokumentace.out)
 \@outlinefile=\write4
 \openout4 = `dokumentace.out'.
 
 \AtBeginShipoutBox=\box39
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 33.
-LaTeX Font Info:    Try loading font information for U+msa on input line 34.
- (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+
+Kapitola 1.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 34.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 34.
+LaTeX Font Info:    Try loading font information for U+msa on input line 35.
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 34.
+LaTeX Font Info:    Try loading font information for U+msb on input line 35.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 38.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 37.
 
-Overfull \hbox (4.19855pt too wide) in paragraph at lines 39--40
+Overfull \hbox (4.19855pt too wide) in paragraph at lines 38--39
 \OT1/ptm/m/n/10.95 Na pro-jektu pra-co-val dvou[]clenn[]y t[]ym slo[]zen[]y ze 
 stu-dent[]u ba-kal[]a[]rsk[]eho stu-dia, []ukoly byly rozd[]eleny n[]asledovn[]
 e: 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 41.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 40.
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 41.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 40.
+ [1
 
-Overfull \hbox (26.48297pt too wide) in paragraph at lines 52--53
-\OT1/ptm/m/n/10.95 V jak[]em prost[]red[]^^P a za jak[]ych podm[]^^Pnek prob[]^
-^Phalo ex-pe-ri-ment[]aln[]^^P ov[]e[]rov[]an[]^^P va-li-dity mo-delu ? po-kud 
-[]cten[]a[]r/zadavatel
- []
-
-\c@definice=\count139
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 60.
-
-Underfull \hbox (badness 10000) in paragraph at lines 66--69
-
- []
-
-[1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (0.20049pt too wide) in paragraph at lines 140--141
+Kapitola 2.
+\c@definice=\count140
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
+
+Underfull \hbox (badness 10000) in paragraph at lines 62--65
+
+ []
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2
+
+]
+Overfull \hbox (0.20049pt too wide) in paragraph at lines 138--139
 []\OT1/ptm/m/n/10.95 P[]rechod je pro-ve-di-teln[]y pouze po-kud spl[]nuje vstu
 pn[]^^P a n[]asledn[]e v[]ystupn[]^^P podm[]^^Pnky. Jako vstupn[]^^P podm[]^^Pn
 ky
  []
 
-[2]
-Overfull \hbox (2.80183pt too wide) in paragraph at lines 209--210
-\OT1/ptm/m/n/10.95 Popis pou[]zit[]ych po-stup[]u pro vy-tvo[]ren[]^^P mo-delu 
-a zd[]uvodn[]en[]^^P, pro[]c jsou pro za-dan[]y probl[]em vhodn[]e. Zd[]uvodn[]
-en[]^^P
+
+Overfull \hbox (45.05644pt too wide) in paragraph at lines 141--142
+[]\OT1/ptm/m/n/10.95 - ([][]od-kaz na p[]redm[]et[][], slajd 133) je ud[]av[]an
+a v pro-cen-tech. Cel-kov[]y sou[]cet pravd[]epodobnosti
  []
 
 
-Overfull \hbox (6.13544pt too wide) in paragraph at lines 212--213
-\OT1/ptm/m/n/10.95 vym[]y[]sl[]^^P ji[]z ho-tov[]e v[]eci a do-jdou k na-prost[
-]emu ne-smyslu - je t[]reba toto ne-bezpe[]c[]^^P ele-mi-no-vat v tomto zd[]uvo
-dn[]en[]^^P. 
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3]
-Overfull \hbox (0.14508pt too wide) in paragraph at lines 219--220
-\OT1/ptm/m/n/10.95 Konceptu[]aln[]^^P mo-del je abs-trakce re-a-lity a re-dukce
- re-a-lity na sou-bor re-le-vantn[]^^Pch fakt[]u pro se-sta-ven[]^^P si-mula[]c
-n[]^^Pho
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 214.
+
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Overfull \hbox (23.79344pt too wide) in paragraph at lines 214--215
+\OT1/ptm/m/n/10.95 funkce \OT1/pcr/m/n/10.95 PlToTr(m[]^^Psto,p[]rechod,hrana)\
+OT1/ptm/m/n/10.95 , zkratka []Pla-ce-To-Tran-si-tion\. Konkr[]etn[]^^P funk[]cn
+ost, p[]resn[]e mo[]znosti
  []
 
-[4] [5] [6] (./dokumentace.aux)
+[4] [5]
+Kapitola 3.
 
-LaTeX Warning: There were multiply-defined labels.
+Overfull \hbox (22.52882pt too wide) in paragraph at lines 217--218
+\OT1/ptm/m/n/10.95 Pro sa-motn[]e pou[]zit[]^^P knihovny je nutn[]e si ve zdro-
+jov[]em sou-boru ja-zyka C++ p[]ridat hlavi[]ckov[]y sou-bor \OT1/pcr/m/n/10.95
+ PetriSim.h\OT1/ptm/m/n/10.95 ,
+ []
 
- ) 
+LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 226.
+
+Underfull \hbox (badness 2368) in paragraph at lines 239--239
+[]|\OT1/ptm/m/n/10.95 aktu[]aln[]^^P stav ob-jektu, bli[]z[]s[]^^P in-for-mace 
+v
+ []
+
+[6
+
+] [7] [8]
+Kapitola 4.
+[9
+
+] [10] <bigModel.png, id=165, 578.16pt x 408.02437pt>
+File: bigModel.png Graphic file (type png)
+ <use bigModel.png>
+Overfull \hbox (12.39525pt too wide) in paragraph at lines 477--478
+ [] 
+ []
+
+
+Overfull \hbox (1.50183pt too wide) in paragraph at lines 473--482
+\OT1/ptm/m/n/10.95 im-ple-men-to-van[]e knihovny. Tud[]^^P[]z ne-vych[]az[]^^P 
+z re-a-lity. Spo-juje zde v[]sechny po[]zadovan[]e vlast-nosti m[]^^Pst, p[]rec
+hod[]u
+ []
+
+[11 <./bigModel.png (PNG copy)>]
+Overfull \hbox (2.48257pt too wide) in paragraph at lines 486--488
+[]$[]$ 
+ []
+
+
+Overfull \hbox (2.48257pt too wide) in paragraph at lines 486--488
+[]$ 
+ []
+
+
+Overfull \hbox (1.08057pt too wide) in paragraph at lines 519--531
+\OT1/ptm/m/n/10.95 prvku, jm[]ena p[]rechod[]u, pri-o-ritu, []casovan[]y p[]rec
+hod, pravd[]epodobnost, po[]cet zna[]cek vstu-puj[]^^Pc[]^^Pch a vy-stu-puj[]^^
+Pc[]^^Pch
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[12] [13]
+Kapitola 5.
+
+Overfull \hbox (5.20325pt too wide) in paragraph at lines 547--548
+\OT1/ptm/m/n/10.95 Experimentov[]an[]^^Pm s mnoha pri-mi-tivn[]^^Pmi mo-dely js
+me dok[]azali spr[]avnost []re[]sen[]^^P si-mu-lace Pe-t-riho s[]^^Pt[]e s roz[
+]s[]^^P[]ren[]e
+ []
+
+
+Overfull \hbox (5.56648pt too wide) in paragraph at lines 547--548
+\OT1/ptm/m/n/10.95 poz[]ust[]avaj[]^^Pc[]^^Pch s mo-del[]u Pe-t-riho s[]^^Pt[]^
+^P zam[]e[]ren[]ych na od-ha-len[]^^P p[]r[]^^Ppadn[]ych chyb ne-od-ha-lily []z
+[]adnou, tak[]ze m[]u[]zeme
+ []
+
+
+Overfull \hbox (4.75633pt too wide) in paragraph at lines 547--548
+\OT1/ptm/m/n/10.95 r[]uzn[]e kon-t-roln[]^^P me-cha-ni-zmy na de-tekci ta-kov[]
+ychto mo-del[]u a v kon-kretn[]^^Pm p[]r[]^^Ppad[]e upo-zorn[]^^P na da-nou sku
+te[]cnost
+ []
+
+[14
+
+] (./dokumentace.aux) ) 
 Here is how much of TeX's memory you used:
- 14424 strings out of 495027
- 237079 string characters out of 1181418
- 319315 words of memory out of 3000000
- 17260 multiletter control sequences out of 15000+50000
- 24394 words of font info for 59 fonts, out of 3000000 for 9000
+ 14632 strings out of 495027
+ 239552 string characters out of 1181418
+ 325405 words of memory out of 3000000
+ 17426 multiletter control sequences out of 15000+50000
+ 29615 words of font info for 70 fonts, out of 3000000 for 9000
  38 hyphenation exceptions out of 8191
- 47i,11n,66p,912b,931s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
-msfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share
-/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts
-/type1/urw/times/utmri8a.pfb>
-Output written on dokumentace.pdf (6 pages, 120335 bytes).
+ 47i,13n,66p,1112b,931s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier
+/ucrb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/
+share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/
+fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/time
+s/utmri8a.pfb>
+Output written on dokumentace.pdf (14 pages, 206277 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 36 named destinations out of 1000 (max. 500000)
- 141 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 239 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 
