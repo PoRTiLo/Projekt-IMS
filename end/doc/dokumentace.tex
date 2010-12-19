@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{report}[15.3.2010]									% valikost stranky, styl a pismo
+\documentclass[a4paper, 11pt]{report}[15.3.2010]									% velikost strany, styl a pismo
 
 %% packages
 \usepackage[left=2cm, text={17cm, 24cm}, top=3cm]{geometry}		% rozmery stranky
@@ -54,7 +54,7 @@ Petriho sít je matematická reprezentace diskrétních distribuovaných systémù.
 \theoremstyle{definition}
 \newtheorem{definice}{Definice}[chapter]
 \begin{definice}
-Základní zápis Petriho sítì je mo¾ný v grafické formì popisující stavy a pøechody mezi stavy, umo¾òuje vyjádøení paralelismu a nedeterminismu (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt\footnote{https://www.fit.vutbr.cz/study/courses/index.php?id=7409}}, opora IMS strana 31)
+Základní zápis Petriho sítì je mo¾ný v grafické formì popisující stavy a pøechody mezi stavy, umo¾òuje vyjádøení paralelismu a nedeterminismu (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt\footnote{https://www.fit.vutbr.cz/study/courses/index.php?id=7409}}, opora IMS strana 31, slajd 125)
 \end{definice}
 
 Definici v podobì matematického zápisu viz. Definice P/T Petriho sítì (\href {https://www.fit.vutbr.cz/study/courses/index.php?id=7409}{odkaz na pøedmìt}, slajd 126).
@@ -285,7 +285,6 @@ Je náhradou pøechodù v grafické reprezentaci.
   & parametry                & interval èas od - \texttt{double}\\
   &                          & interval èas do - \texttt{double}\\
   &                          & typ èasu  - \texttt{int}\\
-  &                          & \texttt{TIME\_NORM}  - základní èas, gaussovo rolzo¾ení\\
   &                          & \texttt{TIME\_ROV}  - základní èas,rovnomìrné rozlo¾ení\\
   & funkènost                & nastaví èas a jeho typ \\ 
   & vrácená hodnota          & aktuální stav pøechodu\\\hline
@@ -300,7 +299,7 @@ Je náhradou pøechodù v grafické reprezentaci.
 \end{table}
 
 \subsection*{SCStats}
-Tøída starající se o statistiky simulace. Výpis statistiky závisí na pou¾ití funkcí \texttt{PrintSteps(bool stav)} a \texttt{PrintSummary(bool stav)}. Poèáteèní hodnota tisku statistik se nachází ve stavu \uv{tiskni}. Pokud je pøíznak tisku nastaven, statistiky se tisknou na standardní výstup. Funkce \texttt{PrintSteps} ovládá tisk výpisù po jednotlivých krocích, tiskne se tedy pokud probìhne v simulaci zmìna. Druhá funkce \texttt{PrintSummary} se stará o tisk souhrnné výsledné statistiky.
+Tøída starající se o statistiky simulace. Výpis statistiky závisí na pou¾ití funkcí \texttt{PrintSteps(bool stat)} a \texttt{PrintSummary(bool stat)}. Poèáteèní hodnota tisku statistik se nachází ve stavu \uv{tiskni}. Pokud je pøíznak tisku nastaven, statistiky se tisknou na standardní výstup. Funkce \texttt{PrintSteps} ovládá tisk výpisù po jednotlivých krocích, tiskne se tedy pokud probìhne v simulaci zmìna. Druhá funkce \texttt{PrintSummary} se stará o tisk souhrnné výsledné statistiky.
 
 Pomocí privátní promìnné tøídy \texttt{CSPlace} lze mìnit tisk statistiky po krocích pro jednotlivá místa. Tato promìnná je pro ka¾dé místo nastavena na true, její hodnotu mù¾eme zmìnit funkcí \texttt{SetArgPrint( bool stav)}.
 
@@ -319,6 +318,18 @@ Pomocí privátní promìnné tøídy \texttt{CSPlace} lze mìnit tisk statistiky po kro
   & funkènost                & provede celou simulaci, zkontroluje validitu modelu a správný bìh simulace\\
   & vrácená hodnota          & v pøípadì jak nastane chyba s modelem nebo s jeho úspì¹ným dokonèením, upozorní u¾ivatele a vrátí \texttt{-1} \\
   &			     & v pøípadì úspì¹ného provedení simulace vrátí \texttt{0}\\ \hline
+\multicolumn{3}{l}{\texttt{int\textbf{ PrintSummary(}bool stat\textbf{)}}} \\
+  & parametry                & zapnutí/vypnutí statistiky - \texttt{bool}\\
+  & funkènost                & zapne nebo vypne vypisování koneèné souhrnné statistiky\\
+  & vrácená hodnota          & ¾ádná\\ \hline
+\multicolumn{3}{l}{\texttt{int\textbf{ PrintSteps(}bool stat\textbf{)}}} \\
+  & parametry                & zapnutí/vypnutí statistiky - \texttt{bool}\\
+  & funkènost                & zapne nebo vypne vypisování statistiky po kroku simulace\\
+  & vrácená hodnota          & ¾ádná\\ \hline
+\multicolumn{3}{l}{\texttt{int\textbf{ ClearSimulation()}}} \\
+  & parametry                & ¾ádné\\
+  & funkènost                & provede vynulování statistiky\\
+  & vrácená hodnota          & ¾ádná\\ \hline
   \end{tabular}
   %\caption{Srovnání slu¾eb WWW, Email a Jabber}
   %\label{tab2}
@@ -489,7 +500,7 @@ $\texttt{time:'2.4' <--Place 0(Act. value ['1'-->'0'])--weight('1')--> Transitio
 \label{stat1}
 \end{figure}
 
-Obrázek \ref{stat2} pojednává o celkové souhrnné statistice. \texttt{Place count} znaèí celkový poèet míst v zadaném modelu, \texttt{Transitio count} celkový poèet pøechodù v modelu a \texttt{Directeds count} celkový poèet hran v modelu. \texttt{Simulation time} je èas bìhu simulace.
+Obrázek \ref{stat2} pojednává o celkové souhrnné statistice. \texttt{Place count} znaèí celkový poèet míst v zadaném modelu, \texttt{Transition count} celkový poèet pøechodù v modelu a \texttt{Directeds count} celkový poèet hran v modelu. \texttt{Simulation time} je èas bìhu simulace.
 \begin{figure}[h]
 $\texttt{************************ STATISTICS **********************}$\\
 \texttt{* \hspace{1cm}       T}\\
